@@ -6,12 +6,12 @@ import { config } from '../../site.config';
 const { thoughts } = config;
 
 const tagColors: Record<string, { background: string; color: string }> = {
-  essay:     { background: 'var(--tag-essay)',     color: '#1d4ed8' },
+  essay:     { background: 'var(--tag-essay)',     color: '#678cf1' },
   investing: { background: 'var(--tag-investing)', color: '#166534' },
-  notes:     { background: 'var(--tag-notes)',     color: '#92400e' },
+  notes:     { background: 'var(--tag-notes)',     color: '#dc7e44' },
 };
 
-const filters = ['ALL', 'ESSAYS', 'INVESTING', 'NOTES'];
+const filters = ['ALL', 'ESSAYS', 'NOTES'];
 
 type Post = {
   slug: string;

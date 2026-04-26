@@ -14,7 +14,6 @@ function getPosts() {
     const raw = fs.readFileSync(path.join(postsDir, filename), 'utf8');
     const { data, content } = matter(raw);
 
-    // Strip markdown symbols then truncate to 160 chars with ...
     const plainText = content
       .replace(/#{1,6}\s/g, '')
       .replace(/[*_`]/g, '')
@@ -29,10 +28,11 @@ function getPosts() {
       slug: filename.replace('.md', ''),
       title: data.title || 'Untitled',
       date: data.displayDate || data.date || '',
+      rawDate: data.date || '',
       category: data.category || 'notes',
       excerpt,
     };
-  });
+  }).sort((a, b) => (a.rawDate < b.rawDate ? 1 : -1));
 }
 
 export default function ThoughtsPage() {
@@ -58,6 +58,16 @@ export default function ThoughtsPage() {
         Long-form essays and shorter shower thoughts.
       </p>
       <PostList posts={posts} />
+      
+      <p style={{
+        fontStyle: 'italic',
+        color: 'var(--muted)',
+        marginTop: '50px',
+        marginBottom: '32px',
+        fontSize: '12px',
+      }}>
+        grammatical accuracy not guaranteed. no ai tools used. em dashes are mine.
+      </p>
     </div>
   );
 }
