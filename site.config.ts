@@ -40,8 +40,8 @@ export const config = {
 
   // ── Homepage ──────────────────────────────────────────
   home: {
-    iconSize: '52px',                // the emoji/icon at the top
-    iconMarginBottom: '48px',
+    iconSize: '80px',                // the emoji/icon at the top
+    iconMarginBottom: '0px',
     paragraphFontSize: '15.5px',
     paragraphLineHeight: '2',
     paragraphSpacing: '28px',   // gap between paragraphs
@@ -73,6 +73,9 @@ export const config = {
     titleFontSize: '1.5rem',        
     titleFontWeight: '500',
     titleLetterSpacing: '0.10em',
+    fontSize: '17px',                // base font size for all body text
+    lineHeight: '1.8',               // spacing between lines
+    fontWeight: '400',               // base font weight
 
   },
 
@@ -82,6 +85,9 @@ export const config = {
     titleFontSize: '1.5rem',        
     titleFontWeight: '500',
     titleLetterSpacing: '0.10em',
+    fontSize: '17px',                // base font size for all body text
+    lineHeight: '1.8',               // spacing between lines
+    fontWeight: '400',               // base font weight
   },
 
   // ── Individual Post ───────────────────────────────────
@@ -106,7 +112,8 @@ export const config = {
 
   // ── Layout ────────────────────────────────────────────
   layout: {
-    maxWidth: '780px',               // max width of the content area
+    maxWidth: '780px',
+    navMaxWidth: '800px',               // max width of the content area
     paddingHorizontal: '32px',
     paddingVertical: '72px',
   },

@@ -88,7 +88,11 @@ export default function HomePage() {
         transition={{ duration: 0.5, delay: 0, ease: 'easeOut' }}
         style={{ fontSize: home.iconSize, marginBottom: home.iconMarginBottom }}
       >
-        ⛵
+        <img
+          src="/stamp.png"
+          alt= "icon"
+          style={{ width: home.iconSize, height: 'auto' }}
+        />
       </motion.div>
 
       {/* Bio paragraphs — each staggers 0.1s after the previous */}
@@ -132,13 +136,13 @@ export default function HomePage() {
       <FadeIn delay={0.75}>
         <div style={sectionLabelStyle}>Experience</div>
         <div style={entryStyle}>
-          <span style={{ color: '#ff2424' }}>Eli Lilly &amp; Company</span> · Indianapolis, IN · Incoming
+          <span style={{ color: '#ff7575' }}>Eli Lilly &amp; Company</span> · Indianapolis, IN · Incoming
         </div>
         <div style={entryStyle}>
-          <span style={{ color: '#00c161' }}>Walmart Global Tech</span> · Bentonville, AR · Software Intern
+          <span style={{ color: '#3bb678' }}>Walmart Global Tech</span> · Bentonville, AR · Software Intern
         </div>
         <div style={entryStyle}>
-          <span style={{ color: '#002fff' }}>Institute for Systems Biology</span> · Seattle, WA · Research Intern
+          <span style={{ color: '#4e6bdf' }}>Institute for Systems Biology</span> · Seattle, WA · Research Intern
         </div>
       </FadeIn>
 
