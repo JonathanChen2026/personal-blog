@@ -1,65 +1,154 @@
-import Image from "next/image";
+'use client';
+import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { config } from '../site.config';
 
-export default function Home() {
+const { home } = config;
+
+// ── Reusable styles ──────────────────────────────────────
+const sectionLabelStyle = {
+  fontSize: '13px',
+  letterSpacing: '0.12em',
+  color: 'var(--muted)',
+  textTransform: 'uppercase' as const,
+  marginBottom: '14px',
+  marginTop: '32px',
+};
+
+const entryStyle = {
+  fontSize: home.paragraphFontSize,
+  lineHeight: '1.8',
+  marginBottom: '16px',
+  color: 'var(--text)',
+};
+
+const mutedSpanStyle = {
+  color: 'var(--muted)',
+  marginLeft: '6px',
+};
+
+const linkStyle = {
+  textDecoration: 'underline',
+  textUnderlineOffset: '3px',
+  color: 'inherit',
+};
+
+// ── Animation variant — flies up and fades in ────────────
+const flyUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
+};
+
+// ── Animated paragraph ───────────────────────────────────
+// delay increases with each block so they stagger sequentially
+function Bio({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <motion.p
+      variants={flyUp}
+      initial="hidden"
+      animate="visible"
+      transition={{ duration: 0.5, delay, ease: 'easeOut' }}
+      style={{
+        fontSize: home.paragraphFontSize,
+        lineHeight: home.paragraphLineHeight,
+        marginBottom: home.paragraphSpacing,
+        fontWeight: home.paragraphFontWeight,
+        color: 'var(--text)',
+      }}
+    >
+      {children}
+    </motion.p>
+  );
+}
+
+// ── Animated block for sections (education, experience etc) ──
+function FadeIn({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  return (
+    <motion.div
+      variants={flyUp}
+      initial="hidden"
+      animate="visible"
+      transition={{ duration: 0.5, delay, ease: 'easeOut' }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+// ── Page ─────────────────────────────────────────────────
+export default function HomePage() {
+  return (
+    <div style={{ maxWidth: '680px' }}>
+
+      {/* Icon — animates in first */}
+      <motion.div
+        variants={flyUp}
+        initial="hidden"
+        animate="visible"
+        transition={{ duration: 0.5, delay: 0, ease: 'easeOut' }}
+        style={{ fontSize: home.iconSize, marginBottom: home.iconMarginBottom }}
+      >
+        ⛵
+      </motion.div>
+
+      {/* Bio paragraphs — each staggers 0.1s after the previous */}
+      <Bio delay={0.1}>Hi, I&apos;m Jonathan Chen! I&apos;m 17.</Bio>
+
+      <Bio delay={0.2}>I&apos;m an incoming freshman at Purdue University, studying Data Science and Molecular Bio.</Bio>
+
+      <Bio delay={0.3}>I&apos;ve previously interned at Walmart Global Tech, and have had various research experiences in computational biology and wet lab settings. I will also be joining Eli Lilly in Indianapolis during my sophomore year.</Bio>
+
+      <Bio delay={0.4}>
+        I love travel photography and drone cinematography ~ check out my work{' '}
+        <a href="https://www.instagram.com/johnnyc.photography" target="_blank" rel="noopener noreferrer" style={linkStyle}>@johnnyc.photography</a>
+      </Bio>
+
+      <Bio delay={0.5}>
+        This page is a place for my shower thoughts, longer reflections, and projects. Happy exploring and please feel free to <Link href="/contact" style={linkStyle}>reach out</Link>!
+      </Bio>
+
+      {/* Divider */}
+      <motion.hr
+        variants={flyUp}
+        initial="hidden"
+        animate="visible"
+        transition={{ duration: 0.5, delay: 0.6, ease: 'easeOut' }}
+        style={{ border: 'none', borderTop: '1px solid var(--border)', margin: '40px 0' }}
+      />
+
+      {/* Sections — continue staggering */}
+      <FadeIn delay={0.65}>
+        <div style={sectionLabelStyle}>Education</div>
+        <div style={entryStyle}>
+          Purdue University, B.S. Data Science &amp; Molecular Biology
+          <span style={mutedSpanStyle}>  2026–</span>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        <div style={entryStyle}>
+          Bentonville High School
+          <span style={mutedSpanStyle}>  2022–2026</span>
         </div>
-      </main>
+      </FadeIn>
+
+      <FadeIn delay={0.75}>
+        <div style={sectionLabelStyle}>Experience</div>
+        <div style={entryStyle}>
+          <span style={{ color: '#ff2424' }}>Eli Lilly &amp; Company</span> · Indianapolis, IN · Incoming
+        </div>
+        <div style={entryStyle}>
+          <span style={{ color: '#00c161' }}>Walmart Global Tech</span> · Bentonville, AR · Software Intern
+        </div>
+        <div style={entryStyle}>
+          <span style={{ color: '#002fff' }}>Institute for Systems Biology</span> · Seattle, WA · Research Intern
+        </div>
+      </FadeIn>
+
+      <FadeIn delay={0.85}>
+        <div style={sectionLabelStyle}>Honors</div>
+        <div style={entryStyle}>
+          Coca-Cola Scholar Finalist · Lilly Scholar at Purdue (Full Tuition Scholarship) · National Merit Commended Scholar · All-State Violinist
+        </div>
+      </FadeIn>
+
     </div>
   );
 }
