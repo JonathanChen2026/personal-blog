@@ -96,19 +96,19 @@ export default function HomePage() {
       </motion.div>
 
       {/* Bio paragraphs — each staggers 0.1s after the previous */}
-      <Bio delay={0.1}>Hi, I&apos;m Jonathan! 👋🏻</Bio>
+      <Bio delay={0.1}>hi, i&apos;m Jonathan! 👋🏻</Bio>
 
-      <Bio delay={0.2}>I&apos;m an incoming freshman at Purdue University, studying Data Science and Molecular Bio.</Bio>
+      <Bio delay={0.2}>i&apos;m an incoming freshman at purdue university, studying data science and molecular bio.</Bio>
 
-      <Bio delay={0.3}>I&apos;ve previously interned at Walmart Global Tech, and have had various research experiences in computational biology and wet lab settings. I will be joining Eli Lilly in Indianapolis during my sophomore year.</Bio>
+      <Bio delay={0.3}>i&apos;ve previously interned at walmart global tech, and have had various research experiences in computational biology and wet lab settings. i will be joining eli lilly in indianapolis during my sophomore year.</Bio>
 
       <Bio delay={0.4}>
-        I also love travel photography and drone cinematography ~ check out my work{' '}
+        i also love travel photography and drone cinematography ~ check out my work{' '}
         <a href="https://www.instagram.com/johnnyc.photography" target="_blank" rel="noopener noreferrer" style={linkStyle}>@johnnyc.photography</a>
       </Bio>
 
       <Bio delay={0.5}>
-        This page is a place for my shower thoughts, longer reflections, and projects. Happy exploring and please feel free to <Link href="/contact" style={linkStyle}>reach out</Link>!
+        this page is a place for my shower thoughts, longer reflections, and projects. happy exploring and please feel free to <Link href="/contact" style={linkStyle}>reach out</Link>!
       </Bio>
 
       {/* Divider */}
