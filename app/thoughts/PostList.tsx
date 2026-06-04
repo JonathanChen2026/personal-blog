@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { config } from '../../site.config';
+import type { ThoughtPost } from '@/lib/posts';
 
 const { thoughts } = config;
 
@@ -13,18 +14,9 @@ const tagColors: Record<string, { background: string; color: string }> = {
 
 const filters = ['ALL', 'ESSAYS', 'NOTES'];
 
-type Post = {
-  slug: string;
-  title: string;
-  date: string;
-  category: string;
-  excerpt: string;
-};
-
-export default function PostList({ posts }: { posts: Post[] }) {
+export default function PostList({ posts }: { posts: ThoughtPost[] }) {
   const [activeFilter, setActiveFilter] = useState('ALL');
   const [searchQuery, setSearchQuery] = useState('');
-  const [hoveredSlug, setHoveredSlug] = useState<string | null>(null);
 
   const visiblePosts = posts.filter(post => {
     const matchesFilter =

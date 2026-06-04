@@ -1,51 +1,121 @@
 'use client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type MouseEvent } from 'react';
 import { config } from '../site.config';
+import { TOP_LEVEL_TABS, type TopLevelHref } from './top-level-tabs';
+import { useTabSwipe } from './TabSwipeProvider';
 
 const { nav, themeToggle, layout } = config;
 
-const links = [
-  { href: '/thoughts',  label: 'THOUGHTS'  },
-  { href: '/projects',  label: 'PROJECTS'  },
-  { href: '/contact',   label: 'CONTACT'   },
-];
+const links = TOP_LEVEL_TABS.slice(1);
 
-type Theme = 'system' | 'light' | 'dark';
+type Theme = 'light' | 'dark';
+
+function getActiveHref(pathname: string | null): TopLevelHref | null {
+  if (pathname === '/') {
+    return '/';
+  }
+
+  if (pathname?.startsWith('/thoughts')) {
+    return '/thoughts';
+  }
+
+  if (pathname === '/projects' || pathname === '/contact') {
+    return pathname;
+  }
+
+  return null;
+}
+
+function isTheme(value: string | null): value is Theme {
+  return value === 'light' || value === 'dark';
+}
+
+function getSystemTheme(mediaQuery?: MediaQueryList): Theme {
+  const prefersDark = mediaQuery?.matches ?? window.matchMedia('(prefers-color-scheme: dark)').matches;
+  return prefersDark ? 'dark' : 'light';
+}
+
+function applyTheme(t: Theme | null) {
+  const root = document.documentElement;
+  root.classList.remove('dark', 'light');
+
+  if (t === 'dark') root.classList.add('dark');
+  if (t === 'light') root.classList.add('light');
+}
 
 export default function Navbar() {
   const pathname = usePathname();
-  const [theme, setTheme] = useState<Theme>('system');
+  const { activeHref: swipeActiveHref, navigateTopLevelTab } = useTabSwipe();
+  const [theme, setTheme] = useState<Theme>('light');
   const [hoveredLink, setHoveredLink] = useState<string | null>(null);
   const [nameHovered, setNameHovered] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const activeHref = swipeActiveHref ?? getActiveHref(pathname);
 
   useEffect(() => {
-    const saved = localStorage.getItem('theme') as Theme | null;
-    if (saved) { setTheme(saved); applyTheme(saved); }
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const savedValue = localStorage.getItem('theme');
+    const savedTheme = isTheme(savedValue) ? savedValue : null;
+
+    if (savedValue && !savedTheme) {
+      localStorage.removeItem('theme');
+    }
+
+    applyTheme(savedTheme);
+
+    const timeoutId = window.setTimeout(() => {
+      setTheme(savedTheme ?? getSystemTheme(mediaQuery));
+    }, 0);
+
+    const handleSystemThemeChange = () => {
+      if (!isTheme(localStorage.getItem('theme'))) {
+        setTheme(getSystemTheme(mediaQuery));
+      }
+    };
+
+    mediaQuery.addEventListener('change', handleSystemThemeChange);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+      mediaQuery.removeEventListener('change', handleSystemThemeChange);
+    };
   }, []);
 
-  // Close menu on route change
-  useEffect(() => { setMenuOpen(false); }, [pathname]);
-
-  function applyTheme(t: Theme) {
-    const root = document.documentElement;
-    root.classList.remove('dark', 'light');
-    if (t === 'dark')  root.classList.add('dark');
-    if (t === 'light') root.classList.add('light');
-  }
-
   function cycleTheme() {
-    const order: Theme[] = ['system', 'light', 'dark'];
-    const next = order[(order.indexOf(theme) + 1) % order.length];
+    const savedTheme = localStorage.getItem('theme');
+    const currentTheme = isTheme(savedTheme) ? savedTheme : getSystemTheme();
+    const next: Theme = currentTheme === 'dark' ? 'light' : 'dark';
+
     setTheme(next);
     applyTheme(next);
     localStorage.setItem('theme', next);
   }
 
-  const themeIcon  = theme === 'dark' ? '●' : theme === 'light' ? '○' : '◐';
-  const themeLabel = theme === 'dark' ? 'Dark' : theme === 'light' ? 'Light' : 'System';
+  function handleTabClick(event: MouseEvent<HTMLAnchorElement>, href: TopLevelHref) {
+    if (
+      event.defaultPrevented ||
+      event.button !== 0 ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey
+    ) {
+      return;
+    }
+
+    const handled = navigateTopLevelTab(href);
+
+    if (handled) {
+      event.preventDefault();
+    }
+
+    setMenuOpen(false);
+  }
+
+  const themeIcon  = theme === 'dark' ? '●' : '○';
+  const themeLabel = theme === 'dark' ? 'Dark' : 'Light';
 
   return (
     <>
@@ -70,6 +140,16 @@ export default function Navbar() {
           {/* ── Your name ── */}
           <Link
             href="/"
+            onClick={(event) => handleTabClick(event, '/')}
+            onNavigate={(event) => {
+              const handled = navigateTopLevelTab('/');
+
+              if (handled) {
+                event.preventDefault();
+              }
+
+              setMenuOpen(false);
+            }}
             onMouseEnter={() => setNameHovered(true)}
             onMouseLeave={() => setNameHovered(false)}
             style={{
@@ -94,12 +174,22 @@ export default function Navbar() {
             className="desktop-nav"
           >
             {links.map(({ href, label }) => {
-              const isActive = pathname.startsWith(href);
+              const isActive = activeHref === href;
               const isHovered = hoveredLink === href;
               return (
                 <Link
                   key={href}
                   href={href}
+                  onClick={(event) => handleTabClick(event, href)}
+                  onNavigate={(event) => {
+                    const handled = navigateTopLevelTab(href);
+
+                    if (handled) {
+                      event.preventDefault();
+                    }
+
+                    setMenuOpen(false);
+                  }}
                   onMouseEnter={() => setHoveredLink(href)}
                   onMouseLeave={() => setHoveredLink(null)}
                   style={{
@@ -203,12 +293,22 @@ export default function Navbar() {
               <Link
                 key={href}
                 href={href}
+                onClick={(event) => handleTabClick(event, href)}
+                onNavigate={(event) => {
+                  const handled = navigateTopLevelTab(href);
+
+                  if (handled) {
+                    event.preventDefault();
+                  }
+
+                  setMenuOpen(false);
+                }}
                 style={{
                   fontSize: nav.linkFontSize,
                   letterSpacing: nav.linkLetterSpacing,
                   textTransform: 'uppercase',
-                  color: pathname.startsWith(href) ? 'var(--text)' : 'var(--muted)',
-                  fontWeight: pathname.startsWith(href) ? nav.linkActiveFontWeight : nav.linkFontWeight,
+                  color: activeHref === href ? 'var(--text)' : 'var(--muted)',
+                  fontWeight: activeHref === href ? nav.linkActiveFontWeight : nav.linkFontWeight,
                 }}
               >
                 {label}
