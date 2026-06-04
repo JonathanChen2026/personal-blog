@@ -95,7 +95,7 @@ export default function HomePanel() {
       <Bio delay={0.1}>hi, i&apos;m Jonathan! 👋🏻</Bio>
 
       <Bio delay={0.2}>
-        i&apos;m an incoming freshman at purdue university, studying data science and molecular bio.
+        i&apos;m an incoming freshman at purdue university, studying data science, artifical intelligence, and bioinformatics.
       </Bio>
 
       <Bio delay={0.3}>
@@ -136,7 +136,7 @@ export default function HomePanel() {
       <FadeIn delay={0.65}>
         <div style={sectionLabelStyle}>Education</div>
         <div style={entryStyle}>
-          Purdue University, B.S. Data Science &amp; Molecular Biology
+          Purdue University, B.S. DS/AI/Bioinformatics
           <span style={mutedSpanStyle}> 2026-</span>
         </div>
         <div style={entryStyle}>
@@ -148,24 +148,28 @@ export default function HomePanel() {
       <FadeIn delay={0.75}>
         <div style={sectionLabelStyle}>Experience</div>
         <div style={entryStyle}>
-          <span style={{ color: '#ff7575' }}>Eli Lilly &amp; Company</span> · Indianapolis, IN ·
-          Incoming
-        </div>
-        <div style={entryStyle}>
-          <span style={{ color: '#3bb678' }}>Walmart Global Tech</span> · Bentonville, AR ·
-          Software Intern
-        </div>
-        <div style={entryStyle}>
-          <span style={{ color: '#4e6bdf' }}>Institute for Systems Biology</span> · Seattle, WA ·
-          Research Intern
+          <span style={{ color: '#ff7575' }}>Eli Lilly &amp; Company</span> · Indianapolis, IN · Incoming<br />
+          <br />
+          <span style={{ color: '#3bb678' }}>Walmart Global Tech</span> · Bentonville, AR · Software Intern<br />
+          <br />
+          <span style={{ color: '#4e6bdf' }}>Institute for Systems Biology // Baliga Lab </span> · Seattle, WA · Computational Biology Research Intern<br />
+          <br />
+          <span style={{ color: '#039d00' }}>Sun Yat-sen University // Li-Meng Feng Lab </span> · Guangzhou · Wet Lab Research Intern
         </div>
       </FadeIn>
 
       <FadeIn delay={0.85}>
         <div style={sectionLabelStyle}>Honors</div>
         <div style={entryStyle}>
-          Coca-Cola Scholar Finalist · Lilly Scholar at Purdue (Full Tuition Scholarship) ·
-          National Merit Commended Scholar · All-State Violinist
+          Coca-Cola Scholar Finalist (0.23% from 107,000+ applicants)<br />
+          <br />
+          Lilly Scholar at Purdue (1/70 incoming, Full Tuition Scholarship)<br />
+          <br />
+          National Merit Commended Scholar<br />
+          <br />
+          Elks MVS selection<br />
+          <br />
+          State Concert Guest Performer, All-State & All-Region Violinist, 3x Chamber Intensive Violinist
         </div>
       </FadeIn>
     </div>
