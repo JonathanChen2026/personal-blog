@@ -103,7 +103,7 @@ export default function TabSwipeViewport({ children, fallback }: TabSwipeViewpor
       className="tab-swipe-viewport"
       data-testid="tab-swipe-viewport"
       style={{
-        overflow: 'hidden',
+        overflow: 'clip visible',
         maxWidth: '100vw',
         width: '100vw',
         height: activeHeight ? `${activeHeight}px` : undefined,
@@ -138,7 +138,7 @@ export default function TabSwipeViewport({ children, fallback }: TabSwipeViewpor
               width: '100vw',
             }}
           >
-            <div style={contentFrameStyle}>{panels[index]}</div>
+            {tab.key === 'home' ? panels[index] : <div style={contentFrameStyle}>{panels[index]}</div>}
           </div>
         ))}
       </motion.div>
