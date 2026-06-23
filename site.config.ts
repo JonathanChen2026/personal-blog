@@ -38,8 +38,8 @@ export const config = {
     fontWeight: '400',               // base font weight
   },
 
-  // ── Homepage ──────────────────────────────────────────
-  home: {
+  // ── About page ────────────────────────────────────────
+  about: {
     iconSize: '80px',                // the emoji/icon at the top
     iconMarginBottom: '0px',
     paragraphFontSize: '15.5px',

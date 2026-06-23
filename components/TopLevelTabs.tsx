@@ -1,7 +1,8 @@
 import type { ReactNode } from 'react';
 import { getPosts } from '@/lib/posts';
 import ContactPanel from './top-level/ContactPanel';
-import HomePanel from './top-level/HomePanel';
+import AboutPanel from './about/AboutPanel';
+import PlanetNav from './planet-nav/PlanetNav';
 import ProjectsPanel from './top-level/ProjectsPanel';
 import ThoughtsPanel from './top-level/ThoughtsPanel';
 import TabSwipeViewport from './TabSwipeViewport';
@@ -11,7 +12,8 @@ export default function TopLevelTabs({ fallback }: { fallback: ReactNode }) {
 
   return (
     <TabSwipeViewport fallback={fallback}>
-      <HomePanel />
+      <PlanetNav />
+      <AboutPanel />
       <ThoughtsPanel posts={posts} />
       <ProjectsPanel />
       <ContactPanel />

@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import Navbar from '../components/Navbar';
-import { TabSwipeProvider } from '../components/TabSwipeProvider';
-import TopLevelTabs from '../components/TopLevelTabs';
+// import { TabSwipeProvider } from '../components/TabSwipeProvider';
+// import TopLevelTabs from '../components/TopLevelTabs';
 import { config } from '../site.config';
 
 export const metadata: Metadata = {
@@ -27,15 +27,27 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         lineHeight: config.body.lineHeight,
         fontWeight: config.body.fontWeight,
       }}>
-        <TabSwipeProvider>
-          <Navbar />
-          <main style={{
-            maxWidth: '100vw',
-            width: '100vw',
-          }}>
-            <TopLevelTabs fallback={children} />
-          </main>
-        </TabSwipeProvider>
+        <Navbar />
+        <main style={{
+          maxWidth: '100vw',
+          width: '100vw',
+        }}>
+          {children}
+        </main>
+        {/*
+          Previous screen-swipe route animation. Kept here commented so the
+          animation can be referenced later without staying in the active path.
+
+          <TabSwipeProvider>
+            <Navbar />
+            <main style={{
+              maxWidth: '100vw',
+              width: '100vw',
+            }}>
+              <TopLevelTabs fallback={children} />
+            </main>
+          </TabSwipeProvider>
+        */}
       </body>
     </html>
   );
