@@ -3,6 +3,7 @@ import path from 'path';
 import matter from 'gray-matter';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import Link from 'next/link';
+import PageFrame from '@/components/PageFrame';
 import { config } from '../../../site.config';
 
 const { post } = config;
@@ -113,7 +114,7 @@ export default async function PostPage({
   const { data, content } = matter(raw);
 
   return (
-    <div>
+    <PageFrame>
 
       {/* Back link */}
       <Link href="/thoughts" style={{
@@ -161,6 +162,6 @@ export default async function PostPage({
       {/* Post body — headings inside here use the components above */}
       <MDXRemote source={content} components={components} />
 
-    </div>
+    </PageFrame>
   );
 }

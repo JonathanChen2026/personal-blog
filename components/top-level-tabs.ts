@@ -1,5 +1,6 @@
 export const TOP_LEVEL_TABS = [
   { key: 'home', href: '/', label: 'JONATHAN CHEN' },
+  { key: 'about', href: '/about', label: 'ABOUT' },
   { key: 'thoughts', href: '/thoughts', label: 'THOUGHTS' },
   { key: 'projects', href: '/projects', label: 'PROJECTS' },
   { key: 'contact', href: '/contact', label: 'CONTACT' },

@@ -1,10 +1,9 @@
 'use client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState, type MouseEvent } from 'react';
+import { useEffect, useState } from 'react';
 import { config } from '../site.config';
 import { TOP_LEVEL_TABS, type TopLevelHref } from './top-level-tabs';
-import { useTabSwipe } from './TabSwipeProvider';
 
 const { nav, themeToggle, layout } = config;
 
@@ -21,7 +20,7 @@ function getActiveHref(pathname: string | null): TopLevelHref | null {
     return '/thoughts';
   }
 
-  if (pathname === '/projects' || pathname === '/contact') {
+  if (pathname === '/about' || pathname === '/projects' || pathname === '/contact') {
     return pathname;
   }
 
@@ -47,12 +46,11 @@ function applyTheme(t: Theme | null) {
 
 export default function Navbar() {
   const pathname = usePathname();
-  const { activeHref: swipeActiveHref, navigateTopLevelTab } = useTabSwipe();
   const [theme, setTheme] = useState<Theme>('light');
   const [hoveredLink, setHoveredLink] = useState<string | null>(null);
   const [nameHovered, setNameHovered] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const activeHref = swipeActiveHref ?? getActiveHref(pathname);
+  const activeHref = getActiveHref(pathname);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -93,24 +91,7 @@ export default function Navbar() {
     localStorage.setItem('theme', next);
   }
 
-  function handleTabClick(event: MouseEvent<HTMLAnchorElement>, href: TopLevelHref) {
-    if (
-      event.defaultPrevented ||
-      event.button !== 0 ||
-      event.metaKey ||
-      event.ctrlKey ||
-      event.shiftKey ||
-      event.altKey
-    ) {
-      return;
-    }
-
-    const handled = navigateTopLevelTab(href);
-
-    if (handled) {
-      event.preventDefault();
-    }
-
+  function closeMenu() {
     setMenuOpen(false);
   }
 
@@ -140,16 +121,8 @@ export default function Navbar() {
           {/* ── Your name ── */}
           <Link
             href="/"
-            onClick={(event) => handleTabClick(event, '/')}
-            onNavigate={(event) => {
-              const handled = navigateTopLevelTab('/');
-
-              if (handled) {
-                event.preventDefault();
-              }
-
-              setMenuOpen(false);
-            }}
+            onClick={closeMenu}
+            onNavigate={closeMenu}
             onMouseEnter={() => setNameHovered(true)}
             onMouseLeave={() => setNameHovered(false)}
             style={{
@@ -180,16 +153,8 @@ export default function Navbar() {
                 <Link
                   key={href}
                   href={href}
-                  onClick={(event) => handleTabClick(event, href)}
-                  onNavigate={(event) => {
-                    const handled = navigateTopLevelTab(href);
-
-                    if (handled) {
-                      event.preventDefault();
-                    }
-
-                    setMenuOpen(false);
-                  }}
+                  onClick={closeMenu}
+                  onNavigate={closeMenu}
                   onMouseEnter={() => setHoveredLink(href)}
                   onMouseLeave={() => setHoveredLink(null)}
                   style={{
@@ -293,16 +258,8 @@ export default function Navbar() {
               <Link
                 key={href}
                 href={href}
-                onClick={(event) => handleTabClick(event, href)}
-                onNavigate={(event) => {
-                  const handled = navigateTopLevelTab(href);
-
-                  if (handled) {
-                    event.preventDefault();
-                  }
-
-                  setMenuOpen(false);
-                }}
+                onClick={closeMenu}
+                onNavigate={closeMenu}
                 style={{
                   fontSize: nav.linkFontSize,
                   letterSpacing: nav.linkLetterSpacing,
