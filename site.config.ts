@@ -45,7 +45,7 @@ export const config = {
     paragraphFontSize: '15.5px',
     paragraphLineHeight: '2',
     paragraphSpacing: '28px',   // gap between paragraphs
-    paragraphFontWeight: '200',
+    paragraphFontWeight: '300',
     paragraphTextTransform: 'none',   
   },
 

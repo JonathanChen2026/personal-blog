@@ -1,0 +1,143 @@
+.homeScene {
+  --home-text: rgba(40, 40, 40, 0.98);
+  --home-muted: rgba(0, 0, 0, 0.8);
+  --home-border: rgba(255, 255, 255, 0.64);
+  --home-glass-color: 245, 255, 238;
+  --home-glass-opacity: 0.16;
+  --home-glass: rgba(var(---ghomelass-color), var(--home-glass-opacity));
+  --home-glass-strong: rgba(248, 255, 241, 0.3);
+  --home-shadow: rgba(25, 61, 30, 0.17);
+  --home-glass-radius: clamp(28px, 5vw, 44px);
+  --home-glass-padding-x: clamp(28px, 5vw, 46px);
+  --home-glass-padding-y: clamp(28px, 5vw, 46px);
+
+  position: relative;
+  isolation: isolate;
+  width: 100vw;
+  min-height: 100vh;
+  overflow: visible;
+  background: #55a9f2;
+}
+
+.parallaxStage {
+  position: sticky;
+  top: 0;
+  z-index: 0;
+  height: 100vh;
+  margin-bottom: -100vh;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.parallaxLayer {
+  position: absolute;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background-repeat: no-repeat;
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+.backgroundLayer {
+  background-color: #55a9f2;
+  background-image: url('/background.webp');
+  background-position: top center;
+  background-size: cover;
+}
+
+.midgroundLayer {
+  background-image: url('/midground.webp');
+  background-position: top left;
+  background-size: 100vw auto;
+}
+
+.foregroundLayer {
+  background-image: url('/foreground.webp');
+  background-position: top left;
+  background-size: 100vw auto;
+}
+
+.contentShell {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  width: 100vw;
+  min-height: 100vh;
+  padding: 72px 16px 96px;
+}
+
+.glassPanel {
+  position: relative;
+  isolation: isolate;
+  width: min(680px, calc(100vw - 32px));
+  height: fit-content;
+  padding: var(--home-glass-padding-y) var(--home-glass-padding-x);
+  overflow: clip;
+  color: var(--home-text);
+  background: transparent;
+  border: 1px solid var(--home-border);
+  border-radius: var(--home-glass-radius);
+  box-shadow:
+    0 22px 54px var(--home-shadow),
+    0 2px 14px rgba(11, 40, 20, 0.08),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.18);
+  text-shadow: 0 1px 2px rgba(5, 24, 10, 0.08);
+}
+
+
+.glassTint {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.glassBlur {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  background: rgba(228, 240, 232, 0.42);
+  pointer-events: none;
+}
+
+.glassShade {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.glassContent {
+  position: relative;
+  z-index: 4;
+  isolation: isolate;
+}
+
+.stampImage {
+  filter: saturate(1.14) contrast(1.14);
+}
+
+@media (max-width: 700px) {
+  .contentShell {
+    padding: 36px 12px 72px;
+  }
+
+  .glassPanel {
+    --home-glass-padding-x: 24px;
+    --home-glass-padding-y: 28px;
+
+    width: min(100% - 24px, 680px);
+    padding: var(--home-glass-padding-y) var(--home-glass-padding-x) 34px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .parallaxLayer {
+    will-change: auto;
+  }
+}
