@@ -28,7 +28,16 @@ export const SPRITE = {
   settleFrameMs: 36,
 } as const;
 
-export const DOOR_ACTIVATION_DEGREES = 13;
+export const DOOR_ACTIVATION_DEGREES = 22;
+
+/** Fixed px gap from door top edge to the bottom of the enter CTA. */
+export const DOOR_CTA_ABOVE_DOOR_PX = 10;
+
+/** Fixed px gap from CTA top to the bottom of the nav label. */
+export const DOOR_LABEL_ABOVE_CTA_PX = 10;
+
+/** Reserved height for the enter CTA slot between label and door. */
+export const DOOR_CTA_SLOT_HEIGHT_PX = 16;
 
 export function normalizeAngle(angle: number) {
   return ((angle % 360) + 360) % 360;

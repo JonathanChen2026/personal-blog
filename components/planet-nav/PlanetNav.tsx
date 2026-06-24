@@ -9,8 +9,12 @@ import {
   type PointerEvent,
 } from 'react';
 import { useRouter } from 'next/navigation';
+import DoorEnterPrompt from './DoorEnterPrompt';
 import styles from './PlanetNav.module.css';
 import {
+  DOOR_CTA_ABOVE_DOOR_PX,
+  DOOR_CTA_SLOT_HEIGHT_PX,
+  DOOR_LABEL_ABOVE_CTA_PX,
   getActiveDoor,
   getDoorScreenAngle,
   getFramePosition,
@@ -55,6 +59,17 @@ const CLOCKWISE_SPIN: Exclude<WalkDirection, 0> = 1;
 const MAX_ROTATION_VELOCITY = 58;
 const ROTATION_ACCELERATION = 260;
 const MIN_SETTLE_DURATION_MS = 70;
+
+const LEFT_KEYS = new Set(['ArrowLeft', 'a', 'A']);
+const RIGHT_KEYS = new Set(['ArrowRight', 'd', 'D']);
+
+function isWalkKey(key: string) {
+  return LEFT_KEYS.has(key) || RIGHT_KEYS.has(key);
+}
+
+function isLeftKey(key: string) {
+  return LEFT_KEYS.has(key);
+}
 
 function createInitialMotion(): MotionState {
   return {
@@ -248,10 +263,10 @@ export default function PlanetNav() {
 
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+      if (isWalkKey(event.key)) {
         event.preventDefault();
 
-        if (event.key === 'ArrowLeft') {
+        if (isLeftKey(event.key)) {
           keyStateRef.current.left = true;
           lastInputDirectionRef.current = -1;
         } else {
@@ -269,13 +284,13 @@ export default function PlanetNav() {
     }
 
     function handleKeyUp(event: KeyboardEvent) {
-      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') {
+      if (!isWalkKey(event.key)) {
         return;
       }
 
       event.preventDefault();
 
-      if (event.key === 'ArrowLeft') {
+      if (isLeftKey(event.key)) {
         keyStateRef.current.left = false;
       } else {
         keyStateRef.current.right = false;
@@ -325,7 +340,12 @@ export default function PlanetNav() {
     settleToStopFrame(performance.now());
   }
 
-  const planetStyle = { '--planet-rotation': `${view.rotation}deg` } as CSSProperties;
+  const planetStyle = {
+    '--door-cta-above-door': `${DOOR_CTA_ABOVE_DOOR_PX}px`,
+    '--door-cta-slot-height': `${DOOR_CTA_SLOT_HEIGHT_PX}px`,
+    '--door-label-above-cta': `${DOOR_LABEL_ABOVE_CTA_PX}px`,
+    '--planet-rotation': `${view.rotation}deg`,
+  } as CSSProperties;
 
   return (
     <section
@@ -334,6 +354,7 @@ export default function PlanetNav() {
       onPointerCancel={handlePointerRelease}
       onPointerDown={handlePointerDown}
       onPointerUp={handlePointerRelease}
+      onContextMenu={(event) => event.preventDefault()}
       style={planetStyle}
     >
       <div className={styles.stage}>
@@ -362,6 +383,7 @@ export default function PlanetNav() {
                       event.stopPropagation();
                     }
                   }}
+                  onContextMenu={(event) => event.preventDefault()}
                   style={
                     {
                       backgroundImage: `url(${getDoorImage(door, view.rotation)})`,
@@ -371,6 +393,14 @@ export default function PlanetNav() {
                   tabIndex={isActive ? 0 : -1}
                   type="button"
                 />
+                <div className={styles.doorChrome}>
+                  <span className={styles.doorLabel}>{door.label}</span>
+                  {isActive ? (
+                    <DoorEnterPrompt />
+                  ) : (
+                    <span aria-hidden="true" className={styles.doorEnterSlot} />
+                  )}
+                </div>
               </div>
             );
           })}
