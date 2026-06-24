@@ -1,4 +1,4 @@
-export type PlanetDoorKey = 'about' | 'thoughts' | 'projects' | 'contact';
+export type PlanetDoorKey = 'about' | 'contact' | 'photos' | 'projects' | 'thoughts';
 
 export type PlanetDoor = {
   key: PlanetDoorKey;
@@ -12,6 +12,7 @@ export type WalkDirection = -1 | 0 | 1;
 export const PLANET_DOORS = [
   { key: 'about', href: '/about', label: 'About', angle: 44 },
   { key: 'thoughts', href: '/thoughts', label: 'Thoughts', angle: 142 },
+  { key: 'photos', href: '/photos', label: 'Photos', angle: 196 },
   { key: 'projects', href: '/projects', label: 'Projects', angle: 251 },
   { key: 'contact', href: '/contact', label: 'Contact', angle: 304 },
 ] as const satisfies readonly PlanetDoor[];
@@ -55,6 +56,13 @@ export function getDoorScreenAngle(doorAngle: number, planetRotation: number) {
 export function isRightHemisphere(angle: number) {
   const normalized = normalizeAngle(angle);
   return normalized > 0 && normalized < 180;
+}
+
+export type DoorFacing = 'left' | 'right';
+
+export function getDoorFacing(door: PlanetDoor, rotation: number): DoorFacing {
+  const screenAngle = getDoorScreenAngle(door.angle, rotation);
+  return isRightHemisphere(screenAngle) ? 'right' : 'left';
 }
 
 export function getActiveDoor(rotation: number) {
