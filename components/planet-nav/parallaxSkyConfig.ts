@@ -24,13 +24,13 @@ export const SKY_ELEMENT_SIZE_PX: Record<SkyLayer, Record<SkyElementKind, number
   far: {
     'star-one': 9,
     'star-two': 12,
-    comet: 45,
+    comet: 30,
     asteroid: 36,
   },
   mid: {
     'star-one': 11,
     'star-two': 15,
-    comet: 57,
+    comet: 45,
     asteroid: 48,
   },
 };
@@ -47,8 +47,8 @@ const SKY_LAYER_COUNTS: Record<SkyLayer, Record<SkyElementKind, number>> = {
   mid: {
     'star-one': 4,
     'star-two': 7,
-    comet: 3,
-    asteroid: 3,
+    comet: 1,
+    asteroid: 2,
   },
 };
 
