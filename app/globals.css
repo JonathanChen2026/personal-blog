@@ -8,6 +8,7 @@
   --text: #3e3e3e;
   --muted: #9b9b9b;
   --border: #d0d0d0;
+  --planet-scene-bg: #d6dfe7;
   --tag-essay: #dce8ff;
   --tag-investing: #d4f5e2;
   --tag-notes: #f5e8d4;
@@ -18,6 +19,7 @@
   --text: #d5d5d5;
   --muted: #9b9b9b;
   --border: #2a2a2a;
+  --planet-scene-bg: #12161a;
   --tag-essay: #1e2a3a;
   --tag-investing: #1a2e22;
   --tag-notes: #2e2518;
@@ -29,6 +31,7 @@
     --text: #d5d5d5;
     --muted: #9b9b9b;
     --border: #2a2a2a;
+    --planet-scene-bg: #12161a;
     --tag-essay: #1e2a3a;
     --tag-investing: #1a2e22;
     --tag-notes: #2e2518;

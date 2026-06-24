@@ -9,90 +9,32 @@ import {
   type PointerEvent,
 } from 'react';
 import { useRouter } from 'next/navigation';
+import ParallaxSkyLayer from './ParallaxSkyLayer';
+import PlanetDoorMount from './PlanetDoor';
 import styles from './PlanetNav.module.css';
+import { FAR_SKY_ELEMENTS, MID_SKY_ELEMENTS } from './parallaxSkyConfig';
 import {
+  DOOR_CTA_ABOVE_DOOR_PX,
+  DOOR_CTA_SLOT_HEIGHT_PX,
+  DOOR_LABEL_ABOVE_CTA_PX,
   getActiveDoor,
-  getDoorScreenAngle,
-  getFramePosition,
-  getNextStopCursor,
-  isRightHemisphere,
   PLANET_DOORS,
-  SPRITE,
   type PlanetDoor,
   type PlanetDoorKey,
   type WalkDirection,
 } from './planetNavModel';
+import { CLOCKWISE_SPIN } from './planetMotion';
+import { usePlanetScene } from './usePlanetScene';
 
-type MotionMode = 'idle' | 'walking' | 'settling';
+const LEFT_KEYS = new Set(['ArrowLeft', 'a', 'A']);
+const RIGHT_KEYS = new Set(['ArrowRight', 'd', 'D']);
 
-type SettlingMotion = {
-  durationMs: number;
-  endFrameCursor: number;
-  rotationDistance: number;
-  startFrameCursor: number;
-  startRotation: number;
-  startTime: number;
-};
-
-type MotionState = {
-  direction: WalkDirection;
-  facing: Exclude<WalkDirection, 0>;
-  frameCursor: number;
-  mode: MotionMode;
-  rotation: number;
-  settling: SettlingMotion | null;
-  velocity: number;
-};
-
-type ViewState = {
-  activeDoorKey: PlanetDoorKey | null;
-  facing: Exclude<WalkDirection, 0>;
-  frame: number;
-  rotation: number;
-};
-
-const CLOCKWISE_SPIN: Exclude<WalkDirection, 0> = 1;
-const MAX_ROTATION_VELOCITY = 58;
-const ROTATION_ACCELERATION = 260;
-const MIN_SETTLE_DURATION_MS = 70;
-
-function createInitialMotion(): MotionState {
-  return {
-    direction: 0,
-    facing: 1,
-    frameCursor: SPRITE.idleFrame,
-    mode: 'idle',
-    rotation: 0,
-    settling: null,
-    velocity: 0,
-  };
+function isWalkKey(key: string) {
+  return LEFT_KEYS.has(key) || RIGHT_KEYS.has(key);
 }
 
-function getFrameFromCursor(frameCursor: number) {
-  return Math.floor(((frameCursor % SPRITE.totalFrames) + SPRITE.totalFrames) % SPRITE.totalFrames);
-}
-
-function getViewState(motion: MotionState): ViewState {
-  return {
-    activeDoorKey: getActiveDoor(motion.rotation)?.key ?? null,
-    facing: motion.facing,
-    frame: getFrameFromCursor(motion.frameCursor),
-    rotation: motion.rotation,
-  };
-}
-
-const INITIAL_VIEW_STATE = getViewState(createInitialMotion());
-
-function moveToward(current: number, target: number, maxDelta: number) {
-  if (Math.abs(target - current) <= maxDelta) {
-    return target;
-  }
-
-  return current + Math.sign(target - current) * maxDelta;
-}
-
-function easeOutCubic(progress: number) {
-  return 1 - (1 - progress) ** 3;
+function isLeftKey(key: string) {
+  return LEFT_KEYS.has(key);
 }
 
 function getPressedFacing(keys: { left: boolean; right: boolean }, fallback: WalkDirection) {
@@ -107,71 +49,29 @@ function getPressedFacing(keys: { left: boolean; right: boolean }, fallback: Wal
   return keys.right ? 1 : -1;
 }
 
-function getSpritePositionStyle(frame: number) {
-  const { column, row } = getFramePosition(frame);
-  const x = column === 0 ? 0 : (column / (SPRITE.columns - 1)) * 100;
-  const y = row === 0 ? 0 : (row / (SPRITE.rows - 1)) * 100;
-
-  return {
-    '--sprite-x': `${x}%`,
-    '--sprite-y': `${y}%`,
-  } as CSSProperties;
-}
-
-function getDoorImage(door: PlanetDoor, rotation: number) {
-  const screenAngle = getDoorScreenAngle(door.angle, rotation);
-  return isRightHemisphere(screenAngle) ? '/door-right.png' : '/door-left.png';
-}
-
 export default function PlanetNav() {
   const router = useRouter();
-  const motionRef = useRef<MotionState>(createInitialMotion());
   const keyStateRef = useRef({ left: false, right: false });
   const lastInputDirectionRef = useRef<WalkDirection>(1);
   const activePointerIdRef = useRef<number | null>(null);
-  const animationFrameRef = useRef<number | null>(null);
-  const lastTickRef = useRef<number | null>(null);
-  const [view, setView] = useState<ViewState>(INITIAL_VIEW_STATE);
+  const [activeDoorKey, setActiveDoorKey] = useState<PlanetDoorKey | null>(null);
 
-  const beginWalking = useCallback((facing: Exclude<WalkDirection, 0>) => {
-    const motion = motionRef.current;
-    motion.direction = (facing * -1) as Exclude<WalkDirection, 0>;
-    motion.facing = facing;
-    motion.mode = 'walking';
-    motion.settling = null;
-    lastInputDirectionRef.current = facing;
+  const handleActiveDoorChange = useCallback((doorKey: PlanetDoorKey | null) => {
+    setActiveDoorKey(doorKey);
   }, []);
 
-  const settleToStopFrame = useCallback((startTime: number) => {
-    const motion = motionRef.current;
-    const endFrameCursor = getNextStopCursor(motion.frameCursor);
-    const frameDistance = endFrameCursor - motion.frameCursor;
-
-    motion.direction = 0;
-
-    if (frameDistance <= 0.02) {
-      motion.frameCursor = endFrameCursor;
-      motion.mode = 'idle';
-      motion.settling = null;
-      motion.velocity = 0;
-      return;
-    }
-
-    const durationMs = Math.max(MIN_SETTLE_DURATION_MS, frameDistance * SPRITE.settleFrameMs);
-    const spinSign = Math.sign(motion.velocity) || CLOCKWISE_SPIN;
-    const settleVelocity =
-      spinSign * Math.max(Math.abs(motion.velocity), MAX_ROTATION_VELOCITY * 0.35);
-
-    motion.mode = 'settling';
-    motion.settling = {
-      durationMs,
-      endFrameCursor,
-      rotationDistance: settleVelocity * (durationMs / 1000) * 0.5,
-      startFrameCursor: motion.frameCursor,
-      startRotation: motion.rotation,
-      startTime,
-    };
-  }, []);
+  const {
+    motionRef,
+    planetLayerRef,
+    parallaxFarRef,
+    parallaxMidRef,
+    spriteStackRef,
+    walkRightRef,
+    walkLeftRef,
+    doorMountRefs,
+    beginWalking,
+    settleToStopFrame,
+  } = usePlanetScene(handleActiveDoorChange);
 
   const updateDirectionFromKeys = useCallback(
     (startTime: number) => {
@@ -183,6 +83,7 @@ export default function PlanetNav() {
       }
 
       beginWalking(facing);
+      lastInputDirectionRef.current = facing;
     },
     [beginWalking, settleToStopFrame],
   );
@@ -197,61 +98,11 @@ export default function PlanetNav() {
   );
 
   useEffect(() => {
-    function tick(now: number) {
-      const previousTick = lastTickRef.current ?? now;
-      const deltaSeconds = Math.min((now - previousTick) / 1000, 0.05);
-      const motion = motionRef.current;
-
-      lastTickRef.current = now;
-
-      if (motion.mode === 'walking') {
-        const targetVelocity = motion.direction * MAX_ROTATION_VELOCITY;
-        motion.velocity = moveToward(
-          motion.velocity,
-          targetVelocity,
-          ROTATION_ACCELERATION * deltaSeconds,
-        );
-        motion.rotation += motion.velocity * deltaSeconds;
-        motion.frameCursor += (deltaSeconds * 1000) / SPRITE.walkFrameMs;
-      }
-
-      if (motion.mode === 'settling' && motion.settling) {
-        const settling = motion.settling;
-        const progress = Math.min((now - settling.startTime) / settling.durationMs, 1);
-        const easedProgress = easeOutCubic(progress);
-
-        motion.rotation = settling.startRotation + settling.rotationDistance * easedProgress;
-        motion.frameCursor =
-          settling.startFrameCursor +
-          (settling.endFrameCursor - settling.startFrameCursor) * easedProgress;
-
-        if (progress >= 1) {
-          motion.frameCursor = settling.endFrameCursor;
-          motion.mode = 'idle';
-          motion.settling = null;
-          motion.velocity = 0;
-        }
-      }
-
-      setView(getViewState(motion));
-      animationFrameRef.current = window.requestAnimationFrame(tick);
-    }
-
-    animationFrameRef.current = window.requestAnimationFrame(tick);
-
-    return () => {
-      if (animationFrameRef.current !== null) {
-        window.cancelAnimationFrame(animationFrameRef.current);
-      }
-    };
-  }, []);
-
-  useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+      if (isWalkKey(event.key)) {
         event.preventDefault();
 
-        if (event.key === 'ArrowLeft') {
+        if (isLeftKey(event.key)) {
           keyStateRef.current.left = true;
           lastInputDirectionRef.current = -1;
         } else {
@@ -269,13 +120,13 @@ export default function PlanetNav() {
     }
 
     function handleKeyUp(event: KeyboardEvent) {
-      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') {
+      if (!isWalkKey(event.key)) {
         return;
       }
 
       event.preventDefault();
 
-      if (event.key === 'ArrowLeft') {
+      if (isLeftKey(event.key)) {
         keyStateRef.current.left = false;
       } else {
         keyStateRef.current.right = false;
@@ -299,11 +150,7 @@ export default function PlanetNav() {
       window.removeEventListener('keyup', handleKeyUp);
       window.removeEventListener('blur', handleBlur);
     };
-  }, [
-    navigateToDoor,
-    settleToStopFrame,
-    updateDirectionFromKeys,
-  ]);
+  }, [motionRef, navigateToDoor, settleToStopFrame, updateDirectionFromKeys]);
 
   function handlePointerDown(event: PointerEvent<HTMLElement>) {
     if (activePointerIdRef.current !== null) {
@@ -312,7 +159,9 @@ export default function PlanetNav() {
 
     activePointerIdRef.current = event.pointerId;
     event.currentTarget.setPointerCapture(event.pointerId);
-    beginWalking(event.clientX < window.innerWidth / 2 ? -1 : 1);
+    const facing = event.clientX < window.innerWidth / 2 ? -1 : 1;
+    lastInputDirectionRef.current = facing;
+    beginWalking(facing);
   }
 
   function handlePointerRelease(event: PointerEvent<HTMLElement>) {
@@ -325,70 +174,76 @@ export default function PlanetNav() {
     settleToStopFrame(performance.now());
   }
 
-  const planetStyle = { '--planet-rotation': `${view.rotation}deg` } as CSSProperties;
+  const sceneStyle = {
+    '--door-cta-above-door': `${DOOR_CTA_ABOVE_DOOR_PX}px`,
+    '--door-cta-slot-height': `${DOOR_CTA_SLOT_HEIGHT_PX}px`,
+    '--door-label-above-cta': `${DOOR_LABEL_ABOVE_CTA_PX}px`,
+  } as CSSProperties;
 
   return (
     <section
       aria-label="Tiny planet navigation"
       className={styles.scene}
+      onContextMenu={(event) => event.preventDefault()}
       onPointerCancel={handlePointerRelease}
       onPointerDown={handlePointerDown}
       onPointerUp={handlePointerRelease}
-      style={planetStyle}
+      style={sceneStyle}
     >
       <div className={styles.stage}>
-        <div aria-hidden="true" className={styles.spritePreload}>
-          <span className={styles.preloadWalkRight} />
-          <span className={styles.preloadWalkLeft} />
-        </div>
-        <div className={styles.planetLayer}>
-          <div aria-hidden="true" className={styles.planetImage} />
-          {PLANET_DOORS.map((door) => {
-            const isActive = view.activeDoorKey === door.key;
+        <div aria-hidden="true" className={styles.assetPreload} />
+        <div className={styles.rotationHub}>
+          <ParallaxSkyLayer
+            elements={FAR_SKY_ELEMENTS}
+            layer="far"
+            layerRef={(node) => {
+              parallaxFarRef.current = node;
+            }}
+          />
+          <ParallaxSkyLayer
+            elements={MID_SKY_ELEMENTS}
+            layer="mid"
+            layerRef={(node) => {
+              parallaxMidRef.current = node;
+            }}
+          />
+          <div className={styles.planetLayer} ref={planetLayerRef}>
+            <div aria-hidden="true" className={styles.planetImage} />
+            {PLANET_DOORS.map((door) => {
+              const isActive = activeDoorKey === door.key;
 
-            return (
-              <div
-                className={styles.doorMount}
-                key={door.key}
-                style={{ '--door-angle': `${door.angle}deg` } as CSSProperties}
-              >
-                <button
-                  aria-label={`Enter ${door.label}`}
-                  className={styles.door}
-                  disabled={!isActive}
-                  onClick={() => navigateToDoor(isActive ? door : null)}
+              return (
+                <PlanetDoorMount
+                  door={door}
+                  doorRef={(node) => {
+                    doorMountRefs.current[door.key] = node ?? undefined;
+                  }}
+                  isActive={isActive}
+                  key={door.key}
+                  onNavigate={() => navigateToDoor(isActive ? door : null)}
                   onPointerDown={(event) => {
                     if (isActive) {
                       event.stopPropagation();
                     }
                   }}
-                  style={
-                    {
-                      backgroundImage: `url(${getDoorImage(door, view.rotation)})`,
-                      pointerEvents: isActive ? 'auto' : 'none',
-                    } as CSSProperties
-                  }
-                  tabIndex={isActive ? 0 : -1}
-                  type="button"
                 />
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
 
-        <div aria-hidden="true" className={styles.character}>
-          <div
-            className={styles.characterSpriteStack}
-            style={getSpritePositionStyle(view.frame)}
-          >
-            <div
-              className={`${styles.characterSprite} ${styles.walkRight}`}
-              data-active={view.facing === 1}
-            />
-            <div
-              className={`${styles.characterSprite} ${styles.walkLeft}`}
-              data-active={view.facing === -1}
-            />
+          <div aria-hidden="true" className={styles.character}>
+            <div className={styles.characterSpriteStack} ref={spriteStackRef}>
+              <div
+                className={`${styles.characterSprite} ${styles.walkRight}`}
+                data-active="true"
+                ref={walkRightRef}
+              />
+              <div
+                className={`${styles.characterSprite} ${styles.walkLeft}`}
+                data-active="false"
+                ref={walkLeftRef}
+              />
+            </div>
           </div>
         </div>
       </div>

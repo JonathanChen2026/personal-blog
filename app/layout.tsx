@@ -1,13 +1,34 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import './globals.css';
-import Navbar from '../components/Navbar';
-// import { TabSwipeProvider } from '../components/TabSwipeProvider';
-// import TopLevelTabs from '../components/TopLevelTabs';
+import ThemeProvider from '../components/ThemeProvider';
 import { config } from '../site.config';
 
 export const metadata: Metadata = {
   title: config.nav.yourName,
   description: 'Essays and thoughts',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: config.nav.yourName,
+  },
+  icons: {
+    apple: '/planet.png',
+  },
+  other: {
+    'mobile-web-app-capable': 'yes',
+  },
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  viewportFit: 'cover',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#d6dfe7' },
+    { media: '(prefers-color-scheme: dark)', color: '#12161a' },
+  ],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -27,27 +48,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         lineHeight: config.body.lineHeight,
         fontWeight: config.body.fontWeight,
       }}>
-        <Navbar />
+        <ThemeProvider />
         <main style={{
           maxWidth: '100vw',
           width: '100vw',
         }}>
           {children}
         </main>
-        {/*
-          Previous screen-swipe route animation. Kept here commented so the
-          animation can be referenced later without staying in the active path.
-
-          <TabSwipeProvider>
-            <Navbar />
-            <main style={{
-              maxWidth: '100vw',
-              width: '100vw',
-            }}>
-              <TopLevelTabs fallback={children} />
-            </main>
-          </TabSwipeProvider>
-        */}
       </body>
     </html>
   );
