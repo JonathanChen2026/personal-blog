@@ -1,4 +1,4 @@
-import type { CSSProperties, PointerEvent } from 'react';
+import type { CSSProperties } from 'react';
 import DoorEnterPrompt from './DoorEnterPrompt';
 import { getDoorImageUrls } from './doorAssets';
 import styles from './PlanetNav.module.css';
@@ -11,7 +11,6 @@ type PlanetDoorProps = {
   doorRef: (node: HTMLDivElement | null) => void;
   isActive: boolean;
   onNavigate: () => void;
-  onPointerDown: (event: React.PointerEvent<HTMLButtonElement>) => void;
 };
 
 export default function PlanetDoor({
@@ -19,7 +18,6 @@ export default function PlanetDoor({
   doorRef,
   isActive,
   onNavigate,
-  onPointerDown,
 }: PlanetDoorProps) {
   const images = getDoorImageUrls(door.key);
   const facing = getDoorFacing(door, INITIAL_PLANET_ROTATION);
@@ -36,7 +34,6 @@ export default function PlanetDoor({
         disabled={!isActive}
         onClick={onNavigate}
         onContextMenu={(event) => event.preventDefault()}
-        onPointerDown={onPointerDown}
         style={{ pointerEvents: isActive ? 'auto' : 'none' }}
         tabIndex={isActive ? 0 : -1}
         type="button"

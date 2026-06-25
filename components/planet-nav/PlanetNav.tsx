@@ -29,8 +29,20 @@ import { usePlanetScene } from './usePlanetScene';
 const LEFT_KEYS = new Set(['ArrowLeft', 'a', 'A']);
 const RIGHT_KEYS = new Set(['ArrowRight', 'd', 'D']);
 
+const ROTATION_CONTROLS = [
+  { key: 'left', label: 'Rotate left', facing: -1, image: '/leftbutton.png' },
+  { key: 'right', label: 'Rotate right', facing: 1, image: '/rightbutton.png' },
+] as const;
+
+type RotationControl = (typeof ROTATION_CONTROLS)[number];
+type RotationControlKey = RotationControl['key'];
+
 function isWalkKey(key: string) {
   return LEFT_KEYS.has(key) || RIGHT_KEYS.has(key);
+}
+
+function isArrowWalkKey(key: string) {
+  return key === 'ArrowLeft' || key === 'ArrowRight';
 }
 
 function isLeftKey(key: string) {
@@ -55,6 +67,8 @@ export default function PlanetNav() {
   const lastInputDirectionRef = useRef<WalkDirection>(1);
   const activePointerIdRef = useRef<number | null>(null);
   const [activeDoorKey, setActiveDoorKey] = useState<PlanetDoorKey | null>(null);
+  const [pressedControlKey, setPressedControlKey] = useState<RotationControlKey | null>(null);
+  const [hasUsedArrowKeys, setHasUsedArrowKeys] = useState(false);
 
   const handleActiveDoorChange = useCallback((doorKey: PlanetDoorKey | null) => {
     setActiveDoorKey(doorKey);
@@ -101,6 +115,10 @@ export default function PlanetNav() {
     function handleKeyDown(event: KeyboardEvent) {
       if (isWalkKey(event.key)) {
         event.preventDefault();
+
+        if (isArrowWalkKey(event.key)) {
+          setHasUsedArrowKeys(true);
+        }
 
         if (isLeftKey(event.key)) {
           keyStateRef.current.left = true;
@@ -152,25 +170,37 @@ export default function PlanetNav() {
     };
   }, [motionRef, navigateToDoor, settleToStopFrame, updateDirectionFromKeys]);
 
-  function handlePointerDown(event: PointerEvent<HTMLElement>) {
+  function handleControlPointerDown(
+    event: PointerEvent<HTMLButtonElement>,
+    control: RotationControl,
+  ) {
     if (activePointerIdRef.current !== null) {
       return;
     }
 
+    event.preventDefault();
+    event.stopPropagation();
     activePointerIdRef.current = event.pointerId;
     event.currentTarget.setPointerCapture(event.pointerId);
-    const facing = event.clientX < window.innerWidth / 2 ? -1 : 1;
-    lastInputDirectionRef.current = facing;
-    beginWalking(facing);
+    setPressedControlKey(control.key);
+    lastInputDirectionRef.current = control.facing;
+    beginWalking(control.facing);
   }
 
-  function handlePointerRelease(event: PointerEvent<HTMLElement>) {
+  function handleControlPointerRelease(event: PointerEvent<HTMLButtonElement>) {
     if (activePointerIdRef.current !== event.pointerId) {
       return;
     }
 
+    event.preventDefault();
+    event.stopPropagation();
     activePointerIdRef.current = null;
-    event.currentTarget.releasePointerCapture(event.pointerId);
+    setPressedControlKey(null);
+
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+
     settleToStopFrame(performance.now());
   }
 
@@ -185,9 +215,6 @@ export default function PlanetNav() {
       aria-label="Tiny planet navigation"
       className={styles.scene}
       onContextMenu={(event) => event.preventDefault()}
-      onPointerCancel={handlePointerRelease}
-      onPointerDown={handlePointerDown}
-      onPointerUp={handlePointerRelease}
       style={sceneStyle}
     >
       <div className={styles.stage}>
@@ -221,11 +248,6 @@ export default function PlanetNav() {
                   isActive={isActive}
                   key={door.key}
                   onNavigate={() => navigateToDoor(isActive ? door : null)}
-                  onPointerDown={(event) => {
-                    if (isActive) {
-                      event.stopPropagation();
-                    }
-                  }}
                 />
               );
             })}
@@ -245,7 +267,39 @@ export default function PlanetNav() {
               />
             </div>
           </div>
+
+          <div
+            aria-hidden="true"
+            className={styles.desktopArrowCta}
+            data-visible={hasUsedArrowKeys ? 'false' : 'true'}
+          >
+            {ROTATION_CONTROLS.map((control) => (
+              <span
+                className={styles.desktopArrowIcon}
+                key={control.key}
+                style={{ backgroundImage: `url(${control.image})` }}
+              />
+            ))}
+          </div>
         </div>
+      </div>
+      <div className={styles.mobileControls}>
+        {ROTATION_CONTROLS.map((control) => (
+          <button
+            aria-label={control.label}
+            className={styles.mobileControlButton}
+            data-control={control.key}
+            data-pressed={pressedControlKey === control.key ? 'true' : 'false'}
+            key={control.key}
+            onContextMenu={(event) => event.preventDefault()}
+            onPointerCancel={handleControlPointerRelease}
+            onPointerDown={(event) => handleControlPointerDown(event, control)}
+            onLostPointerCapture={handleControlPointerRelease}
+            onPointerUp={handleControlPointerRelease}
+            style={{ backgroundImage: `url(${control.image})` }}
+            type="button"
+          />
+        ))}
       </div>
     </section>
   );
