@@ -9,7 +9,7 @@
 
   position: relative;
   isolation: isolate;
-  width: 100vw;
+  width: 100%;
   min-height: 100vh;
   overflow: visible;
   background: #F5F5F5;
@@ -28,7 +28,7 @@
 .parallaxLayer {
   position: absolute;
   inset: 0;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   background-repeat: no-repeat;
   transform: translateZ(0);
@@ -57,17 +57,24 @@
 .contentShell {
   position: relative;
   z-index: 1;
-  display: flex;
-  justify-content: center;
-  width: 100vw;
+  width: 100%;
   min-height: 100vh;
   padding: 72px 16px 96px;
+}
+
+.contentColumn {
+  width: min(680px, calc(100vw - 32px));
+  margin: 0 auto;
+}
+
+.homeLink {
+  margin-bottom: 14px;
 }
 
 .glassPanel {
   position: relative;
   isolation: isolate;
-  width: min(680px, calc(100vw - 32px));
+  width: 100%;
   height: fit-content;
   padding: var(--about-glass-padding-y) var(--about-glass-padding-x);
   overflow: clip;
@@ -127,8 +134,11 @@
     --about-glass-padding-x: 24px;
     --about-glass-padding-y: 28px;
 
-    width: min(100% - 24px, 680px);
     padding: var(--about-glass-padding-y) var(--about-glass-padding-x) 34px;
+  }
+
+  .contentColumn {
+    width: min(calc(100% - 24px), 680px);
   }
 }
 

@@ -2,7 +2,6 @@ import type { CSSProperties } from 'react';
 import styles from './PlanetNav.module.css';
 import {
   SKY_ELEMENT_SIZE_PX,
-  SKY_IMAGE_SRC,
   type SkyElementConfig,
   type SkyLayer,
 } from './parallaxSkyConfig';
@@ -32,7 +31,6 @@ export default function ParallaxSkyLayer({ elements, layer, layerRef }: Parallax
               '--sky-size': `${SKY_ELEMENT_SIZE_PX[layer][element.kind]}px`,
               '--sky-x': `${element.xVmin}vmin`,
               '--sky-y': `${element.yVmin}vmin`,
-              backgroundImage: `url(${SKY_IMAGE_SRC[element.kind]})`,
             } as CSSProperties
           }
         />

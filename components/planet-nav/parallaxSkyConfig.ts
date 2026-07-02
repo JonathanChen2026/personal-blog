@@ -57,6 +57,10 @@ const SKY_LAYER_SEED: Record<SkyLayer, number> = {
   mid: 29,
 };
 
+function roundPosition(value: number) {
+  return Math.round(value * 1000) / 1000;
+}
+
 function expandKinds(counts: Record<SkyElementKind, number>): SkyElementKind[] {
   const kinds: SkyElementKind[] = [];
 
@@ -84,8 +88,8 @@ function buildSkyLayer(layer: SkyLayer): SkyElementConfig[] {
     return {
       kind,
       rotationDeg,
-      xVmin: Math.cos(angleRad) * radiusVmin,
-      yVmin: Math.sin(angleRad) * radiusVmin,
+      xVmin: roundPosition(Math.cos(angleRad) * radiusVmin),
+      yVmin: roundPosition(Math.sin(angleRad) * radiusVmin),
     };
   });
 }

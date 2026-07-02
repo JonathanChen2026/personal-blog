@@ -70,6 +70,22 @@
   transform: translate(var(--sky-x), var(--sky-y)) translate(-50%, -50%) rotate(var(--sky-rotation));
 }
 
+.skyElement[data-kind='star-one'] {
+  background-image: url('/star-one.png');
+}
+
+.skyElement[data-kind='star-two'] {
+  background-image: url('/star-two.png');
+}
+
+.skyElement[data-kind='comet'] {
+  background-image: url('/comet.png');
+}
+
+.skyElement[data-kind='asteroid'] {
+  background-image: url('/asteroid.png');
+}
+
 .planetLayer {
   position: absolute;
   top: 60%;

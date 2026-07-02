@@ -1,18 +1,24 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import ThemeProvider from '../components/ThemeProvider';
+import SiteSplash from '../components/SiteSplash';
 import { config } from '../site.config';
 
 export const metadata: Metadata = {
-  title: config.nav.yourName,
+  title: {
+    default: 'jonathan chen',
+    template: '%s | jonathan chen',
+  },
   description: 'Essays and thoughts',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title: config.nav.yourName,
+    title: 'jonathan chen',
   },
   icons: {
-    apple: '/planet.png',
+    icon: [{ url: '/favicon.png', sizes: '180x180', type: 'image/png' }],
+    shortcut: [{ url: '/favicon.png', type: 'image/png' }],
+    apple: [{ url: '/favicon.png', sizes: '180x180', type: 'image/png' }],
   },
   other: {
     'mobile-web-app-capable': 'yes',
@@ -50,11 +56,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       }}>
         <ThemeProvider />
         <main style={{
-          maxWidth: '100vw',
-          width: '100vw',
+          maxWidth: '100%',
+          width: '100%',
         }}>
           {children}
         </main>
+        <SiteSplash />
       </body>
     </html>
   );

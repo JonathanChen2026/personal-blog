@@ -41,10 +41,6 @@ function isWalkKey(key: string) {
   return LEFT_KEYS.has(key) || RIGHT_KEYS.has(key);
 }
 
-function isArrowWalkKey(key: string) {
-  return key === 'ArrowLeft' || key === 'ArrowRight';
-}
-
 function isLeftKey(key: string) {
   return LEFT_KEYS.has(key);
 }
@@ -116,9 +112,7 @@ export default function PlanetNav() {
       if (isWalkKey(event.key)) {
         event.preventDefault();
 
-        if (isArrowWalkKey(event.key)) {
-          setHasUsedArrowKeys(true);
-        }
+        setHasUsedArrowKeys(true);
 
         if (isLeftKey(event.key)) {
           keyStateRef.current.left = true;

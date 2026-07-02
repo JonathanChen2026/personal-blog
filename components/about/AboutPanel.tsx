@@ -5,6 +5,7 @@ import Link from 'next/link';
 import type { CSSProperties } from 'react';
 import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from 'framer-motion';
 import { config } from '@/site.config';
+import HomeReturnLink from '@/components/HomeReturnLink';
 import styles from './AboutPanel.module.css';
 import { ABOUT_PARALLAX, type AboutParallaxLayerConfig } from './aboutParallaxConfig';
 
@@ -177,24 +178,26 @@ export default function AboutPanel() {
       </div>
 
       <div className={styles.contentShell}>
-        <motion.div
-          animate="visible"
-          className={styles.glassPanel}
-          initial="hidden"
-          transition={
-            shouldReduceMotion
-              ? { duration: 0 }
-              : {
-                  type: 'spring',
-                  stiffness: ABOUT_PARALLAX.glass.panelEntranceStiffness,
-                  damping: ABOUT_PARALLAX.glass.panelEntranceDamping,
-                  mass: ABOUT_PARALLAX.glass.panelEntranceMass,
-                  restDelta: 0.001,
-                  restSpeed: 0.001,
-                }
-          }
-          variants={panelFlyUp}
-        >
+        <div className={styles.contentColumn}>
+          <HomeReturnLink className={styles.homeLink} />
+          <motion.div
+            animate="visible"
+            className={styles.glassPanel}
+            initial="hidden"
+            transition={
+              shouldReduceMotion
+                ? { duration: 0 }
+                : {
+                    type: 'spring',
+                    stiffness: ABOUT_PARALLAX.glass.panelEntranceStiffness,
+                    damping: ABOUT_PARALLAX.glass.panelEntranceDamping,
+                    mass: ABOUT_PARALLAX.glass.panelEntranceMass,
+                    restDelta: 0.001,
+                    restSpeed: 0.001,
+                  }
+            }
+            variants={panelFlyUp}
+          >
           <div aria-hidden="true" className={styles.glassTint} style={glassTintStyle} />
           <div aria-hidden="true" className={styles.glassBlur} style={glassBlurStyle} />
           <div aria-hidden="true" className={styles.glassShade} style={glassShadeStyle} />
@@ -333,7 +336,8 @@ export default function AboutPanel() {
               </div>
             </FadeIn>
           </motion.div>
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );

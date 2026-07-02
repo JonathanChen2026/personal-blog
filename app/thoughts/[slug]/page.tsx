@@ -2,7 +2,9 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import { MDXRemote } from 'next-mdx-remote/rsc';
+import type { Metadata } from 'next';
 import Link from 'next/link';
+import { cache } from 'react';
 import PageFrame from '@/components/PageFrame';
 import { config } from '../../../site.config';
 
@@ -93,6 +95,12 @@ const tagColors: Record<string, { background: string; color: string }> = {
   notes:     { background: 'var(--tag-notes)',     color: '#92400e' },
 };
 
+const getPost = cache((slug: string) => {
+  const filePath = path.join(process.cwd(), 'posts', `${slug}.md`);
+  const raw = fs.readFileSync(filePath, 'utf8');
+  return matter(raw);
+});
+
 // ── Static params (tells Next.js which slugs exist) ───────
 export async function generateStaticParams() {
   const postsDir = path.join(process.cwd(), 'posts');
@@ -102,6 +110,19 @@ export async function generateStaticParams() {
     .map((f: string) => ({ slug: f.replace('.md', '') }));
 }
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const { data } = getPost(slug);
+
+  return {
+    title: typeof data.title === 'string' ? data.title.toLowerCase() : 'thoughts',
+  };
+}
+
 // ── Page ──────────────────────────────────────────────────
 export default async function PostPage({
   params,
@@ -109,9 +130,7 @@ export default async function PostPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const filePath = path.join(process.cwd(), 'posts', `${slug}.md`);
-  const raw = fs.readFileSync(filePath, 'utf8');
-  const { data, content } = matter(raw);
+  const { data, content } = getPost(slug);
 
   return (
     <PageFrame>
