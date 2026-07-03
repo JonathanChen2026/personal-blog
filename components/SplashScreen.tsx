@@ -22,19 +22,12 @@ const PAUSE_STEPS: Partial<Record<Phase, { ms: number; next: Phase }>> = {
   'pause-line2':   { ms: 700, next: 'wiping'       },
 };
 
-function useTypewriterSequence(skip: boolean) {
+function useTypewriterSequence() {
   const [phase, setPhase] = useState<Phase>('initial-blink');
   const [line1, setLine1] = useState('');
   const [line2, setLine2] = useState('');
 
   useEffect(() => {
-    if (skip) {
-      setLine1(LINE1);
-      setLine2(LINE2);
-      setPhase('wiping');
-      return;
-    }
-
     const pause = PAUSE_STEPS[phase];
     if (pause) {
       const id = setTimeout(() => setPhase(pause.next), pause.ms);
@@ -57,7 +50,7 @@ function useTypewriterSequence(skip: boolean) {
       }, CHAR_INTERVAL_MS);
       return () => clearInterval(id);
     }
-  }, [phase, skip]);
+  }, [phase]);
 
   // null = cursor hidden (during wipe); 1 or 2 = which line shows the cursor
   const cursorLine: 1 | 2 | null =
@@ -82,17 +75,27 @@ type SplashScreenProps = { onDone: () => void };
 
 export default function SplashScreen({ onDone }: SplashScreenProps) {
   const skip = useReducedMotion() ?? false;
-  const { line1, line2, cursorLine } = useTypewriterSequence(skip);
+  const { line1, line2, cursorLine } = useTypewriterSequence();
+
+  useEffect(() => {
+    if (skip) {
+      onDone();
+    }
+  }, [onDone, skip]);
 
   // Derive animate target from cursorLine: once it goes null the wipe has fired
   const isWiping = cursorLine === null;
+
+  if (skip) {
+    return null;
+  }
 
   return (
     <motion.div
       animate={isWiping ? 'hidden' : 'visible'}
       className={styles.overlay}
       initial="visible"
-      variants={skip ? undefined : WIPE_VARIANTS}
+      variants={WIPE_VARIANTS}
       onAnimationComplete={(def) => {
         if (def === 'hidden') onDone();
       }}
