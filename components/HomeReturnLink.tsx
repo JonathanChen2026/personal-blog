@@ -14,12 +14,13 @@ export default function HomeReturnLink({ className }: HomeReturnLinkProps) {
       <Image
         alt=""
         className={styles.icon}
-        height={23}
+        height={180}
         priority
         src="/favicon.png"
-        width={23}
+        unoptimized
+        width={180}
       />
-      <span>JONATHAN CHEN</span>
+      <span>jonathan chen</span>
     </Link>
   );
 }

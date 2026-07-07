@@ -39,7 +39,17 @@
   background: #3e3e3e;
   vertical-align: text-bottom;
   margin-left: 2px;
+  transform: translateY(-0.12em);
   animation: blink 0.7s step-end infinite;
+}
+
+.faviconInline {
+  display: inline-block;
+  width: 1.15em;
+  height: 1.15em;
+  vertical-align: middle;
+  margin-left: 0.3em;
+  transform: translateY(-0.08em);
 }
 
 @keyframes blink {

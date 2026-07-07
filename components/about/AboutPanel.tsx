@@ -272,7 +272,7 @@ export default function AboutPanel() {
               initial="hidden"
               style={{
                 border: 'none',
-                borderTop: '1px solid rgba(47, 78, 56, 0.22)',
+                borderTop: '1px solid rgba(60, 60, 60, 0.22)',
                 margin: '40px 0',
               }}
               transition={{

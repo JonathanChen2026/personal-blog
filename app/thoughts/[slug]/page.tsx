@@ -133,7 +133,7 @@ export default async function PostPage({
   const { data, content } = getPost(slug);
 
   return (
-    <PageFrame>
+    <PageFrame showHomeLink={false}>
 
       {/* Back link */}
       <Link href="/thoughts" style={{

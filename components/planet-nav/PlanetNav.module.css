@@ -1,5 +1,6 @@
 .scene {
   --planet-size: min(74vw, 660px, calc(100svh / 1.38));
+  --planet-visual-scale: 0.92;
   --planet-rotation: 0deg;
   --door-radius: -0.56;
   --door-size: calc(var(--planet-size) * 0.29);
@@ -105,6 +106,8 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
+  transform: scale(var(--planet-visual-scale));
+  transform-origin: center;
 }
 
 .doorMount {
@@ -113,7 +116,8 @@
   left: 50%;
   width: 0;
   height: 0;
-  transform: rotate(var(--door-angle)) translateY(calc(var(--planet-size) * var(--door-radius)));
+  transform: rotate(var(--door-angle))
+    translateY(calc(var(--planet-size) * var(--planet-visual-scale) * var(--door-radius)));
   transform-origin: center;
 }
 
@@ -234,12 +238,12 @@
 .character {
   position: absolute;
   z-index: 3;
-  top: 6.5%;
+  top: 7.5%;
   left: 50%;
   width: 19%;
   aspect-ratio: 608 / 1080;
   pointer-events: none;
-  transform: translate(-50%, 4px);
+  transform: translate(-50%, 12px);
 }
 
 .assetPreload {
@@ -300,7 +304,7 @@
 
 .desktopArrowCta {
   position: absolute;
-  top: calc(6.5% - 29px);
+  top: calc(7.5% - 21px);
   left: 50%;
   z-index: 4;
   display: flex;

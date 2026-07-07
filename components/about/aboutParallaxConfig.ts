@@ -30,10 +30,10 @@ export const ABOUT_PARALLAX = {
   } satisfies Record<string, AboutParallaxLayerConfig>,
   glass: {
     // Lower blur keeps the pixel-art background legible through the glass.
-    panelTintColor: '210, 230, 218',
-    panelTintOpacity: 0.2,
-    panelShadeColor: '12, 27, 18',
-    panelShadeOpacity: 0.06,
+    panelTintColor: '255, 255, 255',
+    panelTintOpacity: 0.22,
+    panelShadeColor: '20, 20, 20',
+    panelShadeOpacity: 0.05,
     contentDelaySeconds: 0.68,
     panelEntranceY: '105vh',
     panelEntranceStiffness: 120,
