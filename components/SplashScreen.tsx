@@ -1,10 +1,11 @@
 'use client';
 
 import { motion, useReducedMotion } from 'framer-motion';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import styles from './SplashScreen.module.css';
 
-const LINE1 = "hi, i'm jonathan.";
+const LINE1 = "hi, i'm jonathan";
 const LINE2 = 'welcome to my little world :)';
 const CHAR_INTERVAL_MS = 55;
 
@@ -26,6 +27,7 @@ function useTypewriterSequence() {
   const [phase, setPhase] = useState<Phase>('initial-blink');
   const [line1, setLine1] = useState('');
   const [line2, setLine2] = useState('');
+  const [showFavicon, setShowFavicon] = useState(false);
 
   useEffect(() => {
     const pause = PAUSE_STEPS[phase];
@@ -45,7 +47,16 @@ function useTypewriterSequence() {
         setter(target.slice(0, i));
         if (i >= target.length) {
           clearInterval(id);
-          setPhase(next);
+          if (phase === 'typing-line1') {
+            // one char-interval delay so the favicon "types in" before the pause
+            const tid = setTimeout(() => {
+              setShowFavicon(true);
+              setPhase(next);
+            }, CHAR_INTERVAL_MS);
+            return () => clearTimeout(tid);
+          } else {
+            setPhase(next);
+          }
         }
       }, CHAR_INTERVAL_MS);
       return () => clearInterval(id);
@@ -58,7 +69,7 @@ function useTypewriterSequence() {
     : phase === 'typing-line2' || phase === 'pause-line2' ? 2
     : 1;
 
-  return { line1, line2, cursorLine };
+  return { line1, line2, cursorLine, showFavicon };
 }
 
 const WIPE_TRANSITION = {
@@ -75,7 +86,7 @@ type SplashScreenProps = { onDone: () => void };
 
 export default function SplashScreen({ onDone }: SplashScreenProps) {
   const skip = useReducedMotion() ?? false;
-  const { line1, line2, cursorLine } = useTypewriterSequence();
+  const { line1, line2, cursorLine, showFavicon } = useTypewriterSequence();
 
   useEffect(() => {
     if (skip) {
@@ -108,6 +119,16 @@ export default function SplashScreen({ onDone }: SplashScreenProps) {
           <span className={styles.line} key={line}>
             <span className={styles.text}>
               {text}
+              {line === 1 && showFavicon && (
+                <Image
+                  alt=""
+                  className={styles.faviconInline}
+                  height={180}
+                  src="/favicon.png"
+                  unoptimized
+                  width={180}
+                />
+              )}
               {cursorLine === line && <span className={styles.cursor} />}
             </span>
           </span>

@@ -5,7 +5,7 @@
   width: fit-content;
   color: #8a8a8a;
   font-family: 'Roboto Mono', monospace;
-  font-size: 12.5px;
+  font-size: 14px;
   font-weight: 400;
   line-height: 1;
   letter-spacing: 0;
@@ -24,9 +24,9 @@
 
 .icon {
   display: block;
-  width: 27px;
-  height: 27px;
-  flex: 0 0 27px;
+  width: 31px;
+  height: 31px;
+  flex: 0 0 31px;
   object-fit: contain;
 }
 
