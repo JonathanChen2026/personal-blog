@@ -2,7 +2,13 @@ import { config } from '@/site.config';
 import HomeReturnLink from './HomeReturnLink';
 import styles from './PageFrame.module.css';
 
-export default function PageFrame({ children }: { children: React.ReactNode }) {
+export default function PageFrame({
+  children,
+  showHomeLink = true,
+}: {
+  children: React.ReactNode;
+  showHomeLink?: boolean;
+}) {
   const { layout } = config;
 
   return (
@@ -13,7 +19,7 @@ export default function PageFrame({ children }: { children: React.ReactNode }) {
         padding: `${layout.paddingVertical} ${layout.paddingHorizontal}`,
       }}
     >
-      <HomeReturnLink className={styles.homeLink} />
+      {showHomeLink && <HomeReturnLink className={styles.homeLink} />}
       {children}
     </div>
   );

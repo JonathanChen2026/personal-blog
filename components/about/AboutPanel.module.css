@@ -2,7 +2,7 @@
   --about-text: rgba(40, 40, 40, 0.98);
   --about-muted: rgba(0, 0, 0, 0.8);
   --about-border: rgba(255, 255, 255, 0.64);
-  --about-shadow: rgba(25, 61, 30, 0.17);
+  --about-shadow: rgba(20, 20, 20, 0.17);
   --about-glass-radius: clamp(28px, 5vw, 44px);
   --about-glass-padding-x: clamp(28px, 5vw, 46px);
   --about-glass-padding-y: clamp(28px, 5vw, 46px);
@@ -12,7 +12,7 @@
   width: 100%;
   min-height: 100vh;
   overflow: visible;
-  background: #F5F5F5;
+  background: #fafafa;
 }
 
 .parallaxStage {
@@ -36,7 +36,7 @@
 }
 
 .backgroundLayer {
-  background-color: #F5F5F5;
+  background-color: #fafafa;
   background-image: url('/background.webp');
   background-position: top center;
   background-size: cover;
@@ -59,16 +59,16 @@
   z-index: 1;
   width: 100%;
   min-height: 100vh;
-  padding: 72px 16px 96px;
+  padding: 72px 32px 96px;
 }
 
 .contentColumn {
-  width: min(680px, calc(100vw - 32px));
+  width: min(780px, calc(100vw - 64px));
   margin: 0 auto;
 }
 
 .homeLink {
-  margin-bottom: 14px;
+  margin-bottom: 32px;
 }
 
 .glassPanel {
@@ -84,9 +84,9 @@
   border-radius: var(--about-glass-radius);
   box-shadow:
     0 22px 54px var(--about-shadow),
-    0 2px 14px rgba(11, 40, 20, 0.08),
+    0 2px 14px rgba(20, 20, 20, 0.08),
     inset 0 -1px 0 rgba(255, 255, 255, 0.18);
-  text-shadow: 0 1px 2px rgba(5, 24, 10, 0.08);
+  text-shadow: 0 1px 2px rgba(10, 10, 10, 0.08);
 }
 
 
@@ -103,7 +103,7 @@
   inset: 0;
   z-index: 1;
   border-radius: inherit;
-  background: rgba(228, 240, 232, 0.42);
+  background: rgba(255, 255, 255, 0.42);
   pointer-events: none;
 }
 
@@ -138,7 +138,7 @@
   }
 
   .contentColumn {
-    width: min(calc(100% - 24px), 680px);
+    width: min(calc(100% - 24px), 780px);
   }
 }
 
