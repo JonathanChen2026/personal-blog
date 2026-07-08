@@ -12,7 +12,7 @@
   width: 100%;
   min-height: 100vh;
   overflow: visible;
-  background: #D5DEE7;
+  background: var(--planet-scene-bg);
 }
 
 .parallaxStage {
@@ -36,7 +36,7 @@
 }
 
 .backgroundLayer {
-  background-color: #D5DEE7;
+  background-color: var(--planet-scene-bg);
   background-image: url('/background.webp');
   background-position: top center;
   background-size: cover;

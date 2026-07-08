@@ -3,21 +3,23 @@
   align-items: center;
   gap: 8px;
   width: fit-content;
-  color: #8a8a8a;
+  color: var(--home-link);
   font-family: 'Roboto Mono', monospace;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 400;
   line-height: 1;
   letter-spacing: 0;
-  transition: color 160ms ease;
+  transition: color 160ms ease, font-weight 160ms ease;
 }
 
 .link:hover {
-  color: #454545;
+  color: var(--home-link-hover);
+  font-weight: 700;
 }
 
 .link:focus-visible {
-  color: #454545;
+  color: var(--home-link-hover);
+  font-weight: 700;
   outline: 2px solid currentColor;
   outline-offset: 4px;
 }

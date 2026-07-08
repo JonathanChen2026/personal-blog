@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 
 export default function PhotosPage() {
   return (
-    <div style={{ minHeight: '100svh', background: '#ffffff' }}>
+    <div style={{ minHeight: '100svh', background: 'var(--bg)' }}>
       <PageFrame>{null}</PageFrame>
     </div>
   );

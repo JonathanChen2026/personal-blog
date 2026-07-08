@@ -176,7 +176,7 @@
   letter-spacing: 0.1em;
   line-height: 1;
   text-transform: uppercase;
-  color: var(--text);
+  color: var(--door-label);
   white-space: nowrap;
   -webkit-user-select: none;
   user-select: none;
