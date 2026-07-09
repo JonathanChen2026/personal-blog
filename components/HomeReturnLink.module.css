@@ -14,12 +14,12 @@
 
 .link:hover {
   color: var(--home-link-hover);
-  font-weight: 700;
+  font-weight: 550;
 }
 
 .link:focus-visible {
   color: var(--home-link-hover);
-  font-weight: 700;
+  font-weight: 550;
   outline: 2px solid currentColor;
   outline-offset: 4px;
 }

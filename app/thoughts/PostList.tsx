@@ -3,6 +3,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { config } from '../../site.config';
 import type { ThoughtPost } from '@/lib/posts';
+import styles from './PostList.module.css';
 
 const { thoughts } = config;
 
@@ -17,6 +18,7 @@ const filters = ['ALL', 'ESSAYS', 'NOTES'];
 export default function PostList({ posts }: { posts: ThoughtPost[] }) {
   const [activeFilter, setActiveFilter] = useState('ALL');
   const [searchQuery, setSearchQuery] = useState('');
+  const [hoveredSlug, setHoveredSlug] = useState<string | null>(null);
 
   const visiblePosts = posts.filter(post => {
     const matchesFilter =
@@ -36,6 +38,7 @@ export default function PostList({ posts }: { posts: ThoughtPost[] }) {
         placeholder="Search posts..."
         value={searchQuery}
         onChange={e => setSearchQuery(e.target.value)}
+        className={styles.searchInput}
         style={{
           width: '100%', border: '1px solid var(--border)', background: 'transparent',
           padding: '10px 16px', marginBottom: '24px', fontSize: thoughts.filterFontSize,
@@ -70,32 +73,56 @@ export default function PostList({ posts }: { posts: ThoughtPost[] }) {
         {visiblePosts.length === 0 && (
           <p style={{ color: 'var(--muted)' }}>No posts found.</p>
         )}
-        {visiblePosts.map((post, index) => (
-          <div key={post.slug}>
-            <Link href={`/thoughts/${post.slug}`}
-            >
+        {visiblePosts.map((post, index) => {
+          const isHovered = hoveredSlug === post.slug;
+          const hoverColor = '#b0b0b0';
+          return (
+          <div
+            key={post.slug}
+            onMouseEnter={() => setHoveredSlug(post.slug)}
+            onMouseLeave={() => setHoveredSlug(null)}
+          >
+            <Link href={`/thoughts/${post.slug}`}>
               <div>
                 <div style={{
                   display: 'flex', justifyContent: 'space-between',
                   alignItems: 'flex-start', marginBottom: '8px',
                 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
-                    <span style={{ fontWeight: thoughts.postTitleFontWeight, fontSize: thoughts.postTitleFontSize }}>
+                    <span style={{
+                      fontWeight: thoughts.postTitleFontWeight,
+                      fontSize: thoughts.postTitleFontSize,
+                      color: isHovered ? hoverColor : 'inherit',
+                      transition: 'color 160ms ease',
+                    }}>
                       {post.title}
                     </span>
                     <span style={{
                       fontSize: thoughts.tagFontSize, padding: '2px 8px', borderRadius: '3px',
                       textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: '500',
-                      ...tagColors[post.category],
+                      background: tagColors[post.category]?.background,
+                      color: isHovered ? hoverColor : tagColors[post.category]?.color,
+                      transition: 'color 160ms ease',
                     }}>
                       {post.category}
                     </span>
                   </div>
-                  <span style={{ color: 'var(--muted)', fontSize: thoughts.postDateFontSize, whiteSpace: 'nowrap', marginLeft: '16px' }}>
+                  <span style={{
+                    color: isHovered ? hoverColor : 'var(--muted)',
+                    fontSize: thoughts.postDateFontSize,
+                    whiteSpace: 'nowrap',
+                    marginLeft: '16px',
+                    transition: 'color 160ms ease',
+                  }}>
                     {post.date}
                   </span>
                 </div>
-                <p style={{ color: 'var(--muted)', fontSize: thoughts.postExcerptFontSize, lineHeight: '1.7' }}>
+                <p style={{
+                  color: isHovered ? hoverColor : 'var(--muted)',
+                  fontSize: thoughts.postExcerptFontSize,
+                  lineHeight: '1.7',
+                  transition: 'color 160ms ease',
+                }}>
                   {post.excerpt}
                 </p>
               </div>
@@ -109,7 +136,8 @@ export default function PostList({ posts }: { posts: ThoughtPost[] }) {
               }} />
             )}
           </div>
-        ))}
+        );
+        })}
       </div>
     </>
   );

@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { cache } from 'react';
 import PageFrame from '@/components/PageFrame';
 import { config } from '../../../site.config';
+import styles from './PostPage.module.css';
 
 const { post } = config;
 
@@ -136,7 +137,7 @@ export default async function PostPage({
     <PageFrame showHomeLink={false}>
 
       {/* Back link */}
-      <Link href="/thoughts" style={{
+      <Link href="/thoughts" className={styles.backLink} style={{
         color: 'var(--muted)',
         fontSize: '12px',
         letterSpacing: '0.08em',
