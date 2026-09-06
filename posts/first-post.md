@@ -1,8 +1,8 @@
 ---
-title: My First Post!
+title: my first post!
 date: "2026-04-25"
 displayDate: "Apr 2026"
 category: "notes"
 ---
 
-Hopefully this works.
+Hello World! Hopefully this works.

@@ -1,5 +1,5 @@
 ---
-title: "The Slopification of College Admissions Content"
+title: "the slopification of college admissions content"
 date: "2026-04-26"
 displayDate: "Apr 2026"
 category: "essay"

@@ -236,7 +236,7 @@ export default function AboutPanel() {
             </Bio>
 
             <Bio delay={0.2} delayOffset={contentDelay}>
-              i&apos;m an incoming freshman at purdue university, studying data science, artifical
+              i&apos;m a freshman at purdue university, studying data science, artifical
               intelligence, and bioinformatics.
             </Bio>
 
