@@ -1,11 +1,6 @@
 .aboutScene {
   --about-text: rgba(40, 40, 40, 0.98);
   --about-muted: rgba(0, 0, 0, 0.8);
-  --about-border: rgba(255, 255, 255, 0.64);
-  --about-shadow: rgba(20, 20, 20, 0.17);
-  --about-glass-radius: clamp(28px, 5vw, 44px);
-  --about-glass-padding-x: clamp(28px, 5vw, 46px);
-  --about-glass-padding-y: clamp(28px, 5vw, 46px);
 
   position: relative;
   isolation: isolate;
@@ -65,60 +60,11 @@
 .contentColumn {
   width: min(780px, calc(100vw - 64px));
   margin: 0 auto;
+  color: var(--about-text);
 }
 
 .homeLink {
   margin-bottom: 32px;
-}
-
-.glassPanel {
-  position: relative;
-  isolation: isolate;
-  width: 100%;
-  height: fit-content;
-  padding: var(--about-glass-padding-y) var(--about-glass-padding-x);
-  overflow: clip;
-  color: var(--about-text);
-  background: transparent;
-  border: 1px solid var(--about-border);
-  border-radius: var(--about-glass-radius);
-  box-shadow:
-    0 22px 54px var(--about-shadow),
-    0 2px 14px rgba(20, 20, 20, 0.08),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.18);
-  text-shadow: 0 1px 2px rgba(10, 10, 10, 0.08);
-}
-
-
-.glassTint {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  border-radius: inherit;
-  pointer-events: none;
-}
-
-.glassBlur {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  border-radius: inherit;
-  background: rgba(255, 255, 255, 0.42);
-  pointer-events: none;
-}
-
-.glassShade {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  border-radius: inherit;
-  pointer-events: none;
-}
-
-.glassContent {
-  position: relative;
-  z-index: 4;
-  isolation: isolate;
 }
 
 .stampImage {
@@ -128,13 +74,6 @@
 @media (max-width: 700px) {
   .contentShell {
     padding: 36px 12px 72px;
-  }
-
-  .glassPanel {
-    --about-glass-padding-x: 24px;
-    --about-glass-padding-y: 28px;
-
-    padding: var(--about-glass-padding-y) var(--about-glass-padding-x) 34px;
   }
 
   .contentColumn {
