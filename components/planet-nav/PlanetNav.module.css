@@ -10,6 +10,12 @@
   --door-label-size: 13px;
   --door-enter-size: 10px;
   --door-chrome-offset: 0.75;
+  --landing-delay: 0.2s;
+  --landing-duration: 0.5s;
+  --landing-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --planet-intro-spin: -120deg;
+  --parallax-far: 0.1;
+  --parallax-mid: 0.25;
 
   position: relative;
   display: flex;
@@ -43,6 +49,66 @@
   position: absolute;
   inset: 0;
   overflow: visible;
+}
+
+.planetReveal {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow: visible;
+  opacity: 0;
+  transform: translate3d(0, 20px, 0);
+  will-change: transform, opacity;
+}
+
+.scene[data-ready='true'] .planetReveal {
+  animation: planet-landing var(--landing-duration) var(--landing-ease) var(--landing-delay) both;
+}
+
+@keyframes planet-landing {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 20px, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.skyIntro {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+  pointer-events: none;
+  transform: rotate(var(--sky-intro-angle));
+  transform-origin: 50% var(--planet-center-y);
+  will-change: transform;
+}
+
+.skyIntro[data-layer='far'] {
+  z-index: 0;
+  --sky-intro-angle: calc(var(--planet-intro-spin) * var(--parallax-far));
+}
+
+.skyIntro[data-layer='mid'] {
+  z-index: 1;
+  --sky-intro-angle: calc(var(--planet-intro-spin) * var(--parallax-mid));
+}
+
+.scene[data-ready='true'] .skyIntro {
+  animation: sky-intro-spin calc(var(--landing-delay) + var(--landing-duration)) var(--landing-ease) both;
+}
+
+@keyframes sky-intro-spin {
+  from {
+    transform: rotate(var(--sky-intro-angle));
+  }
+
+  to {
+    transform: rotate(0deg);
+  }
 }
 
 .parallaxLayer {
@@ -382,6 +448,19 @@
   .planetLayer,
   .parallaxLayer {
     will-change: auto;
+  }
+
+  .scene[data-ready='true'] .planetReveal,
+  .planetReveal {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  .scene[data-ready='true'] .skyIntro,
+  .skyIntro {
+    transform: none;
+    animation: none;
   }
 
   .doorEnter,

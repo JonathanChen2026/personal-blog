@@ -26,13 +26,28 @@ export const ROTATION_ACCELERATION = 260;
 export const MIN_SETTLE_DURATION_MS = 70;
 export const CLOCKWISE_SPIN: Exclude<WalkDirection, 0> = 1;
 
+type PlanetPose = Pick<MotionState, 'facing' | 'rotation'>;
+
+let rememberedPose: PlanetPose | null = null;
+
+export function rememberPlanetPose(motion: PlanetPose) {
+  rememberedPose = {
+    facing: motion.facing,
+    rotation: motion.rotation,
+  };
+}
+
+export function hasRememberedPlanetPose() {
+  return rememberedPose !== null;
+}
+
 export function createInitialMotion(): MotionState {
   return {
     direction: 0,
-    facing: 1,
+    facing: rememberedPose?.facing ?? 1,
     frameCursor: SPRITE.idleFrame,
     mode: 'idle',
-    rotation: 0,
+    rotation: rememberedPose?.rotation ?? 0,
     settling: null,
     velocity: 0,
   };

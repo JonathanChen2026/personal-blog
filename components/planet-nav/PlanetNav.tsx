@@ -5,6 +5,7 @@ import {
   useEffect,
   useRef,
   useState,
+  type AnimationEvent,
   type CSSProperties,
   type PointerEvent,
 } from 'react';
@@ -12,7 +13,7 @@ import { useRouter } from 'next/navigation';
 import ParallaxSkyLayer from './ParallaxSkyLayer';
 import PlanetDoorMount from './PlanetDoor';
 import styles from './PlanetNav.module.css';
-import { FAR_SKY_ELEMENTS, MID_SKY_ELEMENTS } from './parallaxSkyConfig';
+import { FAR_SKY_ELEMENTS, MID_SKY_ELEMENTS, PARALLAX_SPEED } from './parallaxSkyConfig';
 import {
   DOOR_CTA_ABOVE_DOOR_PX,
   DOOR_CTA_SLOT_HEIGHT_PX,
@@ -23,7 +24,7 @@ import {
   type PlanetDoorKey,
   type WalkDirection,
 } from './planetNavModel';
-import { CLOCKWISE_SPIN } from './planetMotion';
+import { CLOCKWISE_SPIN, hasRememberedPlanetPose, rememberPlanetPose } from './planetMotion';
 import { usePlanetScene } from './usePlanetScene';
 import { useSceneAssets } from './useSceneAssets';
 import { SCENE_IMAGES } from './sceneAssets';
@@ -66,7 +67,7 @@ export default function PlanetNav() {
   const activePointerIdRef = useRef<number | null>(null);
   const [activeDoorKey, setActiveDoorKey] = useState<PlanetDoorKey | null>(null);
   const [pressedControlKey, setPressedControlKey] = useState<RotationControlKey | null>(null);
-  const [hasMoved, setHasMoved] = useState(false);
+  const [hasMoved, setHasMoved] = useState(hasRememberedPlanetPose);
 
   const isReady = useSceneAssets();
 
@@ -98,11 +99,12 @@ export default function PlanetNav() {
 
   const navigateToDoor = useCallback(
     (door: PlanetDoor | null) => {
-      if (door) {
-        router.push(door.href);
-      }
+      if (!door) return;
+
+      rememberPlanetPose(motionRef.current);
+      router.push(door.href);
     },
-    [router],
+    [motionRef, router],
   );
 
   useEffect(() => {
@@ -200,10 +202,17 @@ export default function PlanetNav() {
     settleToStopFrame(performance.now());
   }
 
+  function handleIntroAnimationEnd(event: AnimationEvent<HTMLDivElement>) {
+    if (event.target !== event.currentTarget) return;
+    event.currentTarget.style.willChange = 'auto';
+  }
+
   const sceneStyle = {
     '--door-cta-above-door': `${DOOR_CTA_ABOVE_DOOR_PX}px`,
     '--door-cta-slot-height': `${DOOR_CTA_SLOT_HEIGHT_PX}px`,
     '--door-label-above-cta': `${DOOR_LABEL_ABOVE_CTA_PX}px`,
+    '--parallax-far': PARALLAX_SPEED.far,
+    '--parallax-mid': PARALLAX_SPEED.mid,
   } as CSSProperties;
 
   return (
@@ -217,64 +226,78 @@ export default function PlanetNav() {
     >
       <div className={styles.stage}>
         <div className={styles.rotationHub}>
-          <ParallaxSkyLayer
-            elements={FAR_SKY_ELEMENTS}
-            layer="far"
-            layerRef={(node) => {
-              parallaxFarRef.current = node;
-            }}
-          />
-          <ParallaxSkyLayer
-            elements={MID_SKY_ELEMENTS}
-            layer="mid"
-            layerRef={(node) => {
-              parallaxMidRef.current = node;
-            }}
-          />
-          <div className={styles.planetLayer} ref={planetLayerRef}>
-            <div aria-hidden="true" className={styles.planetImage} style={{ backgroundImage: `url(${SCENE_IMAGES.planet})` }} />
-            {PLANET_DOORS.map((door) => {
-              const isActive = activeDoorKey === door.key;
-
-              return (
-                <PlanetDoorMount
-                  door={door}
-                  doorRef={(node) => {
-                    doorMountRefs.current[door.key] = node ?? undefined;
-                  }}
-                  isActive={isActive}
-                  key={door.key}
-                  onNavigate={() => navigateToDoor(isActive ? door : null)}
-                />
-              );
-            })}
-          </div>
-
-          <p aria-hidden={hasMoved} className={styles.greeting}>
-            hi, i&apos;m jonathan.
-            <br />
-            welcome to my little world :)
-          </p>
-
-          <div aria-hidden="true" className={styles.character}>
-            <div
-              className={styles.characterSprite}
-              ref={spriteRef}
-              style={{ backgroundImage: `url(${SCENE_IMAGES.character})` }}
+          <div
+            className={styles.skyIntro}
+            data-layer="far"
+            onAnimationEnd={handleIntroAnimationEnd}
+          >
+            <ParallaxSkyLayer
+              elements={FAR_SKY_ELEMENTS}
+              layer="far"
+              layerRef={(node) => {
+                parallaxFarRef.current = node;
+              }}
             />
           </div>
-
           <div
-            aria-hidden="true"
-            className={styles.desktopArrowCta}
+            className={styles.skyIntro}
+            data-layer="mid"
+            onAnimationEnd={handleIntroAnimationEnd}
           >
-            {ROTATION_CONTROLS.map((control) => (
-              <span
-                className={styles.desktopArrowIcon}
-                key={control.key}
-                style={{ backgroundImage: `url(${control.image})` }}
+            <ParallaxSkyLayer
+              elements={MID_SKY_ELEMENTS}
+              layer="mid"
+              layerRef={(node) => {
+                parallaxMidRef.current = node;
+              }}
+            />
+          </div>
+          <div className={styles.planetReveal} onAnimationEnd={handleIntroAnimationEnd}>
+            <div className={styles.planetLayer} ref={planetLayerRef}>
+              <div aria-hidden="true" className={styles.planetImage} style={{ backgroundImage: `url(${SCENE_IMAGES.planet})` }} />
+              {PLANET_DOORS.map((door) => {
+                const isActive = activeDoorKey === door.key;
+
+                return (
+                  <PlanetDoorMount
+                    door={door}
+                    doorRef={(node) => {
+                      doorMountRefs.current[door.key] = node ?? undefined;
+                    }}
+                    isActive={isActive}
+                    key={door.key}
+                    onNavigate={() => navigateToDoor(isActive ? door : null)}
+                  />
+                );
+              })}
+            </div>
+
+            <p aria-hidden={hasMoved} className={styles.greeting}>
+              hi, i&apos;m jonathan.
+              <br />
+              welcome to my little world :)
+            </p>
+
+            <div aria-hidden="true" className={styles.character}>
+              <div
+                className={styles.characterSprite}
+                ref={spriteRef}
+                style={{ backgroundImage: `url(${SCENE_IMAGES.character})` }}
               />
-            ))}
+            </div>
+
+            <div
+              aria-hidden="true"
+              className={styles.desktopArrowCta}
+            >
+              {ROTATION_CONTROLS.map((control) => (
+                <span
+                  className={styles.desktopArrowIcon}
+                  key={control.key}
+                  style={{ backgroundImage: `url(${control.image})` }}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>
