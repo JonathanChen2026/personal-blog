@@ -10,7 +10,7 @@ import { ABOUT_PARALLAX, type AboutParallaxLayerConfig } from './aboutParallaxCo
 
 const { about } = config;
 const { layers, scrollInput } = ABOUT_PARALLAX;
-const CONTENT_REVEAL_DELAY_SECONDS = 0.68;
+const CONTENT_REVEAL_DELAY_SECONDS = 0.2;
 
 const sectionLabelStyle = {
   fontSize: '13px',

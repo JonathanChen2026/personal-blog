@@ -58,7 +58,7 @@
 }
 
 .contentColumn {
-  width: min(780px, calc(100vw - 64px));
+  width: min(680px, calc(100vw - 64px));
   margin: 0 auto;
   color: var(--about-text);
 }
@@ -77,7 +77,7 @@
   }
 
   .contentColumn {
-    width: min(calc(100% - 24px), 780px);
+    width: min(calc(100% - 24px), 680px);
   }
 }
 
