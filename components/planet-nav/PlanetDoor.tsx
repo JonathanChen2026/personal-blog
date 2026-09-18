@@ -1,6 +1,6 @@
 import type { CSSProperties } from 'react';
 import DoorEnterPrompt from './DoorEnterPrompt';
-import { getDoorImageUrls } from './doorAssets';
+import { getDoorImageUrl } from './doorAssets';
 import styles from './PlanetNav.module.css';
 import { getDoorFacing, type PlanetDoor } from './planetNavModel';
 
@@ -19,12 +19,12 @@ export default function PlanetDoor({
   isActive,
   onNavigate,
 }: PlanetDoorProps) {
-  const images = getDoorImageUrls(door.key);
   const facing = getDoorFacing(door, INITIAL_PLANET_ROTATION);
 
   return (
     <div
       className={styles.doorMount}
+      data-facing={facing}
       ref={doorRef}
       style={{ '--door-angle': `${door.angle}deg` } as CSSProperties}
     >
@@ -41,16 +41,7 @@ export default function PlanetDoor({
         <span
           aria-hidden="true"
           className={styles.doorFace}
-          data-active={facing === 'left' ? 'true' : 'false'}
-          data-side="left"
-          style={{ backgroundImage: `url(${images.left})` }}
-        />
-        <span
-          aria-hidden="true"
-          className={styles.doorFace}
-          data-active={facing === 'right' ? 'true' : 'false'}
-          data-side="right"
-          style={{ backgroundImage: `url(${images.right})` }}
+          style={{ backgroundImage: `url(${getDoorImageUrl(door.key)})` }}
         />
       </button>
       <div className={styles.doorChrome}>

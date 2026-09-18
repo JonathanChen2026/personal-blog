@@ -46,8 +46,8 @@ function moveToward(current: number, target: number, maxDelta: number) {
   return current + Math.sign(target - current) * maxDelta;
 }
 
-function easeOutCubic(progress: number) {
-  return 1 - (1 - progress) ** 3;
+function easeOutQuadratic(progress: number) {
+  return 1 - (1 - progress) ** 2;
 }
 
 export function getFrameFromCursor(frameCursor: number) {
@@ -62,6 +62,8 @@ export function beginWalking(motion: MotionState, facing: Exclude<WalkDirection,
 }
 
 export function settleToStopFrame(motion: MotionState, startTime: number) {
+  if (motion.mode !== 'walking') return;
+
   const endFrameCursor = getNextStopCursor(motion.frameCursor);
   const frameDistance = endFrameCursor - motion.frameCursor;
 
@@ -76,15 +78,11 @@ export function settleToStopFrame(motion: MotionState, startTime: number) {
   }
 
   const durationMs = Math.max(MIN_SETTLE_DURATION_MS, frameDistance * SPRITE.settleFrameMs);
-  const spinSign = Math.sign(motion.velocity) || CLOCKWISE_SPIN;
-  const settleVelocity =
-    spinSign * Math.max(Math.abs(motion.velocity), MAX_ROTATION_VELOCITY * 0.35);
-
   motion.mode = 'settling';
   motion.settling = {
     durationMs,
     endFrameCursor,
-    rotationDistance: settleVelocity * (durationMs / 1000) * 0.5,
+    rotationDistance: motion.velocity * (durationMs / 1000) * 0.5,
     startFrameCursor: motion.frameCursor,
     startRotation: motion.rotation,
     startTime,
@@ -108,9 +106,11 @@ export function advanceMotion(motion: MotionState, now: number, lastTick: number
   if (motion.mode === 'settling' && motion.settling) {
     const settling = motion.settling;
     const progress = Math.min((now - settling.startTime) / settling.durationMs, 1);
-    const easedProgress = easeOutCubic(progress);
+    const easedProgress = easeOutQuadratic(progress);
 
     motion.rotation = settling.startRotation + settling.rotationDistance * easedProgress;
+    // Keep velocity equal to the easing curve's derivative when walking resumes.
+    motion.velocity = (2 * settling.rotationDistance / (settling.durationMs / 1000)) * (1 - progress);
     motion.frameCursor =
       settling.startFrameCursor +
       (settling.endFrameCursor - settling.startFrameCursor) * easedProgress;

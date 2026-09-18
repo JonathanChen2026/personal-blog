@@ -1,8 +1,15 @@
 import type { Metadata, Viewport } from 'next';
+import { JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import ThemeProvider from '../components/ThemeProvider';
-import SiteSplash from '../components/SiteSplash';
 import { config } from '../site.config';
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  style: ['normal', 'italic'],
+  variable: '--font-jetbrains-mono',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: {
@@ -39,7 +46,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className={jetbrainsMono.variable} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: `
           (function() {
@@ -61,7 +68,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         }}>
           {children}
         </main>
-        <SiteSplash />
       </body>
     </html>
   );

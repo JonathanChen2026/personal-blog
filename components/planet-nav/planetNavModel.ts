@@ -18,8 +18,6 @@ export const PLANET_DOORS = [
 ] as const satisfies readonly PlanetDoor[];
 
 export const SPRITE = {
-  frameWidth: 608,
-  frameHeight: 1080,
   columns: 8,
   rows: 5,
   totalFrames: 39,

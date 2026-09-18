@@ -14,10 +14,10 @@ export const PARALLAX_SPEED = {
 } as const;
 
 export const SKY_IMAGE_SRC: Record<SkyElementKind, string> = {
-  'star-one': '/star-one.png',
-  'star-two': '/star-two.png',
-  comet: '/comet.png',
-  asteroid: '/asteroid.png',
+  'star-one': '/planet-scene/star-one.webp',
+  'star-two': '/planet-scene/star-two.webp',
+  comet: '/planet-scene/comet.webp',
+  asteroid: '/planet-scene/asteroid.webp',
 };
 
 export const SKY_ELEMENT_SIZE_PX: Record<SkyLayer, Record<SkyElementKind, number>> = {
