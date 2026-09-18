@@ -35,7 +35,7 @@ export default function HomeSocialLinks() {
           rel="noopener noreferrer"
           target="_blank"
         >
-          <Icon color="#000" size={32} />
+          <Icon color="#000" size={36} />
         </a>
       ))}
     </nav>

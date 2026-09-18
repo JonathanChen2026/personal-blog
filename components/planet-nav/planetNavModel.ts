@@ -1,4 +1,4 @@
-export type PlanetDoorKey = 'about' | 'contact' | 'photos' | 'projects' | 'thoughts';
+export type PlanetDoorKey = 'about' | 'photos' | 'projects' | 'thoughts';
 
 export type PlanetDoor = {
   key: PlanetDoorKey;
@@ -14,7 +14,6 @@ export const PLANET_DOORS = [
   { key: 'thoughts', href: '/thoughts', label: 'Thoughts', angle: 142 },
   { key: 'photos', href: '/photos', label: 'Photos', angle: 196 },
   { key: 'projects', href: '/projects', label: 'Projects', angle: 251 },
-  { key: 'contact', href: '/contact', label: 'Reach Out!', angle: 304 },
 ] as const satisfies readonly PlanetDoor[];
 
 export const SPRITE = {

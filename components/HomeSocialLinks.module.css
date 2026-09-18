@@ -1,19 +1,22 @@
 .links {
+  --social-icon-size: 36px;
+  --social-icon-gap: 14px;
+
   position: fixed;
   right: max(24px, calc(env(safe-area-inset-right) + 16px));
   bottom: max(20px, calc(env(safe-area-inset-bottom) + 14px));
   z-index: 6;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--social-icon-gap);
 }
 
 .link {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: calc(var(--social-icon-size) + 4px);
+  height: calc(var(--social-icon-size) + 4px);
   color: #000;
   opacity: 0.92;
   transition: opacity 160ms ease;
@@ -21,8 +24,8 @@
 
 .link svg {
   display: block;
-  width: 32px;
-  height: 32px;
+  width: var(--social-icon-size);
+  height: var(--social-icon-size);
 }
 
 .link:hover,
@@ -37,21 +40,14 @@
 
 @media (max-width: 700px) {
   .links {
-    right: max(22px, calc(env(safe-area-inset-right) + 16px));
-    bottom: calc(
-      max(24px, env(safe-area-inset-bottom) + 18px) + clamp(58px, 18vw, 84px) + 4px
-    );
-    gap: 4px;
-  }
+    --social-icon-size: 28px;
+    --social-icon-gap: 12px;
 
-  .link {
-    width: 32px;
-    height: 32px;
-  }
-
-  .link svg {
-    width: 24px;
-    height: 24px;
+    right: auto;
+    left: 50%;
+    bottom: var(--home-chrome-bottom);
+    height: var(--home-control-size);
+    transform: translateX(-50%);
   }
 }
 

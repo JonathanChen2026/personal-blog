@@ -10,6 +10,7 @@ import {
   type PointerEvent,
 } from 'react';
 import { useRouter } from 'next/navigation';
+import HomeSocialLinks from '@/components/HomeSocialLinks';
 import ParallaxSkyLayer from './ParallaxSkyLayer';
 import PlanetDoorMount from './PlanetDoor';
 import styles from './PlanetNav.module.css';
@@ -301,6 +302,7 @@ export default function PlanetNav() {
           </div>
         </div>
       </div>
+      <HomeSocialLinks />
       <div className={styles.mobileControls}>
         {ROTATION_CONTROLS.map((control) => (
           <button

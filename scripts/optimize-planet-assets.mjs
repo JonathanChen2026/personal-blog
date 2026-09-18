@@ -9,7 +9,7 @@ const outputDirectory = new URL('planet-scene/', publicDirectory);
 const assets = [
   { name: 'planet', width: 1536 },
   { name: 'walk-right', width: 2432, height: 2700 }, // 8 x 5 cells, each 304 x 540.
-  ...['door', 'thoughts', 'photos', 'projects', 'contact'].map((name) => ({
+  ...['door', 'thoughts', 'photos', 'projects'].map((name) => ({
     name: `${name}-right`, width: 512,
   })),
   ...['leftbutton', 'rightbutton'].map((name) => ({ name, width: 256 })),

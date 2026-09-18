@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
 import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from 'framer-motion';
 import { config } from '@/site.config';
 import HomeReturnLink from '@/components/HomeReturnLink';
@@ -209,11 +208,7 @@ export default function AboutContent() {
 
           <Bio delay={0.5} delayOffset={contentDelay}>
             this page is a place for my shower thoughts, longer reflections, and projects. happy
-            exploring and please feel free to{' '}
-            <Link href="/contact" style={linkStyle}>
-              reach out
-            </Link>
-            !
+            exploring!
           </Bio>
 
           <motion.hr

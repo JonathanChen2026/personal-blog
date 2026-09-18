@@ -79,17 +79,6 @@ export const config = {
 
   },
 
-
-    // ── contact page ─────────────────────
-  contact: {
-    titleFontSize: '1.5rem',        
-    titleFontWeight: '500',
-    titleLetterSpacing: '0.10em',
-    fontSize: '17px',                // base font size for all body text
-    lineHeight: '1.8',               // spacing between lines
-    fontWeight: '400',               // base font weight
-  },
-
   // ── Individual Post ───────────────────────────────────
   post: {
       titleFontSize: '1.8rem',

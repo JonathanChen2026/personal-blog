@@ -16,6 +16,8 @@
   --planet-intro-spin: -120deg;
   --parallax-far: 0.1;
   --parallax-mid: 0.25;
+  --home-chrome-bottom: max(24px, calc(env(safe-area-inset-bottom) + 18px));
+  --home-control-size: clamp(58px, 18vw, 84px);
 
   position: relative;
   display: flex;
@@ -369,10 +371,10 @@
 
 .mobileControlButton {
   position: absolute;
-  bottom: max(24px, calc(env(safe-area-inset-bottom) + 18px));
+  bottom: var(--home-chrome-bottom);
   z-index: 5;
   display: none;
-  width: clamp(58px, 18vw, 84px);
+  width: var(--home-control-size);
   aspect-ratio: 1;
   padding: 0;
   background-color: transparent;
