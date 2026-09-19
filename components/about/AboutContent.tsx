@@ -184,13 +184,13 @@ export default function AboutContent() {
           </Bio>
 
           <Bio delay={0.2} delayOffset={contentDelay}>
-            i&apos;m a freshman at purdue university, studying data science, artifical intelligence,
-            and bioinformatics.
+            i&apos;m studying data science, artificial intelligence, and bioinformatics @ purdue
+            university.
           </Bio>
 
           <Bio delay={0.3} delayOffset={contentDelay}>
             i&apos;ve previously interned at walmart global tech, and have had various research
-            experiences in computational biology and wet lab settings. i will be joining eli lilly in
+            experiences in computational biology and wet lab settings. i will be interning at eli lilly in
             indianapolis during my sophomore year.
           </Bio>
 

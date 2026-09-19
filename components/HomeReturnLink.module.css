@@ -39,6 +39,10 @@
   overflow-wrap: anywhere;
 }
 
+.slugSeparator {
+  color: var(--home-link);
+}
+
 .icon {
   display: block;
   width: 31px;
