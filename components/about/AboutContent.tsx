@@ -155,7 +155,7 @@ export default function AboutContent() {
 
       <div className={styles.contentShell}>
         <div className={styles.contentColumn}>
-          <HomeReturnLink className={styles.homeLink} />
+          <HomeReturnLink className={styles.homeLink} slug="about" />
           <motion.div
             animate="visible"
             initial="hidden"

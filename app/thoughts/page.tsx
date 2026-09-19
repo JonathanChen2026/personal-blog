@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function ThoughtsPage() {
   return (
-    <PageFrame>
+    <PageFrame slug="thoughts">
       <ThoughtsPanel posts={getPosts()} />
     </PageFrame>
   );

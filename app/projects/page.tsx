@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function ProjectsPage() {
   return (
-    <PageFrame>
+    <PageFrame slug="projects">
       <ProjectsPanel />
     </PageFrame>
   );

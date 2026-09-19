@@ -106,10 +106,4 @@ export const config = {
     paddingHorizontal: '32px',
     paddingVertical: '72px',
   },
-
-  // ── Theme toggle ─────────────────────────────────────
-  themeToggle: {
-    fontSize: '11px',
-    padding: '4px 12px',
-  },
 };

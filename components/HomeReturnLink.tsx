@@ -4,23 +4,27 @@ import styles from './HomeReturnLink.module.css';
 
 type HomeReturnLinkProps = {
   className?: string;
+  slug: string;
 };
 
-export default function HomeReturnLink({ className }: HomeReturnLinkProps) {
-  const classNames = className ? `${styles.link} ${className}` : styles.link;
+export default function HomeReturnLink({ className, slug }: HomeReturnLinkProps) {
+  const classNames = className ? `${styles.root} ${className}` : styles.root;
 
   return (
-    <Link aria-label="Return to home" className={classNames} href="/">
-      <Image
-        alt=""
-        className={styles.icon}
-        height={180}
-        priority
-        src="/favicon.png"
-        unoptimized
-        width={180}
-      />
-      <span>jonathan chen</span>
-    </Link>
+    <div className={classNames}>
+      <Link aria-label="Return to home" className={styles.link} href="/">
+        <Image
+          alt=""
+          className={styles.icon}
+          height={180}
+          priority
+          src="/favicon.png"
+          unoptimized
+          width={180}
+        />
+        <span>jonathan chen</span>
+      </Link>
+      <span className={styles.slug}>/ {slug}</span>
+    </div>
   );
 }

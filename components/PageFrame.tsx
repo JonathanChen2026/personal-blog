@@ -4,10 +4,10 @@ import styles from './PageFrame.module.css';
 
 export default function PageFrame({
   children,
-  showHomeLink = true,
+  slug,
 }: {
   children: React.ReactNode;
-  showHomeLink?: boolean;
+  slug: string;
 }) {
   const { layout } = config;
 
@@ -19,7 +19,7 @@ export default function PageFrame({
         padding: `${layout.paddingVertical} ${layout.paddingHorizontal}`,
       }}
     >
-      {showHomeLink && <HomeReturnLink className={styles.homeLink} />}
+      <HomeReturnLink className={styles.homeLink} slug={slug} />
       {children}
     </div>
   );

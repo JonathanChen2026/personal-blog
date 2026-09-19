@@ -134,7 +134,7 @@ export default async function PostPage({
   const { data, content } = getPost(slug);
 
   return (
-    <PageFrame showHomeLink={false}>
+    <PageFrame slug={slug}>
 
       {/* Back link */}
       <Link href="/thoughts" className={styles.backLink} style={{

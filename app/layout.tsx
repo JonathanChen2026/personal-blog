@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { JetBrains_Mono } from 'next/font/google';
 import './globals.css';
-import ThemeProvider from '../components/ThemeProvider';
 import { config } from '../site.config';
 
 const jetbrainsMono = JetBrains_Mono({
@@ -38,30 +37,17 @@ export const viewport: Viewport = {
   maximumScale: 1,
   userScalable: false,
   viewportFit: 'cover',
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#d6dfe7' },
-    { media: '(prefers-color-scheme: dark)', color: '#111111' },
-  ],
+  themeColor: '#d6dfe7',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={jetbrainsMono.variable} suppressHydrationWarning>
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: `
-          (function() {
-            var t = localStorage.getItem('theme');
-            if (t === 'dark')  document.documentElement.classList.add('dark');
-            if (t === 'light') document.documentElement.classList.add('light');
-          })();
-        `}} />
-      </head>
+    <html lang="en" className={jetbrainsMono.variable}>
       <body style={{
         fontSize: config.body.fontSize,
         lineHeight: config.body.lineHeight,
         fontWeight: config.body.fontWeight,
       }}>
-        <ThemeProvider />
         <main style={{
           maxWidth: '100%',
           width: '100%',
