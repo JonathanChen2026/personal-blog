@@ -1,4 +1,5 @@
 import {
+  ArrowUpRightIcon,
   EnvelopeIcon,
   GithubLogoIcon,
   LinkedinLogoIcon,
@@ -38,6 +39,16 @@ export default function HomeSocialLinks() {
           <Icon color="#000" size={36} />
         </a>
       ))}
+      <a
+        aria-label="Resume"
+        className={`${styles.link} ${styles.resumeLink}`}
+        href="/Jonathan_Chen_Resume.pdf"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <span>resume</span>
+        <ArrowUpRightIcon aria-hidden="true" color="#000" size={24} />
+      </a>
     </nav>
   );
 }

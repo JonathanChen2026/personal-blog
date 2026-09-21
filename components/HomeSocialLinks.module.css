@@ -28,6 +28,29 @@
   height: var(--social-icon-size);
 }
 
+.resumeLink {
+  width: auto;
+  gap: 2px;
+  padding: 0 2px;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.resumeLink span {
+  font-weight: 400;
+  transition: font-weight 160ms ease;
+}
+
+.resumeLink svg {
+  width: 24px;
+  height: 24px;
+}
+
+.resumeLink:hover span,
+.resumeLink:focus-visible span {
+  font-weight: 550;
+}
+
 .link:hover,
 .link:focus-visible {
   opacity: 1;
@@ -48,6 +71,11 @@
     bottom: var(--home-chrome-bottom);
     height: var(--home-control-size);
     transform: translateX(-50%);
+  }
+
+  .resumeLink svg {
+    width: 22px;
+    height: 22px;
   }
 }
 
