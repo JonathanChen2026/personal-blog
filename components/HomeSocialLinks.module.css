@@ -22,6 +22,10 @@
   transition: opacity 160ms ease;
 }
 
+.iconLink {
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
 .link svg {
   display: block;
   width: var(--social-icon-size);
@@ -56,6 +60,11 @@
   opacity: 1;
 }
 
+.iconLink:hover,
+.iconLink:focus-visible {
+  transform: scale(1.05);
+}
+
 .link:focus-visible {
   outline: 2px solid rgba(0, 0, 0, 0.42);
   outline-offset: 4px;
@@ -80,7 +89,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .link {
+  .link,
+  .iconLink {
     transition: none;
   }
 }

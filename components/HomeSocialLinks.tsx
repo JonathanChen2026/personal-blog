@@ -30,7 +30,7 @@ export default function HomeSocialLinks() {
       {SOCIAL_LINKS.map(({ href, label, Icon }) => (
         <a
           aria-label={label}
-          className={styles.link}
+          className={`${styles.link} ${styles.iconLink}`}
           href={href}
           key={href}
           rel="noopener noreferrer"
