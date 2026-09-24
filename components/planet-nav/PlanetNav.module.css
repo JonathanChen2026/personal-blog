@@ -194,8 +194,31 @@
   overflow: visible;
 }
 
+.door::before {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  left: 50%;
+  top: 50%;
+  width: 76%;
+  height: 104%;
+  border-radius: 46% 46% 24% 24%;
+  background: #fff;
+  filter: blur(20px);
+  mix-blend-mode: plus-lighter;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.4s ease;
+}
+
+.door[data-in-range='true']::before {
+  opacity: 0.72;
+}
+
 .doorFace {
   position: absolute;
+  z-index: 1;
   inset: 0;
   background-repeat: no-repeat;
   background-position: center;

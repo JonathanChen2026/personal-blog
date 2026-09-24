@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { JetBrains_Mono } from 'next/font/google';
 import './globals.css';
+import SiteCursor from '@/components/SiteCursor';
 import { config } from '../site.config';
 
 const jetbrainsMono = JetBrains_Mono({
@@ -48,6 +49,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         lineHeight: config.body.lineHeight,
         fontWeight: config.body.fontWeight,
       }}>
+        <SiteCursor />
         <main style={{
           maxWidth: '100%',
           width: '100%',

@@ -18,6 +18,28 @@
 
 * { box-sizing: border-box; }
 
+@media (hover: hover) and (pointer: fine) {
+  html.has-custom-cursor,
+  html.has-custom-cursor * {
+    cursor: none !important;
+  }
+}
+
+.site-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #000;
+  box-shadow: 0 0 0 1px #fff;
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform;
+}
+
 body {
   font-family: var(--font-jetbrains-mono), monospace;
   background: var(--bg);

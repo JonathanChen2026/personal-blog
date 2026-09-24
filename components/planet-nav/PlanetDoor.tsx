@@ -31,6 +31,7 @@ export default function PlanetDoor({
       <button
         aria-label={`Enter ${door.label}`}
         className={styles.door}
+        data-in-range={isActive ? 'true' : 'false'}
         disabled={!isActive}
         onClick={onNavigate}
         onContextMenu={(event) => event.preventDefault()}
