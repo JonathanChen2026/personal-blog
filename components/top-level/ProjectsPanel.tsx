@@ -1,3 +1,6 @@
+import ProjectCard from '@/components/projects/ProjectCard';
+import styles from '@/components/projects/ProjectCard.module.css';
+import { projects as projectEntries } from '@/content/projects';
 import { config } from '@/site.config';
 
 const { projects } = config;
@@ -16,15 +19,15 @@ export default function ProjectsPanel() {
       >
         PROJECTS
       </h1>
-      <p
-        style={{
-          color: 'var(--muted)',
-          fontSize: projects.fontSize,
-          lineHeight: projects.lineHeight,
-        }}
-      >
-        Coming soon...
-      </p>
+      {projectEntries.length > 0 && (
+        <ul className={styles.list}>
+          {projectEntries.map((project) => (
+            <li key={project.title}>
+              <ProjectCard project={project} />
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
