@@ -41,6 +41,7 @@ export const projects: Project[] = [
       { label: 'Devpost', href: 'https://example.com' },
       { label: 'Demo', href: 'https://example.com' },
       { label: 'Code', href: 'https://github.com' },
+      { label: 'Food', href: 'https://github.com' },
     ],
     images: [
       { src: '/projects/placeholder-a.jpg', alt: 'Placeholder photo' },
