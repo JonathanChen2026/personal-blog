@@ -1,4 +1,5 @@
 .aboutScene {
+  --planet-scene-bg: #FAFAFA;
   --about-text: rgba(40, 40, 40, 0.98);
   --about-muted: rgba(0, 0, 0, 0.8);
 
