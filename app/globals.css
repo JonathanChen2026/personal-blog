@@ -18,6 +18,16 @@
 
 * { box-sizing: border-box; }
 
+/* Keep the full viewport width when moving from the locked home scene to
+   scrolling pages. Scrolling remains native; only its track is hidden. */
+html {
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
 @media (hover: hover) and (pointer: fine) {
   html.has-custom-cursor,
   html.has-custom-cursor * {

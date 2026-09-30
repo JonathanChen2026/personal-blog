@@ -50,12 +50,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         fontWeight: config.body.fontWeight,
       }}>
         <SiteCursor />
-        <main style={{
-          maxWidth: '100%',
-          width: '100%',
-        }}>
-          {children}
-        </main>
+        <main>{children}</main>
       </body>
     </html>
   );

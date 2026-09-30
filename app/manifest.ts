@@ -3,8 +3,8 @@ import { config } from '../site.config';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: config.nav.yourName,
-    short_name: config.nav.yourName,
+    name: config.name,
+    short_name: config.name,
     description: 'Essays and thoughts',
     start_url: '/',
     display: 'standalone',
