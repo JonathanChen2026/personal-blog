@@ -15,7 +15,7 @@ export default function SiteCursor() {
 
     const place = (x: number, y: number) => {
       dot.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
-      dot.style.opacity = '1';
+      dot.classList.add('is-visible');
     };
 
     const onPointerMove = (event: PointerEvent) => {
@@ -23,7 +23,7 @@ export default function SiteCursor() {
     };
 
     const hide = () => {
-      dot.style.opacity = '0';
+      dot.classList.remove('is-visible');
     };
 
     window.addEventListener('pointermove', onPointerMove);
@@ -36,5 +36,9 @@ export default function SiteCursor() {
     };
   }, []);
 
-  return <div aria-hidden="true" className="site-cursor" ref={dotRef} />;
+  return (
+    <div aria-hidden="true" className="site-cursor" ref={dotRef}>
+      <div className="site-cursor-dot" />
+    </div>
+  );
 }
