@@ -7,7 +7,7 @@ export default function PageFrame({
   slug,
 }: {
   children: React.ReactNode;
-  slug: string;
+  slug?: string;
 }) {
   const { layout } = config;
 
@@ -19,7 +19,7 @@ export default function PageFrame({
         padding: `${layout.paddingVertical} ${layout.paddingHorizontal}`,
       }}
     >
-      <HomeReturnLink className={styles.homeLink} slug={slug} />
+      {slug ? <HomeReturnLink className={styles.homeLink} slug={slug} /> : null}
       {children}
     </div>
   );
