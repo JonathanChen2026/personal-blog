@@ -1,0 +1,99 @@
+.resume {
+  display: grid;
+  gap: 56px;
+  padding-top: 8px;
+  margin-bottom: 48px;
+  font-size: 15.5px;
+  line-height: 1.65;
+  font-weight: 300;
+}
+
+.heading {
+  margin: 0 0 32px;
+  color: #888;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.entries {
+  display: grid;
+  gap: 32px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.entry {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) auto;
+  align-items: start;
+  column-gap: 18px;
+}
+
+.logo {
+  position: relative;
+  align-self: center;
+  width: 48px;
+  height: 48px;
+}
+
+.logo img {
+  object-fit: contain;
+  border-radius: 10px;
+}
+
+.details {
+  align-self: center;
+  min-width: 0;
+}
+
+.details:not(:has(.description)) {
+  align-self: start;
+}
+
+.name {
+  margin: 0;
+  color: var(--about-text);
+  font-size: inherit;
+  font-weight: 400;
+}
+
+.description {
+  margin: 2px 0 0;
+  color: #777;
+}
+
+.metadata {
+  margin: 0;
+  color: #888;
+  font-size: 13px;
+  text-align: right;
+  white-space: pre-line;
+}
+
+@media (max-width: 700px) {
+  .resume {
+    gap: 44px;
+    font-size: 14px;
+  }
+
+  .entry {
+    grid-template-columns: 40px minmax(0, 1fr);
+    column-gap: 14px;
+    row-gap: 6px;
+  }
+
+  .logo {
+    grid-row: 1;
+    width: 40px;
+    height: 40px;
+  }
+
+  .metadata {
+    grid-column: 2;
+    text-align: left;
+    white-space: pre-line;
+  }
+}

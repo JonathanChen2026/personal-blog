@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from 'framer-motion';
 import { config } from '@/site.config';
 import HomeReturnLink from '@/components/HomeReturnLink';
+import AboutResume from './AboutResume';
 import styles from './AboutContent.module.css';
 import { ABOUT_PARALLAX, type AboutParallaxLayerConfig } from './aboutParallaxConfig';
 
@@ -12,9 +13,9 @@ const { layers, scrollInput } = ABOUT_PARALLAX;
 const CONTENT_REVEAL_DELAY_SECONDS = 0.2;
 
 const sectionLabelStyle = {
-  fontSize: '13px',
+  fontSize: '12px',
   letterSpacing: '0.12em',
-  color: 'var(--about-muted)',
+  color: '#888',
   textTransform: 'uppercase' as const,
   marginBottom: '14px',
   marginTop: '32px',
@@ -25,11 +26,6 @@ const entryStyle = {
   lineHeight: '1.8',
   marginBottom: '16px',
   color: 'var(--about-text)',
-};
-
-const mutedSpanStyle = {
-  color: 'var(--about-muted)',
-  marginLeft: '6px',
 };
 
 const linkStyle = {
@@ -229,35 +225,7 @@ export default function AboutContent() {
           />
 
           <FadeIn delay={0.65} delayOffset={contentDelay}>
-            <div style={sectionLabelStyle}>Education</div>
-            <div style={entryStyle}>
-              Purdue University, B.S. DS/AI/Bioinformatics
-              <span style={mutedSpanStyle}> 2026-</span>
-            </div>
-            <div style={entryStyle}>
-              Bentonville High School
-              <span style={mutedSpanStyle}> 2022-2026</span>
-            </div>
-          </FadeIn>
-
-          <FadeIn delay={0.75} delayOffset={contentDelay}>
-            <div style={sectionLabelStyle}>Experience</div>
-            <div style={entryStyle}>
-              <span style={{ color: '#e73d3d' }}>Eli Lilly &amp; Company</span> · Indianapolis, IN ·
-              Incoming
-              <br />
-              <br />
-              <span style={{ color: '#0e7743' }}>Walmart Global Tech</span> · Bentonville, AR ·
-              Software Intern
-              <br />
-              <br />
-              <span style={{ color: '#2a43a8' }}>Institute for Systems Biology // Baliga Lab </span>·
-              Seattle, WA · Computational Biology Research Intern
-              <br />
-              <br />
-              <span style={{ color: '#026d00' }}>Sun Yat-sen University // Li-Meng Feng Lab </span>·
-              Guangzhou · Wet Lab Research Intern
-            </div>
+            <AboutResume />
           </FadeIn>
 
           <FadeIn delay={0.85} delayOffset={contentDelay}>
