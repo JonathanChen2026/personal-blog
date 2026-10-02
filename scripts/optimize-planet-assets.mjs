@@ -5,12 +5,12 @@ const publicDirectory = new URL('../public/', import.meta.url);
 const outputDirectory = new URL('planet-scene/', publicDirectory);
 
 // Keep the original PNGs as sources. Display sizes cover at least 2x resolution.
-// Every left-facing source is a pixel-exact mirror; CSS uses the right asset twice.
+// The character's left-facing source is a pixel-exact mirror of the right asset.
 const assets = [
   { name: 'planet', width: 1536 },
   { name: 'walk-right', width: 2432, height: 2700 }, // 8 x 5 cells, each 304 x 540.
-  ...['door', 'thoughts', 'photos', 'projects'].map((name) => ({
-    name: `${name}-right`, width: 512,
+  ...['backpack', 'journal', 'camera', 'toolbox'].map((name) => ({
+    name, width: 320, trim: true,
   })),
   ...['leftbutton', 'rightbutton'].map((name) => ({ name, width: 256 })),
   ...['star-one', 'star-two', 'comet', 'asteroid'].map((name) => ({ name, width: 192 })),
@@ -18,10 +18,12 @@ const assets = [
 
 await mkdir(outputDirectory, { recursive: true });
 let totalBytes = 0;
-for (const { name, width, height } of assets) {
+for (const { name, width, height, trim } of assets) {
   const source = new URL(`${name}.png`, publicDirectory);
   const output = new URL(`${name}.webp`, outputDirectory);
-  await sharp(source.pathname)
+  const image = sharp(source.pathname);
+  if (trim) image.trim();
+  await image
     .resize(width, height)
     .webp({ lossless: true, effort: 6 })
     .toFile(output.pathname);

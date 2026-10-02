@@ -1,3 +1,9 @@
+import type { StaticImageData } from 'next/image';
+import backpack from '@/public/planet-scene/backpack.webp';
+import journal from '@/public/planet-scene/journal.webp';
+import camera from '@/public/planet-scene/camera.webp';
+import toolbox from '@/public/planet-scene/toolbox.webp';
+
 export type PlanetDoorKey = 'about' | 'photos' | 'projects' | 'thoughts';
 
 export type PlanetDoor = {
@@ -5,15 +11,21 @@ export type PlanetDoor = {
   href: string;
   label: string;
   angle: number;
+  surfaceRadius: number;
+  scale: number;
+  /** Fraction of the planet size, applied straight down in planet space. */
+  drop: number;
+  icon: StaticImageData;
 };
 
 export type WalkDirection = -1 | 0 | 1;
 
 export const PLANET_DOORS = [
-  { key: 'about', href: '/about', label: 'Start Here', angle: 44 },
-  { key: 'thoughts', href: '/thoughts', label: 'Thoughts', angle: 142 },
-  { key: 'photos', href: '/photos', label: 'Photos', angle: 196 },
-  { key: 'projects', href: '/projects', label: 'Projects', angle: 251 },
+  // Mount each illustrated base into the uneven planet outline at its own angle.
+  { key: 'about', href: '/about', label: 'Start Here', angle: 44, surfaceRadius: 0.436, scale: 0.86, drop: 0.012, icon: backpack },
+  { key: 'thoughts', href: '/thoughts', label: 'Thoughts', angle: 142, surfaceRadius: 0.416, scale: 0.94, drop: 0.014, icon: journal },
+  { key: 'photos', href: '/photos', label: 'Photos', angle: 196, surfaceRadius: 0.418, scale: 0.92, drop: 0, icon: camera },
+  { key: 'projects', href: '/projects', label: 'Projects', angle: 251, surfaceRadius: 0.419, scale: 1.08, drop: 0, icon: toolbox },
 ] as const satisfies readonly PlanetDoor[];
 
 export const SPRITE = {
@@ -28,15 +40,6 @@ export const SPRITE = {
 
 export const DOOR_ACTIVATION_DEGREES = 28;
 
-/** Fixed px gap from door top edge to the bottom of the enter CTA. */
-export const DOOR_CTA_ABOVE_DOOR_PX = 10;
-
-/** Fixed px gap from CTA top to the bottom of the nav label. */
-export const DOOR_LABEL_ABOVE_CTA_PX = 10;
-
-/** Reserved height for the enter CTA slot between label and door. */
-export const DOOR_CTA_SLOT_HEIGHT_PX = 16;
-
 export function normalizeAngle(angle: number) {
   return ((angle % 360) + 360) % 360;
 }
@@ -48,18 +51,6 @@ export function signedDistanceFromTop(angle: number) {
 
 export function getDoorScreenAngle(doorAngle: number, planetRotation: number) {
   return normalizeAngle(doorAngle + planetRotation);
-}
-
-export function isRightHemisphere(angle: number) {
-  const normalized = normalizeAngle(angle);
-  return normalized > 0 && normalized < 180;
-}
-
-export type DoorFacing = 'left' | 'right';
-
-export function getDoorFacing(door: PlanetDoor, rotation: number): DoorFacing {
-  const screenAngle = getDoorScreenAngle(door.angle, rotation);
-  return isRightHemisphere(screenAngle) ? 'right' : 'left';
 }
 
 export function getActiveDoor(rotation: number) {

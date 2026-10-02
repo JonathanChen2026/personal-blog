@@ -2,14 +2,12 @@
   --planet-size: min(74vw, 660px, calc(100svh / 1.38));
   --planet-visual-scale: 0.92;
   --planet-center-y: 60%;
-  --door-radius: -0.56;
-  --door-size: calc(var(--planet-size) * 0.29);
-  --door-cta-above-door: 10px;
-  --door-label-above-cta: 10px;
+  --door-size: calc(var(--planet-size) * 0.19 * 1.4);
+  --door-label-gap: 14px;
+  --door-cta-gap: var(--door-label-gap);
   --door-cta-slot-height: 16px;
   --door-label-size: 13px;
   --door-enter-size: 10px;
-  --door-chrome-offset: 0.75;
   --landing-delay: 0.2s;
   --landing-duration: 0.5s;
   --landing-ease: cubic-bezier(0.22, 1, 0.36, 1);
@@ -165,12 +163,16 @@
 }
 
 .doorMount {
+  --door-scale: 1;
+  --door-drop: 0;
+
   position: absolute;
   top: 50%;
   left: 50%;
   width: 0;
   height: 0;
-  transform: rotate(var(--door-angle))
+  transform: translateY(calc(var(--planet-size) * var(--planet-visual-scale) * var(--door-drop)))
+    rotate(var(--door-angle))
     translateY(calc(var(--planet-size) * var(--planet-visual-scale) * var(--door-radius)));
   transform-origin: center;
 }
@@ -179,15 +181,14 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: var(--door-size);
-  aspect-ratio: 1;
+  width: calc(var(--door-size) * var(--door-scale));
   padding: 0;
   background: transparent;
   border: 0;
   appearance: none;
   cursor: pointer;
   opacity: 1;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -100%);
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
   outline: none;
@@ -200,11 +201,11 @@
   z-index: 0;
   left: 50%;
   top: 50%;
-  width: 76%;
-  height: 104%;
-  border-radius: 46% 46% 24% 24%;
+  width: 110%;
+  height: 80%;
+  border-radius: 50%;
   background: #fff;
-  filter: blur(20px);
+  filter: blur(14px);
   mix-blend-mode: plus-lighter;
   opacity: 0;
   pointer-events: none;
@@ -217,17 +218,12 @@
 }
 
 .doorFace {
-  position: absolute;
+  position: relative;
   z-index: 1;
-  inset: 0;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
+  display: block;
+  width: 100%;
+  height: auto;
   pointer-events: none;
-}
-
-.doorMount[data-facing='left'] .doorFace {
-  transform: scaleX(-1);
 }
 
 .door:focus:not(:focus-visible) {
@@ -236,17 +232,18 @@
 
 .doorChrome {
   position: absolute;
-  top: calc(var(--door-size) * var(--door-chrome-offset) * -1);
-  left: 0;
+  bottom: calc(100% + var(--door-label-gap));
+  left: 50%;
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
+  gap: var(--door-cta-gap);
   align-items: center;
   transform: translateX(-50%);
   pointer-events: none;
 }
 
 .doorLabel {
-  margin: 0 0 var(--door-label-above-cta);
+  margin: 0;
   font-size: var(--door-label-size);
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -262,7 +259,7 @@
 .doorEnterSlot {
   display: block;
   height: var(--door-cta-slot-height);
-  margin: 0 0 var(--door-cta-above-door);
+  margin: 0;
   font-size: var(--door-enter-size);
   font-weight: 400;
   letter-spacing: 0.06em;
@@ -439,8 +436,6 @@
 @media (max-width: 700px) {
   .scene {
     --planet-size: min(92vw, 520px, calc(100svh / 1.38));
-    --door-radius: -0.535;
-    --door-chrome-offset: 0.88;
   }
 
   .doorEnterLabelDesktop {

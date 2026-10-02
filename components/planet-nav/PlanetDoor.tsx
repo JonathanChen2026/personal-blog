@@ -1,32 +1,29 @@
+import Image from 'next/image';
 import type { CSSProperties } from 'react';
 import DoorEnterPrompt from './DoorEnterPrompt';
-import { getDoorImageUrl } from './doorAssets';
 import styles from './PlanetNav.module.css';
-import { getDoorFacing, type PlanetDoor } from './planetNavModel';
-
-const INITIAL_PLANET_ROTATION = 0;
+import type { PlanetDoor } from './planetNavModel';
 
 type PlanetDoorProps = {
   door: PlanetDoor;
-  doorRef: (node: HTMLDivElement | null) => void;
   isActive: boolean;
   onNavigate: () => void;
 };
 
 export default function PlanetDoor({
   door,
-  doorRef,
   isActive,
   onNavigate,
 }: PlanetDoorProps) {
-  const facing = getDoorFacing(door, INITIAL_PLANET_ROTATION);
-
   return (
     <div
       className={styles.doorMount}
-      data-facing={facing}
-      ref={doorRef}
-      style={{ '--door-angle': `${door.angle}deg` } as CSSProperties}
+      style={{
+        '--door-angle': `${door.angle}deg`,
+        '--door-radius': -door.surfaceRadius,
+        '--door-scale': door.scale,
+        '--door-drop': door.drop,
+      } as CSSProperties}
     >
       <button
         aria-label={`Enter ${door.label}`}
@@ -39,20 +36,23 @@ export default function PlanetDoor({
         tabIndex={isActive ? 0 : -1}
         type="button"
       >
-        <span
-          aria-hidden="true"
+        <Image
+          alt=""
           className={styles.doorFace}
-          style={{ backgroundImage: `url(${getDoorImageUrl(door.key)})` }}
+          draggable={false}
+          sizes="(max-width: 700px) 24.5vw, 176px"
+          src={door.icon}
+          unoptimized
         />
+        <span className={styles.doorChrome}>
+          {isActive ? (
+            <DoorEnterPrompt />
+          ) : (
+            <span aria-hidden="true" className={styles.doorEnterSlot} />
+          )}
+          <span className={styles.doorLabel}>{door.label}</span>
+        </span>
       </button>
-      <div className={styles.doorChrome}>
-        <span className={styles.doorLabel}>{door.label}</span>
-        {isActive ? (
-          <DoorEnterPrompt />
-        ) : (
-          <span aria-hidden="true" className={styles.doorEnterSlot} />
-        )}
-      </div>
     </div>
   );
 }

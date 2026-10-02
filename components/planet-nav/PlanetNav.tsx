@@ -16,9 +16,6 @@ import PlanetDoorMount from './PlanetDoor';
 import styles from './PlanetNav.module.css';
 import { FAR_SKY_ELEMENTS, MID_SKY_ELEMENTS, PARALLAX_SPEED } from './parallaxSkyConfig';
 import {
-  DOOR_CTA_ABOVE_DOOR_PX,
-  DOOR_CTA_SLOT_HEIGHT_PX,
-  DOOR_LABEL_ABOVE_CTA_PX,
   getActiveDoor,
   PLANET_DOORS,
   type PlanetDoor,
@@ -78,7 +75,6 @@ export default function PlanetNav() {
     parallaxFarRef,
     parallaxMidRef,
     spriteRef,
-    doorMountRefs,
     beginWalking,
     settleToStopFrame,
   } = usePlanetScene(isReady, setActiveDoorKey);
@@ -209,9 +205,6 @@ export default function PlanetNav() {
   }
 
   const sceneStyle = {
-    '--door-cta-above-door': `${DOOR_CTA_ABOVE_DOOR_PX}px`,
-    '--door-cta-slot-height': `${DOOR_CTA_SLOT_HEIGHT_PX}px`,
-    '--door-label-above-cta': `${DOOR_LABEL_ABOVE_CTA_PX}px`,
     '--parallax-far': PARALLAX_SPEED.far,
     '--parallax-mid': PARALLAX_SPEED.mid,
   } as CSSProperties;
@@ -262,9 +255,6 @@ export default function PlanetNav() {
                 return (
                   <PlanetDoorMount
                     door={door}
-                    doorRef={(node) => {
-                      doorMountRefs.current[door.key] = node ?? undefined;
-                    }}
                     isActive={isActive}
                     key={door.key}
                     onNavigate={() => navigateToDoor(isActive ? door : null)}

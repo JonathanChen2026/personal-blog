@@ -10,9 +10,7 @@ import {
 } from './planetMotion';
 import {
   getActiveDoor,
-  getDoorFacing,
   getFramePosition,
-  PLANET_DOORS,
   SPRITE,
   type PlanetDoorKey,
   type WalkDirection,
@@ -27,7 +25,6 @@ export function usePlanetScene(
   const parallaxFarRef = useRef<HTMLDivElement>(null);
   const parallaxMidRef = useRef<HTMLDivElement>(null);
   const spriteRef = useRef<HTMLDivElement>(null);
-  const doorMountRefs = useRef<Partial<Record<PlanetDoorKey, HTMLDivElement>>>({});
 
   useLayoutEffect(() => {
     if (!isReady) return;
@@ -51,12 +48,6 @@ export function usePlanetScene(
         if (planetLayer) planetLayer.style.transform = `translate(-50%, -50%) rotate(${rotation}deg)`;
         if (parallaxFar) parallaxFar.style.transform = `rotate(${rotation * PARALLAX_SPEED.far}deg)`;
         if (parallaxMid) parallaxMid.style.transform = `rotate(${rotation * PARALLAX_SPEED.mid}deg)`;
-
-        for (const door of PLANET_DOORS) {
-          const mount = doorMountRefs.current[door.key];
-          const facing = getDoorFacing(door, rotation);
-          if (mount && mount.dataset.facing !== facing) mount.dataset.facing = facing;
-        }
 
         const activeDoor = getActiveDoor(rotation)?.key ?? null;
         if (activeDoor !== activeDoorKey) {
@@ -108,7 +99,6 @@ export function usePlanetScene(
     parallaxFarRef,
     parallaxMidRef,
     spriteRef,
-    doorMountRefs,
     beginWalking: startWalking,
     settleToStopFrame: stopWalking,
   };

@@ -1,4 +1,4 @@
-import { ALL_DOOR_IMAGE_URLS } from './doorAssets';
+import { PLANET_DOORS } from './planetNavModel';
 import { ALL_SKY_IMAGE_URLS } from './parallaxSkyConfig';
 
 export const SCENE_IMAGES = {
@@ -10,6 +10,6 @@ export const SCENE_IMAGES = {
 
 export const SCENE_IMAGE_URLS = [
   ...Object.values(SCENE_IMAGES),
-  ...ALL_DOOR_IMAGE_URLS,
+  ...PLANET_DOORS.map((door) => door.icon.src),
   ...ALL_SKY_IMAGE_URLS,
 ];
