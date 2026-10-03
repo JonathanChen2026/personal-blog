@@ -1,23 +1,8 @@
-.list {
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
 .card {
   background: #f5f5f5;
-  border: 1px solid transparent;
+  border: 2px solid #000;
   border-radius: 18px;
   padding: 28px 28px 24px;
-  transition: border-color 360ms ease;
-}
-
-.card:hover,
-.card:focus-within {
-  border-color: #000;
 }
 
 .title {
@@ -92,11 +77,5 @@
 
   .images {
     grid-template-columns: minmax(0, 1fr);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .card {
-    transition: none;
   }
 }

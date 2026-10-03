@@ -1,33 +1,18 @@
 import ProjectCard from '@/components/projects/ProjectCard';
-import styles from '@/components/projects/ProjectCard.module.css';
-import { projects as projectEntries } from '@/content/projects';
-import { config } from '@/site.config';
-
-const { projects } = config;
+import ProjectsGallery from '@/components/projects/ProjectsGallery';
+import styles from '@/components/projects/ProjectsGallery.module.css';
+import { projects } from '@/content/projects';
 
 export default function ProjectsPanel() {
   return (
-    <div>
-      <h1
-        className="page-section-title"
-        style={{
-          fontSize: projects.titleFontSize,
-          fontWeight: projects.titleFontWeight,
-          textTransform: 'uppercase',
-          marginBottom: '24px',
-        }}
-      >
-        PROJECTS
-      </h1>
-      {projectEntries.length > 0 && (
-        <ul className={styles.list}>
-          {projectEntries.map((project) => (
-            <li key={project.title}>
-              <ProjectCard project={project} />
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+    <ProjectsGallery>
+      <ul className={styles.list}>
+        {projects.map((project) => (
+          <li key={project.title}>
+            <ProjectCard project={project} />
+          </li>
+        ))}
+      </ul>
+    </ProjectsGallery>
   );
 }

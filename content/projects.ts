@@ -32,20 +32,24 @@ export type Project = {
  *   ],
  * }
  */
+const templateProject: Project = {
+  title: 'Project title',
+  description:
+    'A short description of the project sits here. It can run a sentence or two and wraps under the title, before the links and photos.',
+  links: [
+    { label: 'Devpost', href: 'https://example.com' },
+    { label: 'Demo', href: 'https://example.com' },
+    { label: 'Code', href: 'https://github.com' },
+    { label: 'Food', href: 'https://github.com' },
+  ],
+  images: [
+    { src: '/projects/placeholder-a.jpg', alt: 'Placeholder photo' },
+    { src: '/projects/placeholder-b.jpg', alt: 'Placeholder photo' },
+  ],
+};
+
 export const projects: Project[] = [
-  {
-    title: 'Project title',
-    description:
-      'A short description of the project sits here. It can run a sentence or two and wraps under the title, before the links and photos.',
-    links: [
-      { label: 'Devpost', href: 'https://example.com' },
-      { label: 'Demo', href: 'https://example.com' },
-      { label: 'Code', href: 'https://github.com' },
-      { label: 'Food', href: 'https://github.com' },
-    ],
-    images: [
-      { src: '/projects/placeholder-a.jpg', alt: 'Placeholder photo' },
-      { src: '/projects/placeholder-b.jpg', alt: 'Placeholder photo' },
-    ],
-  },
+  templateProject,
+  { ...templateProject, title: 'Template project 2' },
+  { ...templateProject, title: 'Template project 3' },
 ];

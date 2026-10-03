@@ -1,0 +1,90 @@
+.scene {
+  --gallery-inset: clamp(200px, 18vw, 310px);
+  position: relative;
+  height: 100svh;
+  min-height: 640px;
+  overflow: hidden;
+  background: #e8edef;
+}
+
+.header {
+  position: absolute;
+  z-index: 2;
+  top: 36px;
+  left: var(--gallery-inset);
+}
+
+.title {
+  margin: 18px 0 0;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.track {
+  height: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 120px 48px 150px var(--gallery-inset);
+  scrollbar-width: none;
+}
+
+.track::-webkit-scrollbar { display: none; }
+.track:focus-visible { outline: 2px solid #000; outline-offset: -6px; }
+
+.list {
+  display: flex;
+  align-items: center;
+  gap: 48px;
+  width: max-content;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.list > li {
+  flex: 0 0 auto;
+  width: min(800px, calc(100vw - 280px));
+}
+
+.floor {
+  position: absolute;
+  inset: auto 0 0;
+  height: 10%;
+  background: #000;
+  pointer-events: none;
+}
+
+.character {
+  position: absolute;
+  z-index: 1;
+  left: 4.5%;
+  bottom: 3%;
+  height: 44%;
+  width: auto;
+  pointer-events: none;
+}
+
+@media (min-width: 769px) {
+  .scene::after {
+    content: '';
+    position: absolute;
+    z-index: 2;
+    inset: 0 0 10% auto;
+    width: 80px;
+    backdrop-filter: blur(9px);
+    mask-image: linear-gradient(to right, transparent, #000);
+    pointer-events: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .scene { height: auto; min-height: 100svh; padding: 36px 24px 72px; }
+  .header { position: static; margin-bottom: 28px; }
+  .track { height: auto; overflow: visible; padding: 0; }
+  .list { flex-direction: column; align-items: stretch; width: 100%; gap: 28px; }
+  .list > li { width: 100%; }
+  .character, .floor { display: none; }
+}

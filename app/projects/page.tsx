@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import PageFrame from '@/components/PageFrame';
 import ProjectsPanel from '@/components/top-level/ProjectsPanel';
 
 export const metadata: Metadata = {
@@ -7,9 +6,5 @@ export const metadata: Metadata = {
 };
 
 export default function ProjectsPage() {
-  return (
-    <PageFrame slug="projects">
-      <ProjectsPanel />
-    </PageFrame>
-  );
+  return <ProjectsPanel />;
 }
