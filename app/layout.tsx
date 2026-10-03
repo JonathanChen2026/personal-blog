@@ -1,13 +1,21 @@
 import type { Metadata, Viewport } from 'next';
-import { JetBrains_Mono } from 'next/font/google';
+import { Fragment_Mono, Poppins } from 'next/font/google';
 import './globals.css';
 import SiteCursor from '@/components/SiteCursor';
 import { config } from '../site.config';
 
-const jetbrainsMono = JetBrains_Mono({
+const poppins = Poppins({
   subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
   style: ['normal', 'italic'],
-  variable: '--font-jetbrains-mono',
+  variable: '--font-poppins',
+  display: 'swap',
+});
+
+const fragmentMono = Fragment_Mono({
+  subsets: ['latin'],
+  weight: '400',
+  variable: '--font-fragment-mono',
   display: 'swap',
 });
 
@@ -43,7 +51,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={jetbrainsMono.variable}>
+    <html lang="en" className={`${poppins.variable} ${fragmentMono.variable}`}>
       <body style={{
         fontSize: config.body.fontSize,
         lineHeight: config.body.lineHeight,

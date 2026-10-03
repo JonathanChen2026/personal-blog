@@ -9,6 +9,7 @@ export default function ProjectsPanel() {
   return (
     <div>
       <h1
+        className="page-section-title"
         style={{
           fontSize: projects.titleFontSize,
           fontWeight: projects.titleFontWeight,

@@ -244,6 +244,7 @@
 
 .doorLabel {
   margin: 0;
+  font-family: var(--font-mono);
   font-size: var(--door-label-size);
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -260,6 +261,7 @@
   display: block;
   height: var(--door-cta-slot-height);
   margin: 0;
+  font-family: var(--font-mono);
   font-size: var(--door-enter-size);
   font-weight: 400;
   letter-spacing: 0.06em;

@@ -8,6 +8,7 @@ export default function ThoughtsPanel({ posts }: { posts: ThoughtPost[] }) {
   return (
     <div>
       <h1
+        className="page-section-title"
         style={{
           fontSize: thoughts.titleFontSize,
           fontWeight: thoughts.titleFontWeight,
