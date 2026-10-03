@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { config } from '../../site.config';
 import type { ThoughtPost } from '@/lib/posts';
 import styles from './PostList.module.css';
+import revealStyles from '@/components/FocusReveal.module.css';
 
 const { thoughts } = config;
 
@@ -82,7 +83,11 @@ export default function PostList({ posts }: { posts: ThoughtPost[] }) {
             onMouseEnter={() => setHoveredSlug(post.slug)}
             onMouseLeave={() => setHoveredSlug(null)}
           >
-            <Link href={`/thoughts/${post.slug}`}>
+            <Link
+              className={`${styles.postLink} ${revealStyles.reveal}`}
+              href={`/thoughts/${post.slug}`}
+              style={{ animationDelay: `${index * 0.06}s` }}
+            >
               <div>
                 <div style={{
                   display: 'flex', justifyContent: 'space-between',

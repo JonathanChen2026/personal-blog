@@ -4,13 +4,14 @@ import Image from 'next/image';
 import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from 'framer-motion';
 import { config } from '@/site.config';
 import HomeReturnLink from '@/components/HomeReturnLink';
+import revealStyles from '@/components/FocusReveal.module.css';
 import AboutResume from './AboutResume';
 import styles from './AboutContent.module.css';
 import { ABOUT_PARALLAX, type AboutParallaxLayerConfig } from './aboutParallaxConfig';
 
 const { about, body } = config;
 const { layers, scrollInput } = ABOUT_PARALLAX;
-const CONTENT_REVEAL_DELAY_SECONDS = 0.2;
+const CONTENT_REVEAL_DELAY_SECONDS = 0.05;
 
 const sectionLabelStyle = {
   fontSize: '12px',
@@ -35,11 +36,6 @@ const linkStyle = {
   color: 'inherit',
 };
 
-const flyUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0 },
-};
-
 function Bio({
   children,
   delay = 0,
@@ -50,30 +46,23 @@ function Bio({
   delayOffset?: number;
 }) {
   return (
-    <motion.p
-      animate="visible"
-      initial="hidden"
+    <p
+      className={revealStyles.reveal}
       style={{
         fontSize: about.paragraphFontSize,
         lineHeight: about.paragraphLineHeight,
         marginBottom: `var(--bio-paragraph-spacing, ${about.paragraphSpacing})`,
         fontWeight: body.fontWeight,
         color: 'var(--about-text)',
+        animationDelay: `${delay + delayOffset}s`,
       }}
-      transition={{
-        duration: 0.5,
-        delay: delay + delayOffset,
-        ease: 'easeOut',
-        opacity: { duration: 0.16, delay: delay + delayOffset },
-      }}
-      variants={flyUp}
     >
       {children}
-    </motion.p>
+    </p>
   );
 }
 
-function FadeIn({
+function FocusIn({
   children,
   delay = 0,
   delayOffset = 0,
@@ -83,19 +72,12 @@ function FadeIn({
   delayOffset?: number;
 }) {
   return (
-    <motion.div
-      animate="visible"
-      initial="hidden"
-      transition={{
-        duration: 0.5,
-        delay: delay + delayOffset,
-        ease: 'easeOut',
-        opacity: { duration: 0.16, delay: delay + delayOffset },
-      }}
-      variants={flyUp}
+    <div
+      className={revealStyles.reveal}
+      style={{ animationDelay: `${delay + delayOffset}s` }}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }
 
@@ -152,23 +134,25 @@ export default function AboutContent() {
 
       <div className={styles.contentShell}>
         <div className={styles.contentColumn}>
-          <HomeReturnLink className={styles.homeLink} slug="about" />
+          <FocusIn delayOffset={contentDelay}>
+            <HomeReturnLink className={styles.homeLink} slug="about" />
+          </FocusIn>
           <div className={styles.intro}>
             <div className={styles.introCopy}>
-              <FadeIn delay={0.1} delayOffset={contentDelay}>
+              <FocusIn delay={0.04} delayOffset={contentDelay}>
                 <h1 className={styles.greeting}>Hi, I&apos;m Jonathan!</h1>
-              </FadeIn>
-              <Bio delay={0.2} delayOffset={contentDelay}>
+              </FocusIn>
+              <Bio delay={0.08} delayOffset={contentDelay}>
                 i&apos;m studying data science, artificial intelligence, and bioinformatics @ purdue
                 university.
               </Bio>
-              <Bio delay={0.3} delayOffset={contentDelay}>
+              <Bio delay={0.12} delayOffset={contentDelay}>
                 i&apos;ve previously interned at walmart global tech, and have had various research
                 experiences in computational biology and wet lab settings. i will be interning at eli lilly in
                 indianapolis during my sophomore year.
               </Bio>
             </div>
-            <FadeIn delayOffset={contentDelay}>
+            <FocusIn delayOffset={contentDelay}>
               <div className={styles.portrait}>
                 <Image
                   alt="Jonathan sitting in front of a mountain landscape"
@@ -188,10 +172,10 @@ export default function AboutContent() {
                   width={922}
                 />
               </div>
-            </FadeIn>
+            </FocusIn>
           </div>
 
-          <Bio delay={0.4} delayOffset={contentDelay}>
+          <Bio delay={0.16} delayOffset={contentDelay}>
             i also love travel photography and drone cinematography ~ check out my work{' '}
             <a
               href="https://www.instagram.com/johnnyc.photography"
@@ -203,33 +187,26 @@ export default function AboutContent() {
             </a>
           </Bio>
 
-          <Bio delay={0.5} delayOffset={contentDelay}>
+          <Bio delay={0.2} delayOffset={contentDelay}>
             this page is a place for my shower thoughts, longer reflections, and projects. happy
             exploring!
           </Bio>
 
-          <motion.hr
-            animate="visible"
-            initial="hidden"
+          <hr
+            className={revealStyles.reveal}
             style={{
               border: 'none',
               borderTop: '1px solid rgba(60, 60, 60, 0.22)',
               margin: '40px 0',
+              animationDelay: `${0.24 + contentDelay}s`,
             }}
-            transition={{
-              duration: 0.5,
-              delay: 0.6 + contentDelay,
-              ease: 'easeOut',
-              opacity: { duration: 0.16, delay: 0.6 + contentDelay },
-            }}
-            variants={flyUp}
           />
 
-          <FadeIn delay={0.65} delayOffset={contentDelay}>
+          <FocusIn delay={0.26} delayOffset={contentDelay}>
             <AboutResume />
-          </FadeIn>
+          </FocusIn>
 
-          <FadeIn delay={0.85} delayOffset={contentDelay}>
+          <FocusIn delay={0.3} delayOffset={contentDelay}>
             <div style={sectionLabelStyle}>Honors</div>
             <div style={entryStyle}>
               Coca-Cola Scholar Finalist (0.23% from 107,000+ applicants)
@@ -247,7 +224,7 @@ export default function AboutContent() {
               State Concert Guest Performer, All-State & All-Region Violinist, 3x Chamber Intensive
               Violinist
             </div>
-          </FadeIn>
+          </FocusIn>
         </div>
       </div>
     </section>

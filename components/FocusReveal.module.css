@@ -1,0 +1,22 @@
+.reveal {
+  animation: focusReveal 700ms ease-out backwards;
+}
+
+@keyframes focusReveal {
+  from {
+    opacity: 0.35;
+    filter: blur(8px);
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    animation: none;
+  }
+}
