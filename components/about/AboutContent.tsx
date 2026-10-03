@@ -56,7 +56,7 @@ function Bio({
       style={{
         fontSize: about.paragraphFontSize,
         lineHeight: about.paragraphLineHeight,
-        marginBottom: about.paragraphSpacing,
+        marginBottom: `var(--bio-paragraph-spacing, ${about.paragraphSpacing})`,
         fontWeight: body.fontWeight,
         color: 'var(--about-text)',
       }}
@@ -153,43 +153,43 @@ export default function AboutContent() {
       <div className={styles.contentShell}>
         <div className={styles.contentColumn}>
           <HomeReturnLink className={styles.homeLink} slug="about" />
-          <motion.div
-            animate="visible"
-            initial="hidden"
-            style={{ fontSize: about.iconSize, marginBottom: about.iconMarginBottom }}
-            transition={{
-              duration: 0.5,
-              delay: contentDelay,
-              ease: 'easeOut',
-              opacity: { duration: 0.16, delay: contentDelay },
-            }}
-            variants={flyUp}
-          >
-            <Image
-              alt="icon"
-              className={styles.stampImage}
-              height={80}
-              priority
-              src="/stamp.png"
-              style={{ width: about.iconSize, height: 'auto' }}
-              width={80}
-            />
-          </motion.div>
-
-          <Bio delay={0.1} delayOffset={contentDelay}>
-            hi, i&apos;m Jonathan! 👋🏻
-          </Bio>
-
-          <Bio delay={0.2} delayOffset={contentDelay}>
-            i&apos;m studying data science, artificial intelligence, and bioinformatics @ purdue
-            university.
-          </Bio>
-
-          <Bio delay={0.3} delayOffset={contentDelay}>
-            i&apos;ve previously interned at walmart global tech, and have had various research
-            experiences in computational biology and wet lab settings. i will be interning at eli lilly in
-            indianapolis during my sophomore year.
-          </Bio>
+          <div className={styles.intro}>
+            <div className={styles.introCopy}>
+              <FadeIn delay={0.1} delayOffset={contentDelay}>
+                <h1 className={styles.greeting}>Hi, I&apos;m Jonathan!</h1>
+              </FadeIn>
+              <Bio delay={0.2} delayOffset={contentDelay}>
+                i&apos;m studying data science, artificial intelligence, and bioinformatics @ purdue
+                university.
+              </Bio>
+              <Bio delay={0.3} delayOffset={contentDelay}>
+                i&apos;ve previously interned at walmart global tech, and have had various research
+                experiences in computational biology and wet lab settings. i will be interning at eli lilly in
+                indianapolis during my sophomore year.
+              </Bio>
+            </div>
+            <FadeIn delayOffset={contentDelay}>
+              <div className={styles.portrait}>
+                <Image
+                  alt="Jonathan sitting in front of a mountain landscape"
+                  className={styles.headshot}
+                  height={2736}
+                  preload
+                  sizes="252px"
+                  src="/headshot.jpg"
+                  width={2052}
+                />
+                <Image
+                  alt=""
+                  className={styles.stampImage}
+                  height={922}
+                  sizes="88px"
+                  src="/stamp.png"
+                  width={922}
+                />
+              </div>
+            </FadeIn>
+          </div>
 
           <Bio delay={0.4} delayOffset={contentDelay}>
             i also love travel photography and drone cinematography ~ check out my work{' '}
