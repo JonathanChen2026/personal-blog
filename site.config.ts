@@ -19,14 +19,12 @@ export const config = {
     paragraphFontSize: '15.5px',
     paragraphLineHeight: '2',
     paragraphSpacing: '28px',   // gap between paragraphs
-    paragraphFontWeight: '300',
   },
 
   // ── Writing List (Thoughts page) ─────────────────────
   thoughts: {
     titleFontSize: '1.5rem',         // "WRITING" heading
     titleFontWeight: '500',
-    titleLetterSpacing: '0.10em',
 
     subtitleFontSize: '15px',
 
@@ -45,7 +43,6 @@ export const config = {
   projects: {
     titleFontSize: '1.5rem',        
     titleFontWeight: '500',
-    titleLetterSpacing: '0.10em',
   },
 
   // ── Individual Post ───────────────────────────────────

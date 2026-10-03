@@ -12,7 +12,6 @@ export default function ThoughtsPanel({ posts }: { posts: ThoughtPost[] }) {
         style={{
           fontSize: thoughts.titleFontSize,
           fontWeight: thoughts.titleFontWeight,
-          letterSpacing: thoughts.titleLetterSpacing,
           textTransform: 'uppercase',
           marginBottom: '12px',
         }}

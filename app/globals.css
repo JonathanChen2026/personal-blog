@@ -10,7 +10,8 @@
   --muted: #9b9b9b;
   --border: #d0d0d0;
   --planet-scene-bg: #D5DEE7;
-  --door-label: var(--text);
+  --door-label: #000;
+  --door-label-letter-spacing: 0.11em;
   --home-link: #3e3e3e;
   --home-link-hover: #1a1a1a;
   --tag-essay: #dce8ff;
@@ -105,6 +106,7 @@ button, input, select, textarea, code, pre, kbd, samp {
 
 .page-section-title {
   font-family: var(--font-mono);
+  letter-spacing: var(--door-label-letter-spacing);
 }
 
 .post-content p   { margin-bottom: 1.4rem; color: var(--text); }

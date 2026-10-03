@@ -13,7 +13,6 @@ export default function ProjectsPanel() {
         style={{
           fontSize: projects.titleFontSize,
           fontWeight: projects.titleFontWeight,
-          letterSpacing: projects.titleLetterSpacing,
           textTransform: 'uppercase',
           marginBottom: '24px',
         }}

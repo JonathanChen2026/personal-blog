@@ -8,7 +8,7 @@ import AboutResume from './AboutResume';
 import styles from './AboutContent.module.css';
 import { ABOUT_PARALLAX, type AboutParallaxLayerConfig } from './aboutParallaxConfig';
 
-const { about } = config;
+const { about, body } = config;
 const { layers, scrollInput } = ABOUT_PARALLAX;
 const CONTENT_REVEAL_DELAY_SECONDS = 0.2;
 
@@ -25,6 +25,7 @@ const entryStyle = {
   fontSize: about.paragraphFontSize,
   lineHeight: '1.8',
   marginBottom: '16px',
+  fontWeight: body.fontWeight,
   color: 'var(--about-text)',
 };
 
@@ -56,7 +57,7 @@ function Bio({
         fontSize: about.paragraphFontSize,
         lineHeight: about.paragraphLineHeight,
         marginBottom: about.paragraphSpacing,
-        fontWeight: about.paragraphFontWeight,
+        fontWeight: body.fontWeight,
         color: 'var(--about-text)',
       }}
       transition={{
