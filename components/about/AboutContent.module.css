@@ -1,6 +1,6 @@
 .aboutScene {
   --planet-scene-bg: #F4F4F4;
-  --about-text: rgba(40, 40, 40, 0.98);
+  --about-text: var(--heading-text);
   --about-muted: rgba(0, 0, 0, 0.8);
 
   position: relative;

@@ -25,7 +25,7 @@ export default function HomeReturnLink({ className, slug }: HomeReturnLinkProps)
         <span>jonathan chen</span>
       </Link>
       <span className={styles.slug}>
-        <span className={styles.slugSeparator}>/</span> {slug}
+        / {slug}
       </span>
     </div>
   );

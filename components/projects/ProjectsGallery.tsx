@@ -31,7 +31,6 @@ export default function ProjectsGallery({ children }: { children: ReactNode }) {
     <section className={styles.scene} ref={sceneRef}>
       <header className={styles.header}>
         <HomeReturnLink slug="projects" />
-        <h1 className={styles.title}>Projects</h1>
       </header>
       <div
         aria-label="Project gallery"

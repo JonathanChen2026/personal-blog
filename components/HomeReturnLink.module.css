@@ -16,17 +16,14 @@
   gap: 8px;
   color: var(--home-link);
   white-space: nowrap;
-  transition: color 160ms ease, font-weight 160ms ease;
 }
 
 .link:hover {
   color: var(--home-link-hover);
-  font-weight: 550;
 }
 
 .link:focus-visible {
   color: var(--home-link-hover);
-  font-weight: 550;
   outline: 2px solid currentColor;
   outline-offset: 4px;
 }
@@ -34,13 +31,9 @@
 .slug {
   min-width: 0;
   padding-top: 5.5px;
-  color: var(--home-link-hover);
+  color: var(--heading-text);
   line-height: 1.25;
   overflow-wrap: anywhere;
-}
-
-.slugSeparator {
-  color: var(--home-link);
 }
 
 .icon {
@@ -49,10 +42,4 @@
   height: 31px;
   flex: 0 0 31px;
   object-fit: contain;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .link {
-    transition: none;
-  }
 }
