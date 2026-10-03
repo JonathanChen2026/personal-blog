@@ -8,8 +8,8 @@
   --door-cta-slot-height: 16px;
   --door-label-size: 13px;
   --door-enter-size: 10px;
-  --landing-delay: 0.2s;
-  --landing-duration: 0.5s;
+  --landing-duration: 0.7s;
+  --welcome-duration: 0.2s;
   --landing-ease: cubic-bezier(0.22, 1, 0.36, 1);
   --planet-intro-spin: -120deg;
   --parallax-far: 0.1;
@@ -62,7 +62,7 @@
 }
 
 .scene[data-ready='true'] .planetReveal {
-  animation: planet-landing var(--landing-duration) var(--landing-ease) var(--landing-delay) both;
+  animation: planet-landing var(--landing-duration) var(--landing-ease) both;
 }
 
 @keyframes planet-landing {
@@ -98,7 +98,7 @@
 }
 
 .scene[data-ready='true'] .skyIntro {
-  animation: sky-intro-spin calc(var(--landing-delay) + var(--landing-duration)) var(--landing-ease) both;
+  animation: sky-intro-spin var(--landing-duration) var(--landing-ease) both;
 }
 
 @keyframes sky-intro-spin {
@@ -349,9 +349,24 @@
 .greeting,
 .desktopArrowCta {
   transition:
-    opacity 420ms ease,
-    transform 420ms ease,
-    visibility 420ms ease;
+    opacity var(--welcome-duration) ease-out,
+    transform var(--welcome-duration) ease-out,
+    visibility var(--welcome-duration) ease-out;
+}
+
+.scene[data-ready='true'][data-has-moved='false'] .greeting,
+.scene[data-ready='true'][data-has-moved='false'] .desktopArrowCta {
+  animation: welcome-reveal var(--welcome-duration) ease-out var(--landing-duration) backwards;
+}
+
+@keyframes welcome-reveal {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .scene[data-has-moved='true'] .greeting,
@@ -495,5 +510,10 @@
   .desktopArrowCta,
   .mobileControlButton {
     transition: none;
+  }
+
+  .scene[data-ready='true'][data-has-moved='false'] .greeting,
+  .scene[data-ready='true'][data-has-moved='false'] .desktopArrowCta {
+    animation: none;
   }
 }
