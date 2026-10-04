@@ -1,0 +1,33 @@
+.gallery {
+  width: calc(100% - 64px);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-bottom: 72px;
+}
+
+.tabletLayout,
+.desktopLayout {
+  display: none;
+}
+
+.item {
+  width: 100%;
+  margin: 0;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@media (min-width: 768px) {
+  .gallery { width: 84%; }
+  .mobileLayout { display: none; }
+  .tabletLayout { display: block; }
+}
+
+@media (min-width: 1024px) {
+  .tabletLayout { display: none; }
+  .desktopLayout { display: block; }
+}

@@ -20,7 +20,44 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
+## Photos and looping videos
+
+1. Add JPEG, PNG, WebP, or AVIF photos to `public/photos/`. Add browser-ready
+   **H.264 MP4** clips to `public/Video/` (create the folder when needed).
+   Keep clips short and compressed; the gallery does not transcode video.
+2. Optionally reorder paths in `gallery-order.txt`, one path per line, relative
+   to `public/`. Photos and videos share the same list:
+
+   ```text
+   photos/DSC_0049.jpg
+   Video/street-loop.mp4
+   photos/DJI_0333-HDR.jpg
+   ```
+
+   Listed files appear first. Unlisted files appear automatically at the end,
+   alphabetically. Blank lines and `#` comments are allowed. Deleted or duplicate
+   entries are ignored with a warning. Desktop masonry places successive items
+   in the shortest column; mobile follows the exact list sequence.
+3. Refresh `/photos` locally to preview changes. Include the new files and order
+   list in the next deployment to update the live gallery.
+
+Media dimensions are read automatically on the server. Missing folders are
+allowed; invalid supported files report their filename during the build.
+Filenames, folder names, and order entries are case-sensitive on deployment.
+
+An optional `public/Video/street-loop.poster.jpg` supplies a poster for
+`street-loop.mp4`. Posters do not become gallery items. Videos load near the
+viewport, loop silently while visible, and pause offscreen or in hidden tabs.
+Reduced-motion settings disable automatic playback; play/pause is available by
+keyboard, on hover, and on touch screens.
+
+The gallery uses React Photo Album's server component and optimized Next.js
+images. Its layout and filesystem/metadata libraries add no gallery JavaScript
+to the browser; only video playback needs a small client component.
+
+Run discovery and metadata tests with `npm run test:gallery`.
+
+## Next.js resources
 
 To learn more about Next.js, take a look at the following resources:
 
