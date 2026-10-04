@@ -27,3 +27,7 @@
   .mobileLayout { display: none; }
   .wideLayout { display: block; }
 }
+
+@media (min-width: 1024px) {
+  .gallery { width: 80%; max-width: 1140px; }
+}

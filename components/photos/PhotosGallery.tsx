@@ -6,7 +6,7 @@ import revealStyles from '@/components/FocusReveal.module.css';
 import LoopingVideo from './LoopingVideo';
 import styles from './PhotosGallery.module.css';
 
-const imageSizes = '(max-width: 767px) calc(100vw - 64px), (max-width: 1428px) calc((84vw - 20px) / 2), 590px';
+const imageSizes = '(max-width: 767px) calc(100vw - 64px), (max-width: 1023px) calc((84vw - 20px) / 2), (max-width: 1424px) calc((80vw - 20px) / 2), 560px';
 
 export default function PhotosGallery({ media }: { media: GalleryMedia[] }) {
   return (
