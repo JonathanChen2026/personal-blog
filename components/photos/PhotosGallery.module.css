@@ -5,14 +5,15 @@
   padding-bottom: 72px;
 }
 
-.tabletLayout,
-.desktopLayout {
+.wideLayout {
   display: none;
 }
 
 .item {
   width: 100%;
   margin: 0;
+  border-radius: 14px;
+  overflow: hidden;
 }
 
 .image {
@@ -24,10 +25,5 @@
 @media (min-width: 768px) {
   .gallery { width: 84%; }
   .mobileLayout { display: none; }
-  .tabletLayout { display: block; }
-}
-
-@media (min-width: 1024px) {
-  .tabletLayout { display: none; }
-  .desktopLayout { display: block; }
+  .wideLayout { display: block; }
 }
