@@ -38,7 +38,9 @@ export default function SiteCursor() {
 
   return (
     <div aria-hidden="true" className="site-cursor" ref={dotRef}>
-      <div className="site-cursor-dot" />
+      <div className="site-cursor-dot">
+        <span className="site-cursor-label">COPY EMAIL</span>
+      </div>
     </div>
   );
 }

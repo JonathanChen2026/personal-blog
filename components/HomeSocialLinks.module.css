@@ -18,8 +18,19 @@
   width: calc(var(--social-icon-size) + 4px);
   height: calc(var(--social-icon-size) + 4px);
   color: #000;
+  border: 0;
+  padding: 0;
+  background: none;
   opacity: 0.92;
   transition: opacity 160ms ease;
+}
+
+.copyStatus {
+  position: absolute;
+  bottom: calc(100% + 12px);
+  right: 0;
+  font-size: 12px;
+  white-space: nowrap;
 }
 
 .iconLink {
@@ -38,11 +49,12 @@
   padding: 0 2px;
   font-size: 14px;
   line-height: 1;
+  opacity: 1;
 }
 
 .resumeLink span {
+  color: var(--home-link);
   font-weight: 400;
-  transition: font-weight 160ms ease;
 }
 
 .resumeLink svg {
@@ -52,7 +64,7 @@
 
 .resumeLink:hover span,
 .resumeLink:focus-visible span {
-  font-weight: 550;
+  color: #000;
 }
 
 .link:hover,

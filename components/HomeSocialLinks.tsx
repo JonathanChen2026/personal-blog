@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import {
   ArrowUpRightIcon,
   EnvelopeIcon,
@@ -5,6 +8,8 @@ import {
   LinkedinLogoIcon,
 } from '@phosphor-icons/react/ssr';
 import styles from './HomeSocialLinks.module.css';
+
+const EMAIL = 'chen6111@purdue.edu';
 
 const SOCIAL_LINKS = [
   {
@@ -17,14 +22,20 @@ const SOCIAL_LINKS = [
     label: 'GitHub',
     Icon: GithubLogoIcon,
   },
-  {
-    href: 'mailto:chen6111@purdue.edu',
-    label: 'Email',
-    Icon: EnvelopeIcon,
-  },
 ] as const;
 
 export default function HomeSocialLinks() {
+  const [copyStatus, setCopyStatus] = useState('');
+
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(EMAIL);
+      setCopyStatus('Email copied');
+    } catch {
+      setCopyStatus(`Copy unavailable: ${EMAIL}`);
+    }
+  };
+
   return (
     <nav aria-label="Social links" className={styles.links}>
       {SOCIAL_LINKS.map(({ href, label, Icon }) => (
@@ -39,6 +50,18 @@ export default function HomeSocialLinks() {
           <Icon color="#000" size={36} />
         </a>
       ))}
+      <button
+        aria-label="Copy email address"
+        className={`${styles.link} ${styles.iconLink}`}
+        data-cursor="copy-email"
+        onClick={copyEmail}
+        onPointerLeave={() => setCopyStatus('')}
+        onBlur={() => setCopyStatus('')}
+        type="button"
+      >
+        <EnvelopeIcon aria-hidden="true" color="#000" size={36} />
+      </button>
+      <span className={styles.copyStatus} role="status">{copyStatus}</span>
       <a
         aria-label="Resume"
         className={`${styles.link} ${styles.resumeLink}`}
