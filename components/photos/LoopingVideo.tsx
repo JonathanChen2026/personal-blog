@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import styles from './LoopingVideo.module.css';
 
 type LoopingVideoProps = {
@@ -13,27 +13,21 @@ type LoopingVideoProps = {
 
 export default function LoopingVideo({ src, poster, width, height, label }: LoopingVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const userPlayback = useRef<boolean | undefined>(undefined);
-  const updatePlayback = useRef<() => void>(() => {});
-  const [playing, setPlaying] = useState(false);
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     let loaded = false;
     let visible = false;
     const syncPlayback = () => {
-      const shouldPlay = loaded && visible && !document.hidden &&
-        (userPlayback.current ?? !reducedMotion.matches);
+      const shouldPlay = loaded && visible && !document.hidden;
       if (shouldPlay) {
         video.muted = true;
-        void video.play().catch(() => { /* The play button remains available if autoplay is blocked. */ });
+        void video.play().catch(() => { /* Keep the still frame if the browser blocks playback. */ });
       } else {
         video.pause();
       }
     };
-    updatePlayback.current = syncPlayback;
     const loadObserver = new IntersectionObserver(([entry]) => {
       if (!entry.isIntersecting || !video.getClientRects().length || loaded) return;
       loaded = true;
@@ -50,14 +44,11 @@ export default function LoopingVideo({ src, poster, width, height, label }: Loop
     loadObserver.observe(video);
     visibilityObserver.observe(video);
     document.addEventListener('visibilitychange', syncPlayback);
-    reducedMotion.addEventListener('change', syncPlayback);
     return () => {
       loadObserver.disconnect();
       visibilityObserver.disconnect();
       document.removeEventListener('visibilitychange', syncPlayback);
-      reducedMotion.removeEventListener('change', syncPlayback);
       video.pause();
-      updatePlayback.current = () => {};
     };
   }, [src, poster]);
 
@@ -72,21 +63,11 @@ export default function LoopingVideo({ src, poster, width, height, label }: Loop
         muted
         loop
         playsInline
+        controls={false}
+        disablePictureInPicture
+        tabIndex={-1}
         preload="none"
-        onPlay={() => setPlaying(true)}
-        onPause={() => setPlaying(false)}
       />
-      <button
-        className={styles.control}
-        type="button"
-        aria-label={`${playing ? 'Pause' : 'Play'} video: ${label}`}
-        onClick={() => {
-          userPlayback.current = !playing;
-          updatePlayback.current();
-        }}
-      >
-        <span aria-hidden="true">{playing ? 'Ⅱ' : '▶'}</span>
-      </button>
     </div>
   );
 }

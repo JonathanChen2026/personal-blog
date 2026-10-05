@@ -12,11 +12,10 @@ export default function ThoughtsPanel({ posts }: { posts: ThoughtPost[] }) {
         style={{
           fontSize: thoughts.titleFontSize,
           fontWeight: thoughts.titleFontWeight,
-          textTransform: 'uppercase',
           marginBottom: '12px',
         }}
       >
-        WRITING
+        Writing
       </h1>
       <p
         style={{

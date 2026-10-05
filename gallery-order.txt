@@ -1,14 +1,16 @@
 # Move lines to change the order. New files appear after these entries.
 # Paths are relative to public/ and are case-sensitive.
-Video/boogey.mp4
+Video/boogeygif.mp4
 photos/DSC_0881.jpg
 photos/DJI_0344-HDR.jpg
 photos/DSC_0049.jpg
 photos/boatimage 2.jpg
-Video/zoomoutforest.mp4
+Video/forestgif.mp4
 photos/IMG_7433.jpg
 photos/DSC_0065-2.jpg
+Video/seattlewheelgif.mp4
 photos/DJI_0333-HDR.jpg
+Video/seaskygif.mp4
 photos/DSC_0085.jpg
 photos/DSC_0162.jpg
 photos/DSC_0188.jpg
@@ -16,6 +18,7 @@ photos/DSC_0202-2.jpg
 photos/guilinicecream 2.jpg
 photos/DSC_0350.jpg
 photos/DSC_0409.jpg
+Video/lakegif.mp4
 photos/DSC_0418.jpg
 photos/DSC_0585.jpg
 photos/IMG_3212.jpg
