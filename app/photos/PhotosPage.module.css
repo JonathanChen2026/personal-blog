@@ -1,2 +1,47 @@
 .page { min-height: 100svh; background: var(--bg); }
 .header { display: flex; width: 100%; margin: 0 auto 32px; }
+
+.intro {
+  display: grid;
+  grid-template-columns: 236px minmax(0, 1fr);
+  align-items: center;
+  gap: 16px;
+  width: min(780px, calc(100% - 64px));
+  margin: 0 auto 32px;
+  color: var(--heading-text);
+  font-family: var(--font-poppins), sans-serif;
+}
+
+.photographer {
+  display: block;
+  width: 236px;
+  height: auto;
+}
+
+.introCopy { max-width: 448px; }
+
+.title {
+  margin: 0 0 64px;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+
+.description {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+@media (max-width: 767px) {
+  .intro {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+    margin-bottom: 40px;
+  }
+  .photographer { width: 180px; margin: 0 auto; }
+  .introCopy { width: 100%; max-width: none; }
+  .title { margin-bottom: 24px; font-size: 28px; overflow-wrap: anywhere; }
+}
