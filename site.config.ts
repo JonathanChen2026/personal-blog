@@ -24,7 +24,7 @@ export const config = {
   // ── Writing List (Thoughts page) ─────────────────────
   thoughts: {
     titleFontSize: '1.5rem',         // "WRITING" heading
-    titleFontWeight: '500',
+    titleFontWeight: '700',
 
     subtitleFontSize: '15px',
 

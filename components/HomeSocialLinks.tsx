@@ -54,7 +54,11 @@ export default function HomeSocialLinks() {
         aria-label="Copy email address"
         className={`${styles.link} ${styles.iconLink}`}
         data-cursor="copy-email"
+        data-copied={copyStatus === 'Email copied' ? 'true' : undefined}
         onClick={copyEmail}
+        onKeyDown={(event) => {
+          if (event.key === 'Enter' || event.key === ' ') event.stopPropagation();
+        }}
         onPointerLeave={() => setCopyStatus('')}
         onBlur={() => setCopyStatus('')}
         type="button"
@@ -70,7 +74,7 @@ export default function HomeSocialLinks() {
         target="_blank"
       >
         <span>resume</span>
-        <ArrowUpRightIcon aria-hidden="true" color="#000" size={24} />
+        <ArrowUpRightIcon aria-hidden="true" color="#000" size={20} />
       </a>
     </nav>
   );

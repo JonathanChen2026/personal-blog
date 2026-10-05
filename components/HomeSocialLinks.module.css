@@ -33,6 +33,15 @@
   white-space: nowrap;
 }
 
+@media (hover: hover) and (pointer: fine) {
+  .links:has([data-copied="true"]) .copyStatus {
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+}
+
 .iconLink {
   transition: opacity 160ms ease, transform 160ms ease;
 }
@@ -53,18 +62,18 @@
 }
 
 .resumeLink span {
-  color: var(--home-link);
   font-weight: 400;
 }
 
 .resumeLink svg {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
+  transition: transform 160ms ease;
 }
 
-.resumeLink:hover span,
-.resumeLink:focus-visible span {
-  color: #000;
+.resumeLink:hover svg,
+.resumeLink:focus-visible svg {
+  transform: translate(2px, -2px);
 }
 
 .link:hover,
@@ -95,14 +104,20 @@
   }
 
   .resumeLink svg {
-    width: 22px;
-    height: 22px;
+    width: 18px;
+    height: 18px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .link,
-  .iconLink {
+  .iconLink,
+  .resumeLink svg {
     transition: none;
+  }
+
+  .resumeLink:hover svg,
+  .resumeLink:focus-visible svg {
+    transform: none;
   }
 }

@@ -15,6 +15,8 @@ export type PlanetDoor = {
   scale: number;
   /** Fraction of the planet size, applied straight down in planet space. */
   drop: number;
+  /** Nudge door label right (+) or left (-) relative to icon center, in px. */
+  labelOffsetX?: number;
   icon: StaticImageData;
 };
 
@@ -23,7 +25,17 @@ export type WalkDirection = -1 | 0 | 1;
 export const PLANET_DOORS = [
   // Mount each illustrated base into the uneven planet outline at its own angle.
   { key: 'about', href: '/about', label: 'Start Here', angle: 44, surfaceRadius: 0.436, scale: 0.86, drop: 0.012, icon: backpack },
-  { key: 'thoughts', href: '/thoughts', label: 'Thoughts', angle: 142, surfaceRadius: 0.416, scale: 0.94, drop: 0.014, icon: journal },
+  {
+    key: 'thoughts',
+    href: '/thoughts',
+    label: 'Thoughts',
+    angle: 142,
+    surfaceRadius: 0.416,
+    scale: 0.94,
+    drop: 0.014,
+    labelOffsetX: 12,
+    icon: journal,
+  },
   { key: 'photos', href: '/photos', label: 'Photos', angle: 196, surfaceRadius: 0.418, scale: 0.92, drop: 0, icon: camera },
   { key: 'projects', href: '/projects', label: 'Projects', angle: 251, surfaceRadius: 0.419, scale: 1.08, drop: 0, icon: toolbox },
 ] as const satisfies readonly PlanetDoor[];

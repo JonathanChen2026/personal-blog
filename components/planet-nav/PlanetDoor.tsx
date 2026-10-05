@@ -23,6 +23,7 @@ export default function PlanetDoor({
         '--door-radius': -door.surfaceRadius,
         '--door-scale': door.scale,
         '--door-drop': door.drop,
+        '--door-label-offset-x': `${door.labelOffsetX ?? 0}px`,
       } as CSSProperties}
     >
       <button
