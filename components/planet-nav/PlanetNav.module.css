@@ -346,6 +346,10 @@
   transform: translate(-50%, -50%);
 }
 
+.greetingSubline {
+  font-weight: 400;
+}
+
 .greeting,
 .desktopArrowCta {
   transition:

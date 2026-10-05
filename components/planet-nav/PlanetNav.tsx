@@ -266,7 +266,7 @@ export default function PlanetNav() {
             <p aria-hidden={hasMoved} className={styles.greeting}>
               hi, i&apos;m jonathan!
               <br />
-              welcome to my little world :)
+              <span className={styles.greetingSubline}>welcome to my little world :)</span>
             </p>
 
             <div aria-hidden="true" className={styles.character}>

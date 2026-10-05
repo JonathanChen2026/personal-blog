@@ -35,6 +35,39 @@ test('empty and missing folders produce an empty gallery', async (t) => {
   assert.deepEqual(await getGalleryMedia(root), []);
 });
 
+test('captions preserve mixed media order and default for blank, legacy, and new entries', async (t) => {
+  const root = await fixture(t);
+  for (const name of ['caption #1.jpg', 'blank.jpg', 'legacy.jpg', 'new.jpg']) {
+    await photo(root, name);
+  }
+  await copyFile(new URL('./fixtures/gallery-landscape.mp4', import.meta.url), path.join(root, 'public/Video/clip.mp4'));
+  await writeFile(path.join(root, 'gallery-order.txt'), [
+    '# path | caption',
+    ' Video/clip.mp4 | A quiet evening ',
+    'photos/caption #1.jpg | River | sunset',
+    'photos/blank.jpg | ',
+    'photos/legacy.jpg',
+  ].join('\r\n'));
+  const media = await getGalleryMedia(root);
+  assert.deepEqual(media.map(({ key, caption }) => [key, caption]), [
+    ['Video/clip.mp4', 'A quiet evening'],
+    ['photos/caption #1.jpg', 'River | sunset'],
+    ['photos/blank.jpg', 'coming soon'],
+    ['photos/legacy.jpg', 'coming soon'],
+    ['photos/new.jpg', 'coming soon'],
+  ]);
+});
+
+test('duplicate caption entries retain the first caption and warn about missing files', async (t) => {
+  const root = await fixture(t);
+  await photo(root, 'one.jpg');
+  const warning = t.mock.method(console, 'warn', () => {});
+  await writeFile(path.join(root, 'gallery-order.txt'), 'photos/one.jpg | First\nphotos/one.jpg | Second\nphotos/missing.jpg | Missing\n');
+  const media = await getGalleryMedia(root);
+  assert.equal(media[0].caption, 'First');
+  assert.equal(warning.mock.callCount(), 2);
+});
+
 test('discovers additions and deletions, escapes URLs, and applies EXIF orientation', async (t) => {
   const root = await fixture(t);
   await photo(root, 'landscape #1.jpg');

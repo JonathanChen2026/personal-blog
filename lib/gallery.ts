@@ -12,6 +12,7 @@ export type GalleryMedia = {
   width: number;
   height: number;
   alt: string;
+  caption: string;
   poster?: string;
 };
 
@@ -49,13 +50,23 @@ async function filesIn(directory: string) {
   }
 }
 
+function parseGalleryOrder(order: string) {
+  return order.split(/\r?\n/).flatMap((line) => {
+    const entry = line.trim();
+    if (!entry || entry.startsWith('#')) return [];
+    const separator = entry.indexOf('|');
+    return [{
+      filename: (separator < 0 ? entry : entry.slice(0, separator)).trim(),
+      caption: separator < 0 ? 'coming soon' : entry.slice(separator + 1).trim() || 'coming soon',
+    }];
+  });
+}
+
 /** Explicit entries first; newly discovered media follow in a stable order. */
 export function orderGalleryFiles(files: string[], order: string) {
   const remaining = new Set(files);
   const ordered: string[] = [];
-  for (const line of order.split(/\r?\n/)) {
-    const filename = line.trim();
-    if (!filename || filename.startsWith('#')) continue;
+  for (const { filename } of parseGalleryOrder(order)) {
     if (!remaining.delete(filename)) {
       console.warn(`[gallery] Ignoring missing or duplicate order entry: ${filename}`);
       continue;
@@ -120,6 +131,10 @@ export async function getGalleryMedia(root = process.cwd()): Promise<GalleryMedi
     ...photos.filter((name) => photoExtensions.test(name)).map((name) => `photos/${name}`),
     ...videos.filter((name) => /\.mp4$/i.test(name)).map((name) => `Video/${name}`),
   ], order);
+  const captions = new Map<string, string>();
+  for (const { filename, caption } of parseGalleryOrder(order)) {
+    if (!captions.has(filename)) captions.set(filename, caption);
+  }
 
   return Promise.all(files.map(async (filename) => {
     try {
@@ -136,6 +151,7 @@ export async function getGalleryMedia(root = process.cwd()): Promise<GalleryMedi
         kind,
         width,
         height,
+        caption: captions.get(filename) ?? 'coming soon',
         alt: descriptions[path.basename(filename)] ??
           `${kind === 'photo' ? 'Photograph' : 'Silent video'} by Jonathan Chen: ${path.parse(filename).name.replace(/[_-]/g, ' ')}`,
       };
