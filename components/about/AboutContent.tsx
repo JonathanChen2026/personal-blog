@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from 'framer-motion';
 import { config } from '@/site.config';
 import HomeReturnLink from '@/components/HomeReturnLink';
@@ -177,6 +178,10 @@ export default function AboutContent() {
 
           <Bio delay={0.16} delayOffset={contentDelay}>
             i also love travel photography and drone cinematography ~ check out my work{' '}
+            <Link href="/photos" style={linkStyle}>
+              here
+            </Link>{' '}
+            and{' '}
             <a
               href="https://www.instagram.com/johnnyc.photography"
               rel="noopener noreferrer"
@@ -188,8 +193,14 @@ export default function AboutContent() {
           </Bio>
 
           <Bio delay={0.2} delayOffset={contentDelay}>
-            this page is a place for my shower thoughts, longer reflections, and projects. happy
-            exploring!
+            in my free time, you can catch me: playing ALL the racket sports (tennis, badminton,
+            pickleball especially), larping as a V5 climber, grabbing good boba, flying drones, editing cinematic
+            photos/videos, and exploring nature.
+          </Bio>
+
+          <Bio delay={0.24} delayOffset={contentDelay}>
+            this page is a place for my projects, photography/videography, shower thoughts, and
+            longer reflections. happy exploring and please feel free to reach out!
           </Bio>
 
           <hr
@@ -198,15 +209,15 @@ export default function AboutContent() {
               border: 'none',
               borderTop: '1px solid rgba(60, 60, 60, 0.22)',
               margin: '40px 0',
-              animationDelay: `${0.24 + contentDelay}s`,
+              animationDelay: `${0.28 + contentDelay}s`,
             }}
           />
 
-          <FocusIn delay={0.26} delayOffset={contentDelay}>
+          <FocusIn delay={0.3} delayOffset={contentDelay}>
             <AboutResume />
           </FocusIn>
 
-          <FocusIn delay={0.3} delayOffset={contentDelay}>
+          <FocusIn delay={0.34} delayOffset={contentDelay}>
             <div style={sectionLabelStyle}>Honors</div>
             <div style={entryStyle}>
               Coca-Cola Scholar Finalist (0.23% from 107,000+ applicants)

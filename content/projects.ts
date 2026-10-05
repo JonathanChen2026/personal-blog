@@ -33,14 +33,13 @@ export type Project = {
  * }
  */
 const templateProject: Project = {
-  title: 'Project title',
+  title: 'thejonathanchen.com',
   description:
-    'A short description of the project sits here. It can run a sentence or two and wraps under the title, before the links and photos.',
+    'My personal website inspired by one of my favorite books growing up, The Little Prince.',
   links: [
     { label: 'Devpost', href: 'https://example.com' },
     { label: 'Demo', href: 'https://example.com' },
     { label: 'Code', href: 'https://github.com' },
-    { label: 'Food', href: 'https://github.com' },
   ],
   images: [
     { src: '/projects/placeholder-a.jpg', alt: 'Placeholder photo' },
@@ -50,6 +49,6 @@ const templateProject: Project = {
 
 export const projects: Project[] = [
   templateProject,
-  { ...templateProject, title: 'Template project 2' },
-  { ...templateProject, title: 'Template project 3' },
+  { ...templateProject, title: 'Agencity' },
+  { ...templateProject, title: 'GuitArcade' },
 ];
