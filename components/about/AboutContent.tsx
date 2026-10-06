@@ -193,7 +193,7 @@ export default function AboutContent() {
           </Bio>
 
           <Bio delay={0.2} delayOffset={contentDelay}>
-            in my free time, you can catch me: playing ALL the racket sports (tennis, badminton,
+            in my free time, you can catch me: playing ALL the racket sports (ex. tennis, badminton,
             pickleball especially), larping as a V5 climber, grabbing good boba, flying drones, editing cinematic
             photos/videos, and exploring nature.
           </Bio>

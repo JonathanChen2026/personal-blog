@@ -35,6 +35,24 @@
   line-height: 1.5;
 }
 
+.principlesLead {
+  margin: 0 0 12px;
+  font-weight: 700;
+}
+
+.principlesList {
+  margin: 0;
+  padding-left: 1.25em;
+}
+
+.principlesList li::marker {
+  font-weight: 700;
+}
+
+.principlesList li + li {
+  margin-top: 16px;
+}
+
 @media (max-width: 767px) {
   .intro {
     grid-template-columns: minmax(0, 1fr);

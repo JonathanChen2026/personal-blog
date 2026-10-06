@@ -30,12 +30,23 @@ export default async function PhotosPage() {
           preload
         />
         <div className={styles.introCopy}>
-          <h1 id="photography-heading" className={styles.title}>Johnnyc.photography</h1>
-          <p className={styles.description}>
-            lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum
-            lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum
-            lorem ipsum lorem ipsum lorem ipsum lorem ipsum
-          </p>
+          <h1 id="photography-heading" className={styles.title}>@Johnnyc.photography</h1>
+          <div className={styles.description}>
+            <p className={styles.principlesLead}>A few principles</p>
+            <ol className={styles.principlesList}>
+              <li>
+                Beyond aesthetics, what makes a photo meaningful to me is the story behind it - a
+                reminder of where I was and how that moment felt.
+                <br />
+                Hover over any photo to read my little &ldquo;field notes.&rdquo;
+              </li>
+              <li>
+                I also like treating gear as a challenge, not a limitation. My DSLR is almost as old
+                as I am (a hand-me-down from my uncle :), and for video I use a tiny pocket camera
+                with a sensor smaller than a modern iPhone&apos;s. I'm always learning more (I'll prob have a distaste for my old photos soon enough lol), but just start filming.
+              </li>
+            </ol>
+          </div>
         </div>
       </section>
       <PhotosGallery media={media} />
