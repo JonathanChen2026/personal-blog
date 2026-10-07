@@ -1,9 +1,10 @@
 # Move lines to change the order. New files appear after these entries.
 # Paths are relative to public/ and are case-sensitive.
-# Format: path | caption. Edit the text after | for each photo or video.
-# Missing or blank captions default to coming soon.
+# Format: path | location | story
+# Legacy: path | story uses "location" as the place name and the text as the story.
+# Missing entries default to: location / coming soon
 Video/boogeygif.mp4 | coming soon
-photos/DSC_0881.jpg | coming soon
+photos/DSC_0881.jpg | 1000ft elevation gain
 photos/DJI_0344-HDR.jpg | coming soon
 photos/DSC_0049.jpg | coming soon
 photos/boatimage 2.jpg | coming soon

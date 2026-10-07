@@ -49,12 +49,12 @@ test('captions preserve mixed media order and default for blank, legacy, and new
     'photos/legacy.jpg',
   ].join('\r\n'));
   const media = await getGalleryMedia(root);
-  assert.deepEqual(media.map(({ key, caption }) => [key, caption]), [
-    ['Video/clip.mp4', 'A quiet evening'],
-    ['photos/caption #1.jpg', 'River | sunset'],
-    ['photos/blank.jpg', 'coming soon'],
-    ['photos/legacy.jpg', 'coming soon'],
-    ['photos/new.jpg', 'coming soon'],
+  assert.deepEqual(media.map(({ key, location, story }) => [key, location, story]), [
+    ['Video/clip.mp4', 'location', 'A quiet evening'],
+    ['photos/caption #1.jpg', 'River', 'sunset'],
+    ['photos/blank.jpg', 'location', 'coming soon'],
+    ['photos/legacy.jpg', 'location', 'coming soon'],
+    ['photos/new.jpg', 'location', 'coming soon'],
   ]);
 });
 
@@ -64,7 +64,8 @@ test('duplicate caption entries retain the first caption and warn about missing 
   const warning = t.mock.method(console, 'warn', () => {});
   await writeFile(path.join(root, 'gallery-order.txt'), 'photos/one.jpg | First\nphotos/one.jpg | Second\nphotos/missing.jpg | Missing\n');
   const media = await getGalleryMedia(root);
-  assert.equal(media[0].caption, 'First');
+  assert.equal(media[0].location, 'location');
+  assert.equal(media[0].story, 'First');
   assert.equal(warning.mock.callCount(), 2);
 });
 

@@ -2,6 +2,7 @@ import Image from 'next/image';
 import ServerPhotoAlbum from 'react-photo-album/server';
 import 'react-photo-album/masonry.css';
 import type { GalleryMedia } from '@/lib/gallery';
+import GalleryCaption from './GalleryCaption';
 import LoopingVideo from './LoopingVideo';
 import PhotosGalleryReveal from './PhotosGalleryReveal';
 import styles from './PhotosGallery.module.css';
@@ -42,7 +43,7 @@ export default function PhotosGallery({ media }: { media: GalleryMedia[] }) {
             ) : (
               <LoopingVideo src={photo.src} poster={photo.poster} width={photo.width} height={photo.height} label={photo.alt} />
             )}
-            <figcaption className={styles.caption}>{photo.caption}</figcaption>
+            <GalleryCaption location={photo.location} story={photo.story} />
           </figure>
         ) }}
       />

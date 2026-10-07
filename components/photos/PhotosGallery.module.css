@@ -26,20 +26,36 @@
 .caption {
   position: absolute;
   inset: 0;
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   padding: 24px;
   background: rgb(0 0 0 / 55%);
   color: #F4F4F4;
   font-family: var(--font-poppins), sans-serif;
-  font-size: 16px;
   font-weight: 400;
-  line-height: 1.5;
+  line-height: 1.45;
   text-align: center;
   overflow-wrap: anywhere;
   opacity: 0;
   transition: opacity 220ms ease;
   pointer-events: none;
+}
+
+.captionLocation {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.captionStory {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 400;
+  text-align: center;
 }
 
 .item:focus-visible { outline: 2px solid var(--heading-text); outline-offset: 4px; }

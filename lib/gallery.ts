@@ -5,6 +5,11 @@ import path from 'node:path';
 import { createFile, MP4BoxBuffer } from 'mp4box';
 import sharp from 'sharp';
 
+export type GalleryCaption = {
+  location: string;
+  story: string;
+};
+
 export type GalleryMedia = {
   key: string;
   src: string;
@@ -12,9 +17,13 @@ export type GalleryMedia = {
   width: number;
   height: number;
   alt: string;
-  caption: string;
+  location: string;
+  story: string;
   poster?: string;
 };
+
+const DEFAULT_LOCATION = 'location';
+const DEFAULT_STORY = 'coming soon';
 
 const photoExtensions = /\.(jpe?g|png|webp|avif)$/i;
 const descriptions: Record<string, string> = {
@@ -50,15 +59,39 @@ async function filesIn(directory: string) {
   }
 }
 
+function parseGalleryCaption(entry: string): GalleryCaption {
+  const separator = entry.indexOf('|');
+  if (separator < 0) {
+    return { location: DEFAULT_LOCATION, story: DEFAULT_STORY };
+  }
+
+  const parts = entry
+    .slice(separator + 1)
+    .split('|')
+    .map((part) => part.trim());
+
+  if (parts.length === 1) {
+    return {
+      location: DEFAULT_LOCATION,
+      story: parts[0] || DEFAULT_STORY,
+    };
+  }
+
+  const [location, ...storyParts] = parts;
+  return {
+    location: location || DEFAULT_LOCATION,
+    story: storyParts.join('|').trim() || DEFAULT_STORY,
+  };
+}
+
 function parseGalleryOrder(order: string) {
   return order.split(/\r?\n/).flatMap((line) => {
     const entry = line.trim();
     if (!entry || entry.startsWith('#')) return [];
     const separator = entry.indexOf('|');
-    return [{
-      filename: (separator < 0 ? entry : entry.slice(0, separator)).trim(),
-      caption: separator < 0 ? 'coming soon' : entry.slice(separator + 1).trim() || 'coming soon',
-    }];
+    const filename = (separator < 0 ? entry : entry.slice(0, separator)).trim();
+    const caption = parseGalleryCaption(entry);
+    return [{ filename, ...caption }];
   });
 }
 
@@ -131,9 +164,9 @@ export async function getGalleryMedia(root = process.cwd()): Promise<GalleryMedi
     ...photos.filter((name) => photoExtensions.test(name)).map((name) => `photos/${name}`),
     ...videos.filter((name) => /\.mp4$/i.test(name)).map((name) => `Video/${name}`),
   ], order);
-  const captions = new Map<string, string>();
-  for (const { filename, caption } of parseGalleryOrder(order)) {
-    if (!captions.has(filename)) captions.set(filename, caption);
+  const captions = new Map<string, GalleryCaption>();
+  for (const { filename, location, story } of parseGalleryOrder(order)) {
+    if (!captions.has(filename)) captions.set(filename, { location, story });
   }
 
   return Promise.all(files.map(async (filename) => {
@@ -151,7 +184,8 @@ export async function getGalleryMedia(root = process.cwd()): Promise<GalleryMedi
         kind,
         width,
         height,
-        caption: captions.get(filename) ?? 'coming soon',
+        location: captions.get(filename)?.location ?? DEFAULT_LOCATION,
+        story: captions.get(filename)?.story ?? DEFAULT_STORY,
         alt: descriptions[path.basename(filename)] ??
           `${kind === 'photo' ? 'Photograph' : 'Silent video'} by Jonathan Chen: ${path.parse(filename).name.replace(/[_-]/g, ' ')}`,
       };
