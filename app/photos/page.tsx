@@ -42,7 +42,7 @@ export default async function PhotosPage() {
               </li>
               <li>
                 I also like treating gear as a challenge, not a limitation. My DSLR is almost as old
-                as I am (a hand-me-down from my uncle :), and for video I use a tiny pocket camera
+                as I am (a hand-me-down from my uncle :) and for video I use a tiny pocket camera
                 with a sensor smaller than a modern iPhone&apos;s. I'm always learning more (I'll prob have a distaste for my old photos soon enough lol), but just start filming.
               </li>
             </ol>
