@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { copyFile, mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
+import { access, copyFile, mkdir, mkdtemp, readdir, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { test } from 'node:test';
@@ -110,6 +110,28 @@ test('discovers every supported photo format and excludes subfolders', async (t)
   const media = await getGalleryMedia(root);
   assert.equal(media.length, 4);
   assert.ok(media.every((item) => item.width === 60 && item.height === 90));
+});
+
+test('gallery includes every eligible file in public/photos and public/Video', async () => {
+  const root = process.cwd();
+  const publicPhotos = path.join(root, 'public/photos');
+  const publicVideo = path.join(root, 'public/Video');
+  try {
+    await access(publicPhotos);
+    await access(publicVideo);
+  } catch {
+    return;
+  }
+
+  const photoExt = /\.(jpe?g|png|webp|avif)$/i;
+  const onDisk = new Set([
+    ...(await readdir(publicPhotos)).filter((name) => photoExt.test(name)).map((name) => `photos/${name}`),
+    ...(await readdir(publicVideo)).filter((name) => /\.mp4$/i.test(name)).map((name) => `Video/${name}`),
+  ]);
+  const media = await getGalleryMedia(root);
+  const onPage = new Set(media.map((item) => item.key));
+
+  assert.deepEqual([...onPage].sort(), [...onDisk].sort());
 });
 
 test('invalid photo and video metadata report the failing filename', async (t) => {

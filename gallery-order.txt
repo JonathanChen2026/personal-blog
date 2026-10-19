@@ -3,27 +3,27 @@
 # Format: path | location | story
 # Legacy: path | story uses "location" as the place name and the text as the story.
 # Missing entries default to: location / coming soon
-Video/boogeygif.mp4 | coming soon
-photos/DSC_0881.jpg | 1000ft elevation gain
-photos/DJI_0344-HDR.jpg | coming soon
-photos/DSC_0049.jpg | coming soon
-photos/boatimage 2.jpg | coming soon
-Video/forestgif.mp4 | coming soon
-photos/IMG_7433.jpg | coming soon
-photos/DSC_0065-2.jpg | coming soon
-Video/seattlewheelgif.mp4 | coming soon
-photos/DJI_0333-HDR.jpg | coming soon
-Video/seaskygif.mp4 | coming soon
-photos/DSC_0085.jpg | coming soon
-photos/DSC_0162.jpg | coming soon
-photos/DSC_0188.jpg | coming soon
-photos/DSC_0202-2.jpg | coming soon
-photos/guilinicecream 2.jpg | coming soon
-photos/DSC_0350.jpg | coming soon
-photos/DSC_0409.jpg | coming soon
-Video/lakegif.mp4 | coming soon
-photos/DSC_0418.jpg | coming soon
-photos/DSC_0585.jpg | coming soon
-photos/IMG_3212.jpg | coming soon
-photos/guilinlantern 2.jpg | coming soon
-photos/guilinmotorbike 2.jpg | coming soon
+Video/boogeygif.mp4 | Purdue University | I saw the Boogley Trend (art by Neil Sanders) going viral but never saw it shot on a college campus... until now! Purdue's official Insta account and other universities liked this reel which was dope.
+photos/DSC_0881.jpg | Mount Rainier National Park | The trail to this view is so niche that it doesn't appear on any online map. We spent over 30 minutes walking back and forth over a 0.1 mile section to find the offshoot, then ascended a steep 1000m climb on both hands and feet. Let's just say it was well worth it.
+photos/DJI_0344-HDR.jpg | Cape Cod, Massachusetts | The patterns of a salt marsh are far more striking from above. I love how the winding channel looks almost like an artery running through the earth.
+photos/DSC_0049.jpg | Longji Rice Terrace, Guilin | Coming soon.
+photos/boatimage 2.jpg | Puget Sound, Washington | This was on the ferry back to Seattle from Bainbridge Island. My lens was already zoomed in as I was trying to spot sailboats on the horizon, and this couple just perfectly framed one between their heads.
+Video/forestgif.mp4 | Ashford, Washington | We drove down this long, single-lane road hoping to reach a lookout, but a metal gate stopped us halfway. Disappointed, we kept walking, and with no real expectations, I sent the drone up and was amazed by the bird’s-eye view of the road carving its way through the dense forest.
+photos/IMG_7433.jpg | Yellow Crane Tower, Wuhan | This photo holds a special place in my heart. The sun was setting fast, and after sprinting up the stairs of the Yellow Crane Tower, I was met with one of the most extraordinary sunsets I have ever seen. With only a few minutes to spare, I sent the drone up and tried exposure bracketing for the first time, manually shooting three exposures to stack later. It helped overcome a lot of my old drone’s limitations, since it couldn’t shoot RAW or bracket automatically. With security guards nearby and the light disappearing by the second, the whole moment felt incredibly thrilling.
+photos/DSC_0065-2.jpg | Seattle, Washington | Coming soon.
+Video/seattlewheelgif.mp4 | Half Moon Bay, California | Coming soon.
+photos/DJI_0333-HDR.jpg | Cape Cod, Massachusetts | I was bit by a million mosquitoes just to get this shot.
+Video/seaskygif.mp4 | A variety of locations | Coming soon.
+photos/DSC_0085.jpg | Natural Bridges State Beach, Santa Cruz | Coming soon.
+photos/DSC_0162.jpg | Hollywood Boulevard, Los Angeles | Coming soon.
+photos/DSC_0188.jpg | Skansen, Stockholm | Coming soon.
+photos/DSC_0202-2.jpg | Amazonia, Brazil | Coming soon.
+photos/guilinicecream 2.jpg | Guilin, China | Coming soon.
+photos/DSC_0350.jpg | Oslo, Norway | Coming soon.
+photos/DSC_0409.jpg | Forbidden City, Beijing | Coming soon.
+Video/lakegif.mp4 | Bench Lake, Mount Rainier National Park | Coming soon.
+photos/DSC_0418.jpg | Manaus, Brazil | Coming soon.
+photos/DSC_0585.jpg | Xi'an, China | Coming soon.
+photos/IMG_3212.jpg | Above Southern California | Coming soon.
+photos/guilinlantern 2.jpg | Guilin, China | Coming soon.
+photos/guilinmotorbike 2.jpg | Guilin, China | Coming soon.
