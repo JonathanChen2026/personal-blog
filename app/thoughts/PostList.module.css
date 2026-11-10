@@ -5,3 +5,21 @@
 .postLink {
   display: block;
 }
+
+.quote {
+  margin: 0;
+  border-inline-start: 1px solid var(--border);
+  padding-inline-start: 16px;
+  font-style: italic;
+  line-height: 1.4;
+}
+
+.quote blockquote {
+  margin: 0;
+  white-space: pre-line;
+}
+
+.quote figcaption {
+  margin-block-start: 4px;
+  color: var(--muted);
+}

@@ -9,6 +9,7 @@ export type ThoughtPost = {
   rawDate: string;
   category: string;
   excerpt: string;
+  quote?: { text: string; attribution: string };
 };
 
 export function getPosts(): ThoughtPost[] {
@@ -36,6 +37,9 @@ export function getPosts(): ThoughtPost[] {
         rawDate: data.date || '',
         category: data.category || 'notes',
         excerpt,
+        quote: data.category === 'quotes'
+          ? { text: content.trim(), attribution: data.attribution || '' }
+          : undefined,
       };
     })
     .sort((a, b) => (a.rawDate < b.rawDate ? 1 : -1));

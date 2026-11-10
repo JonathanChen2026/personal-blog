@@ -14,21 +14,22 @@ const tagColors: Record<string, { background: string; color: string }> = {
   notes:     { background: 'var(--tag-notes)',     color: '#dc7e44' },
 };
 
-const filters = ['ALL', 'ESSAYS', 'NOTES'];
+const filters = ['ALL', 'ESSAYS', 'NOTES', 'QUOTES'];
 
 export default function PostList({ posts }: { posts: ThoughtPost[] }) {
   const [activeFilter, setActiveFilter] = useState('ALL');
   const [searchQuery, setSearchQuery] = useState('');
   const [hoveredSlug, setHoveredSlug] = useState<string | null>(null);
 
+  const query = searchQuery.toLowerCase();
   const visiblePosts = posts.filter(post => {
     const matchesFilter =
       activeFilter === 'ALL' ||
       post.category.toUpperCase() === activeFilter ||
       (activeFilter === 'ESSAYS' && post.category === 'essay');
-    const matchesSearch =
-      post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      post.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesSearch = post.quote
+      ? post.quote.text.toLowerCase().includes(query) || post.quote.attribution.toLowerCase().includes(query)
+      : post.title.toLowerCase().includes(query) || post.excerpt.toLowerCase().includes(query);
     return matchesFilter && matchesSearch;
   });
 
@@ -48,7 +49,7 @@ export default function PostList({ posts }: { posts: ThoughtPost[] }) {
       />
 
       <div style={{
-        display: 'flex', gap: '24px', borderBottom: '1px solid var(--border)',
+        display: 'flex', flexWrap: 'wrap', gap: '12px 24px', borderBottom: '1px solid var(--border)',
         paddingBottom: '12px', marginBottom: '60px',
       }}>
         {filters.map(filter => (
@@ -70,7 +71,7 @@ export default function PostList({ posts }: { posts: ThoughtPost[] }) {
         ))}
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: thoughts.postGap }}>
+      <div key={activeFilter} style={{ display: 'flex', flexDirection: 'column', gap: thoughts.postGap }}>
         {visiblePosts.length === 0 && (
           <p style={{ color: 'var(--muted)' }}>No posts found.</p>
         )}
@@ -83,6 +84,15 @@ export default function PostList({ posts }: { posts: ThoughtPost[] }) {
             onMouseEnter={() => setHoveredSlug(post.slug)}
             onMouseLeave={() => setHoveredSlug(null)}
           >
+            {post.quote ? (
+              <figure
+                className={`${styles.quote} ${revealStyles.reveal}`}
+                style={{ animationDelay: `${index * 0.06}s`, fontSize: thoughts.postExcerptFontSize }}
+              >
+                <blockquote>{post.quote.text}</blockquote>
+                <figcaption>{post.quote.attribution}</figcaption>
+              </figure>
+            ) : (
             <Link
               className={`${styles.postLink} ${revealStyles.reveal}`}
               href={`/thoughts/${post.slug}`}
@@ -132,6 +142,7 @@ export default function PostList({ posts }: { posts: ThoughtPost[] }) {
                 </p>
               </div>
             </Link>
+            )}
             {/* Divider between posts — hidden after the last one */}
             {index < visiblePosts.length - 1 && (
               <hr style={{

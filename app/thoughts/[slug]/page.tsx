@@ -4,7 +4,9 @@ import matter from 'gray-matter';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import { cache } from 'react';
+import { getPosts } from '@/lib/posts';
 import PageFrame from '@/components/PageFrame';
 import { config } from '../../../site.config';
 import styles from './PostPage.module.css';
@@ -99,16 +101,16 @@ const tagColors: Record<string, { background: string; color: string }> = {
 const getPost = cache((slug: string) => {
   const filePath = path.join(process.cwd(), 'posts', `${slug}.md`);
   const raw = fs.readFileSync(filePath, 'utf8');
-  return matter(raw);
+  const entry = matter(raw);
+  if (entry.data.category === 'quotes') notFound();
+  return entry;
 });
 
 // ── Static params (tells Next.js which slugs exist) ───────
 export async function generateStaticParams() {
-  const postsDir = path.join(process.cwd(), 'posts');
-  const files = fs.readdirSync(postsDir);
-  return files
-    .filter((f: string) => f.endsWith('.md'))
-    .map((f: string) => ({ slug: f.replace('.md', '') }));
+  return getPosts()
+    .filter(post => post.category !== 'quotes')
+    .map(({ slug }) => ({ slug }));
 }
 
 export async function generateMetadata({
