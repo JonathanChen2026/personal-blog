@@ -28,18 +28,6 @@ export default function ThoughtsPanel({ posts }: { posts: ThoughtPost[] }) {
         Long-form essays and shorter shower thoughts.
       </p>
       <PostList posts={posts} />
-
-      <p
-        style={{
-          fontStyle: 'italic',
-          color: 'var(--muted)',
-          marginTop: '50px',
-          marginBottom: '32px',
-          fontSize: '12px',
-        }}
-      >
-        grammatical accuracy not guaranteed. no ai tools used. em dashes are mine.
-      </p>
     </div>
   );
 }
