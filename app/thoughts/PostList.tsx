@@ -23,10 +23,11 @@ export default function PostList({ posts }: { posts: ThoughtPost[] }) {
 
   const query = searchQuery.toLowerCase();
   const visiblePosts = posts.filter(post => {
+    const category = post.category.toUpperCase();
     const matchesFilter =
-      activeFilter === 'ALL' ||
-      post.category.toUpperCase() === activeFilter ||
-      (activeFilter === 'ESSAYS' && post.category === 'essay');
+      (activeFilter === 'ALL' && category !== 'QUOTES') ||
+      category === activeFilter ||
+      (activeFilter === 'ESSAYS' && category === 'ESSAY');
     const matchesSearch = post.quote
       ? post.quote.text.toLowerCase().includes(query) || post.quote.attribution.toLowerCase().includes(query)
       : post.title.toLowerCase().includes(query) || post.excerpt.toLowerCase().includes(query);
@@ -55,15 +56,16 @@ export default function PostList({ posts }: { posts: ThoughtPost[] }) {
         {filters.map(filter => (
           <button
             key={filter}
+            aria-pressed={activeFilter === filter}
             onClick={() => setActiveFilter(filter)}
             style={{
               fontSize: thoughts.filterFontSize, letterSpacing: thoughts.filterLetterSpacing,
               textTransform: 'uppercase', background: 'none', border: 'none',
-              cursor: 'pointer', fontFamily: 'inherit', padding: '0 0 4px 0',
+              cursor: 'pointer', fontFamily: 'inherit', padding: '0 0 4px',
               color: activeFilter === filter ? 'var(--text)' : 'var(--muted)',
-              fontWeight: activeFilter === filter ? '600' : '400',
+              fontWeight: '400',
               borderBottom: activeFilter === filter
-                ? '2px solid var(--text)' : '2px solid transparent',
+                ? '2px solid currentColor' : '2px solid transparent',
             }}
           >
             {filter}
@@ -90,7 +92,7 @@ export default function PostList({ posts }: { posts: ThoughtPost[] }) {
                 style={{ animationDelay: `${index * 0.06}s`, fontSize: thoughts.postExcerptFontSize }}
               >
                 <blockquote>{post.quote.text}</blockquote>
-                <figcaption>{post.quote.attribution}</figcaption>
+                {post.quote.attribution && <figcaption>{post.quote.attribution}</figcaption>}
               </figure>
             ) : (
             <Link
